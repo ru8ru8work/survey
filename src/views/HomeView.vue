@@ -1,14 +1,23 @@
-<script >
-  export default{
-    components:{
+<script>
+import Header from '../components/Header.vue'
+import Sidebar from '../components/Sidebar.vue'
 
-    }
-  }
+
+export default {
+  components: {
+    Header,
+    Sidebar
+  },
+};
 </script>
 
 <template>
-  <h1>show</h1>
+   <Header />
+   <Sidebar />
+  <h1>showHome</h1>
+
+  
+ 
 </template>
 
-<style scoped lang="scss">
-</style>
+<style scoped lang="scss"></style>
