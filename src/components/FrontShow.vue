@@ -87,7 +87,7 @@ export default {
                     result: "前往"
                 },
                 {
-                    id : "11",
+                    id : "99",
                     name : "11name",
                     status : "結束",
                     startTime: "2024-01-15",
@@ -112,10 +112,15 @@ export default {
         // };
     },computed: {
         filteredData() {
-            const keyword = this.searchKeyword.toLowerCase();
-            return this.fakeData.filter(item => item.name.toLowerCase().includes(keyword));
+            //模糊搜尋方式
+            const keyword = this.searchKeyword || ""; // 確保 keyword 是字符串
+            return this.fakeData.filter(item =>
+            String(item.id).includes(keyword) || // 確保 id 被轉換為字符串後進行檢查
+            item.name.includes(keyword) // 直接檢查 name
+            );
         },
-        paginatedData() {
+        paginatedData() { 
+            //顯示的資料計算
             const start = (this.currentPage - 1) * this.itemsPerPage;
             const end = start + this.itemsPerPage;
             return this.filteredData.slice(start, end);
@@ -124,7 +129,12 @@ export default {
         onPageChange(page) {
             this.currentPage = page;
         }
-    }
+    },
+    watch: {
+        searchKeyword() {
+            this.currentPage = 1; // 重置頁碼為1
+        }
+    },
 
     
 
