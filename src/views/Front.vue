@@ -1,13 +1,13 @@
 <script>
 import Header from "../components/Header.vue";
 import Siderbar from "../components/Siderbar.vue";
-import HomeShow from "../components/HomeShow.vue";
+import FrontShow from "../components/FrontShow.vue";
 
 export default {
     components: {
-        Siderbar,
         Header,
-        HomeShow,
+        Siderbar,
+        FrontShow,
         
     },
 };
@@ -18,7 +18,7 @@ export default {
         <Siderbar />
         <div id="page-content-wrapper">
             <Header />
-            <HomeShow />
+            <FrontShow />
         </div>
     </div>
 </template>
@@ -28,6 +28,4 @@ export default {
     overflow-x: hidden;
     background-color: #47f0e8;
 }
-
-
 </style>
