@@ -99,6 +99,8 @@ export default {
             ],
             currentPage: 1,  // 目前頁碼
             itemsPerPage: 5,  // 每頁顯示的項目數
+            searchKeyword: "",  // 新增搜尋關鍵字變數
+
         };
     },
     components: {
@@ -109,10 +111,14 @@ export default {
         // console.log(page);
         // };
     },computed: {
+        filteredData() {
+            const keyword = this.searchKeyword.toLowerCase();
+            return this.fakeData.filter(item => item.name.toLowerCase().includes(keyword));
+        },
         paginatedData() {
             const start = (this.currentPage - 1) * this.itemsPerPage;
             const end = start + this.itemsPerPage;
-            return this.fakeData.slice(start, end);
+            return this.filteredData.slice(start, end);
         }
     },methods: {
         onPageChange(page) {
@@ -142,6 +148,7 @@ export default {
                         placeholder="請輸入搜尋內容"
                         aria-label="Recipient's username"
                         aria-describedby="button-addon2"
+                        v-model="searchKeyword" 
                     />
                     <!-- <button class="btn btn-outline-secondary" type="button" id="button-addon2"><i class="fa-solid fa-magnifying-glass"></i></button> -->
                 </div>
@@ -194,7 +201,7 @@ export default {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="item in this.paginatedData" :key="item.id">
+                    <tr v-for="item in paginatedData" :key="item.id">
                         <th scope="row">{{ item.id }}</th>
                         <td >{{ item.name }}</td>
                         <td>{{ item.status }}</td>
@@ -210,7 +217,7 @@ export default {
             
 
             <vue-awesome-paginate
-            :total-items="fakeData.length"
+            :total-items="filteredData.length"
             :items-per-page="itemsPerPage"
             v-model="currentPage"
             @page-change="onPageChange"
@@ -304,6 +311,6 @@ export default {
     }
 
 
-    }
+}
 
 </style>
