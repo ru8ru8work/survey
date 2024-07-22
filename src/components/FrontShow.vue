@@ -98,17 +98,30 @@ export default {
                 
             ],
             currentPage: 1,  // 目前頁碼
-            totalPages: 0,   // 總頁數
-            paginationOptions: {
-            perPage: 10,   // 每頁顯示的項目數
-            perPageDropdown: [10, 20, 30, 40],  // 每頁顯示選項
-            dropdownAllowAll: true,  // 是否允許選擇顯示所有項目
-            }
+            itemsPerPage: 5,  // 每頁顯示的項目數
         };
     },
     components: {
-
+        VueAwesomePagination
     },
+    mounted() {
+        // const onClickHandler = (page: number) => {
+        // console.log(page);
+        // };
+    },computed: {
+        paginatedData() {
+            const start = (this.currentPage - 1) * this.itemsPerPage;
+            const end = start + this.itemsPerPage;
+            return this.fakeData.slice(start, end);
+        }
+    },methods: {
+        onPageChange(page) {
+            this.currentPage = page;
+        }
+    }
+
+    
+
 };
 
 
@@ -117,7 +130,9 @@ export default {
 
 <template>
     <div class="containers">
-        <div class="search">
+        
+        <!-- 表單名稱搜尋 -->
+        <form class="search">
             <div class="searchName">
                 <div class="input-group mb-3">
                     <span class="input-group-text">問卷名稱: </span>
@@ -132,22 +147,27 @@ export default {
                 </div>
             </div>
 
+            <!-- 表單日期搜尋 -->
             <div class="searchDate">
-                <div class="input-group">
-                    <span class="input-group-text">統計時間:</span>
-                    <input
-                        type="date"
-                        aria-label="First name"
-                        class="form-control"
-                    />
-                    <span class="input-group-text">到</span>
-                    <input
-                        type="date"
-                        aria-label="Last name"
-                        class="form-control"
-                    />
-                    <!-- <button class="btn btn-outline-secondary" type="button" id="button-addon2"><i class="fa-solid fa-magnifying-glass"></i></button> -->
+                <div class="row g-3 my-2" id="sortable1">
+
+                    <div class="col-md-6 item-box">
+                        <div class="input-group mb-3">
+                        <span class="input-group-text" id="inputGroup-sizing-default">開始時間:</span>
+                        <input type="date" class="form-control" aria-label="Sizing example input"
+                            aria-describedby="inputGroup-sizing-default" >
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 item-box">
+                        <div class="input-group mb-3">
+                        <span class="input-group-text" id="inputGroup-sizing-default">結束時間:</span>
+                        <input type="date" class="form-control" aria-label="Sizing example input"
+                                aria-describedby="inputGroup-sizing-default" >
+                        </div>
+                    </div>
                 </div>
+                
             </div>
 
             <div class="searchButton">
@@ -155,11 +175,12 @@ export default {
                     <button class="btn btn-primary me-md-2" type="button">
                         搜尋
                     </button>
-                    <button class="btn btn-primary" type="button">清除</button>
+                    <button class="btn btn-primary" type="reset">清除</button>
                 </div>
             </div>
-        </div>
+        </form>
 
+        <!-- 資料結果顯示 -->
         <div class="dataShow table-responsive">
             <table class="table table-hover" table-color:black>
                 <thead>
@@ -173,7 +194,7 @@ export default {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="item in this.fakeData">
+                    <tr v-for="item in this.paginatedData" :key="item.id">
                         <th scope="row">{{ item.id }}</th>
                         <td >{{ item.name }}</td>
                         <td>{{ item.status }}</td>
@@ -185,18 +206,15 @@ export default {
             </table>
         </div>
 
-        <div>
+        <div class="page">
             
 
-              <vue-awesome-pagination
-            v-if="totalPages > 0"
-            :total-visible="5"  <!-- 可見頁碼數量 -->
-            :page-count="totalPages"  <!-- 總頁數 -->
-            v-model="currentPage"  <!-- 雙向綁定當前頁碼 -->
-            :options="paginationOptions"  <!-- 自定義選項 -->
-            @page-changed="handlePageChange"  <!-- 分頁更改事件 -->
-            ></vue-awesome-pagination>
-
+            <vue-awesome-paginate
+            :total-items="fakeData.length"
+            :items-per-page="itemsPerPage"
+            v-model="currentPage"
+            @page-change="onPageChange"
+            />
 
 
         </div>
@@ -251,4 +269,41 @@ export default {
         }
     }
 }
+
+
+
+</style>
+
+
+<style lang="scss">
+// 以下是頁數 
+.page{
+    .pagination-container {
+        display: flex;
+        column-gap: 10px;
+    }
+    .paginate-buttons {
+        height: 40px;
+        width: 40px;
+        border-radius: 20px;
+        cursor: pointer;
+        background-color: rgb(242, 242, 242);
+        border: 1px solid rgb(217, 217, 217);
+        color: black;
+    }
+    .paginate-buttons:hover {
+        background-color: #d8d8d8;
+    }   
+    .active-page {
+        background-color: #3498db;
+        border: 1px solid #3498db;
+        color: white;
+    }
+    .active-page:hover {
+        background-color: #2988c8;
+    }
+
+
+    }
+
 </style>

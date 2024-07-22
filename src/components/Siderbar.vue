@@ -45,7 +45,7 @@ export default {
                 to="/Back"
                 class="list-group-item list-group-item-action bg-transparent fw-bold"
                 router-link-exact-active
-                ><i class="fa-solid fa-poo"></i>前台</router-link
+                ><i class="fa-solid fa-poo"></i>後台</router-link
             >
         </div>
     </div>
