@@ -98,8 +98,8 @@ export default {
                 
             ],
             currentPage: 1,  // 目前頁碼
-            itemsPerPage: 5,  // 每頁顯示的項目數
-            searchKeyword: "",  // 新增搜尋關鍵字變數
+            itemsPerPage: 5,  // 每頁顯示幾筆資料
+            searchKeyword: "",  // 搜尋的關鍵字
 
         };
     },
@@ -107,16 +107,26 @@ export default {
         VueAwesomePagination
     },
     mounted() {
-        // const onClickHandler = (page: number) => {
-        // console.log(page);
-        // };
+        // 設定選擇開始日期的話 結束日期不可以小於開始日期
+        // 設定結束日期的話 開始日期不可以大於結束日期
+        const startDate = document.querySelector("#startDate");
+        const endDate   = document.querySelector("#endDate");
+
+        startDate.addEventListener("change", function(){
+            endDate.min = startDate.value;
+        })
+
+        endDate.addEventListener("change", function(){
+            startDate.max = endDate.value;
+        })
+
     },computed: {
         filteredData() {
             //模糊搜尋方式
-            const keyword = this.searchKeyword || ""; // 確保 keyword 是字符串
+            const keyword = this.searchKeyword; 
             return this.fakeData.filter(item =>
-            String(item.id).includes(keyword) || // 確保 id 被轉換為字符串後進行檢查
-            item.name.includes(keyword) // 直接檢查 name
+            String(item.id).includes(keyword) || // 轉成字串查id
+            item.name.includes(keyword) // 查name
             );
         },
         paginatedData() { 
@@ -131,15 +141,14 @@ export default {
         }
     },
     watch: {
+        //模糊搜尋的話 都要重置到第一頁
         searchKeyword() {
-            this.currentPage = 1; // 重置頁碼為1
+            this.currentPage = 1; 
         }
     },
 
-    
 
 };
-
 
 
 </script>
@@ -160,7 +169,6 @@ export default {
                         aria-describedby="button-addon2"
                         v-model="searchKeyword" 
                     />
-                    <!-- <button class="btn btn-outline-secondary" type="button" id="button-addon2"><i class="fa-solid fa-magnifying-glass"></i></button> -->
                 </div>
             </div>
 
@@ -172,7 +180,7 @@ export default {
                         <div class="input-group mb-3">
                         <span class="input-group-text" id="inputGroup-sizing-default">開始時間:</span>
                         <input type="date" class="form-control" aria-label="Sizing example input"
-                            aria-describedby="inputGroup-sizing-default" >
+                            aria-describedby="inputGroup-sizing-default" id="startDate" >
                         </div>
                     </div>
 
@@ -180,7 +188,7 @@ export default {
                         <div class="input-group mb-3">
                         <span class="input-group-text" id="inputGroup-sizing-default">結束時間:</span>
                         <input type="date" class="form-control" aria-label="Sizing example input"
-                                aria-describedby="inputGroup-sizing-default" >
+                                aria-describedby="inputGroup-sizing-default" id="endDate" >
                         </div>
                     </div>
                 </div>
@@ -189,9 +197,7 @@ export default {
 
             <div class="searchButton">
                 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                    <button class="btn btn-primary me-md-2" type="button">
-                        搜尋
-                    </button>
+                    <button class="btn btn-primary me-md-2" type="button">搜尋</button>
                     <button class="btn btn-primary" type="reset">清除</button>
                 </div>
             </div>
@@ -217,23 +223,20 @@ export default {
                         <td>{{ item.status }}</td>
                         <td>{{ item.startTime }}</td>
                         <td>{{ item.endTime }}</td>
-                        <td>{{ item.result }}</td>
+                        <td><router-link to="/Front/Answer">{{ item.result }}</router-link></td>
                     </tr>
                 </tbody>
             </table>
         </div>
 
+        <!-- 頁碼 -->
         <div class="page">
-            
-
             <vue-awesome-paginate
             :total-items="filteredData.length"
             :items-per-page="itemsPerPage"
             v-model="currentPage"
             @page-change="onPageChange"
             />
-
-
         </div>
     </div>
 
@@ -259,8 +262,6 @@ export default {
         align-items: center;
         padding: 5%;
 
-        //background-color: black;
-        // justify-content: center;
         .searchName {
             width: 80%;
             height: 50%;
@@ -287,13 +288,11 @@ export default {
     }
 }
 
-
-
 </style>
 
 
 <style lang="scss">
-// 以下是頁數 
+// 以下是頁碼
 .page{
     .pagination-container {
         display: flex;

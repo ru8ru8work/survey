@@ -15,10 +15,15 @@ const router = createRouter({
       component: () => import('../views/Front.vue')
     },
     {
+      path: '/Front/Answer',
+      name: 'FrontAnswer',
+      component: () => import('../views/FrontAnswer.vue')
+    },
+    {
       path: '/Back',
       name: 'Back',
       component: () => import('../views/Back.vue')
-    }
+    },
   ]
 })
 
