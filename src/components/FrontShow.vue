@@ -1,7 +1,12 @@
 <script>
 import VueAwesomePagination from 'vue-awesome-paginate';
+import backgroundcolor from '../stores/backgroundcolor'
 
 export default {
+    setup(){
+        const color = backgroundcolor();
+        return  { color } ;
+    },
     data() {
         return {
             testdata: "test123",
@@ -120,7 +125,8 @@ export default {
             startDate.max = endDate.value;
         })
 
-    },computed: {
+    },
+    computed: {
         filteredData() {
             //模糊搜尋方式
             const keyword = this.searchKeyword; 
@@ -134,7 +140,8 @@ export default {
             const start = (this.currentPage - 1) * this.itemsPerPage;
             const end = start + this.itemsPerPage;
             return this.filteredData.slice(start, end);
-        }
+        },
+
     },methods: {
         onPageChange(page) {
             this.currentPage = page;
@@ -174,7 +181,7 @@ export default {
 
             <!-- 表單日期搜尋 -->
             <div class="searchDate">
-                <div class="row g-3 my-2" id="sortable1">
+                <div class="row  my-2" id="sortable1">
 
                     <div class="col-md-6 item-box">
                         <div class="input-group mb-3">
@@ -196,17 +203,17 @@ export default {
             </div>
 
             <div class="searchButton">
-                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                    <button class="btn btn-primary me-md-2" type="button">搜尋</button>
-                    <button class="btn btn-primary" type="reset">清除</button>
+                <div class="gap-2 d-md-flex justify-content-md-end" id="searchBtn">
+                    <button class="btn  me-md-2" type="button">搜尋</button>
+                    <button class="btn " type="reset">清除</button>
                 </div>
             </div>
         </form>
 
         <!-- 資料結果顯示 -->
         <div class="dataShow table-responsive">
-            <table class="table table-hover" table-color:black>
-                <thead>
+            <table class="table table-hover " >
+                <thead class="table-light">
                     <tr>
                         <th scope="col">編號</th>
                         <th scope="col">名稱</th>
@@ -247,20 +254,24 @@ export default {
 <style scoped lang="scss">
 .containers {
     width: 100%;
-    height: 88%;
+    height: 100dvh;
     display: flex;
     // justify-content: center;
     flex-direction: column;
     align-items: center;
+    background-color: v-bind('color.mainColor');
+
 
     .search {
         width: 80%;
-        height: 40%;
-        border: 1px solid black;
+        height: 30%;
         display: flex;
         flex-direction: column;
         align-items: center;
         padding: 5%;
+        border: 1px solid v-bind('color.borderColor');
+        background-color: v-bind('color.secondColor');
+        border-radius: 5px;
 
         .searchName {
             width: 80%;
@@ -273,20 +284,59 @@ export default {
         .searchButton {
             width: 80%;
             height: 50%;
+            .btn{
+                color: v-bind('color.secondColor');
+                background-color: v-bind('color.buttonColor');
+            }
+            
         }
+    }
+
+    .search:hover{
+        box-shadow: 0px 0px 12px rgba(0,0,0,.12);
     }
 
     .dataShow {
         width: 80%;
         height: 55%;
         margin-top: 2%;
-        border: 1px solid black;
+        border: 1px solid v-bind('color.borderColor');
+        background-color: v-bind('color.secondColor');
+        border-radius: 5px;
+
         table {
             width: 100%;
+            background-color: black;
+            thead{
+                background-color: black;
+            }
             
         }
     }
+
+    .dataShow:hover{
+        box-shadow: 0px 0px 12px rgba(0,0,0,.12);
+    }
+
+    @media (max-width: 768px) {
+    .search {
+        // background-color: black;
+        padding: 10px;
+
+        #searchBtn{
+            display: flex;
+            justify-content: flex-end;
+            // background-color: black;
+            // height: 50%;
+
+        }
+    }
 }
+
+
+}
+
+
 
 </style>
 
@@ -303,7 +353,8 @@ export default {
         width: 40px;
         border-radius: 20px;
         cursor: pointer;
-        background-color: rgb(242, 242, 242);
+        //background-color: rgb(242, 242, 242);
+        background-color: v-bind('color.secondColor');
         border: 1px solid rgb(217, 217, 217);
         color: black;
     }

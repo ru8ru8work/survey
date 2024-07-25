@@ -1,5 +1,12 @@
 <script>
+import backgroundcolor from '../stores/backgroundcolor'
+
+
 export default {
+    setup(){
+        const color = backgroundcolor();
+        return  { color } ;
+    },
     components: {
 
     },
@@ -11,7 +18,7 @@ export default {
 
 <template>
     <!--sidebar-->
-    <div class="bg-white" id="sidebar-wrapper">
+    <div  id="sidebar-wrapper">
         <div
             class="sidebar-heading text-center py-4 primary-text fs-4 fw-bold text-uppercase border-bottom"
         >
@@ -22,28 +29,28 @@ export default {
       
             <router-link
                 to="/"
-                class="list-group-item list-group-item-action bg-transparent"
+                class="list-group-item bg-transparent"
                 router-link-exact-active
                 ><i class="fa-solid fa-star me-2"></i>主頁</router-link
             >
 
             <router-link
                 to="/profile"
-                class="list-group-item list-group-item-action bg-transparent  fw-bold test"
+                class="list-group-item bg-transparent  fw-bold test"
                 router-link-exact-active
                 ><i class="fa-solid fa-user"></i>個人資料</router-link
             >
 
             <router-link
                 to="/Front"
-                class="list-group-item list-group-item-action bg-transparent fw-bold"
+                class="list-group-item bg-transparent fw-bold"
                 router-link-exact-active
                 ><i class="fa-solid fa-poo"></i>前台</router-link
             >
 
             <router-link
                 to="/Back"
-                class="list-group-item list-group-item-action bg-transparent fw-bold"
+                class="list-group-item bg-transparent fw-bold"
                 router-link-exact-active
                 ><i class="fa-solid fa-poo"></i>後台</router-link
             >
@@ -54,6 +61,8 @@ export default {
 
 <style lang="scss">
 #sidebar-wrapper {
+    background-color:v-bind('color.sidebarColor');
+    color: v-bind('color.secondColor');
     min-height: 100vh;
     margin-left: -15rem;
     transition: margin 0.25s ease-out;
@@ -83,6 +92,7 @@ export default {
 .list-group-item {
     border: none;
     padding: 20px 30px;
+    color: v-bind('color.secondColor');
 }
 
 .list-group-item.router-link-exact-active {
@@ -109,5 +119,9 @@ export default {
 
 .test{
     pointer-events: none;
+}
+
+.list-group-item:hover{
+    background-color: rgb(40 52 69) !important;  
 }
 </style>

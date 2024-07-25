@@ -1,5 +1,11 @@
 <script>
+import backgroundcolor from '../stores/backgroundcolor';
+
 export default {
+    setup(){
+        const color = backgroundcolor();
+        return  { color } ;
+    },
     data() {
         return {
             surveyData: [
@@ -10,15 +16,15 @@ export default {
                     question:[
                         {
                             questionType:1, //text
-                            questionTiTle:"text的題目",
+                            questionTitle:"text的題目",
                             order:2, //順位
                             questionOption:"",
 
                         },
                         {
                             questionType:2, //radio
-                            questionTiTle:"在室內會不會穿拖鞋",
-                            order:1,
+                            questionTitle:"在室內會不會穿拖鞋",
+                            order:4,
                             questionOption:[
                                 {
                                     value:1,
@@ -32,7 +38,7 @@ export default {
                         },
                         {
                             questionType:3, //checkbox
-                            questionTiTle:"checkbox的題目",
+                            questionTitle:"checkbox的題目",
                             order:3,
                             questionOption:[
                                 {
@@ -55,8 +61,8 @@ export default {
                         },
                         {
                             questionType:2, //radio
-                            questionTiTle:"radio的題目",
-                            order:4,
+                            questionTitle:"radio的題目",
+                            order:1,
                             questionOption:[
                                 {
                                     value:1,
@@ -76,6 +82,7 @@ export default {
                                 }
                             ],
                         },
+                        
                     ]
                 },
             ],
@@ -84,13 +91,15 @@ export default {
     mounted(){
         // 排序自訂義
         this.surveyData[0].question.sort((a, b) => a.order - b.order);
+    },
+    props:[
+        'childCheckData',
+    ],
+    methods:{
+        updateCheckdata(){
+            this.$emit('update:childCheckData',true);
 
-        //區塊拖曳
-        const sortable1El = document.querySelector("#sortable1")
-        const sortable1 = Sortable.create(sortable1El, {
-            animation: 150
-        })
-
+        }
     }
 
 };
@@ -98,16 +107,17 @@ export default {
 
 <template>
     <form class="background">
-        <!-- 表單名稱和敘述 -->
-        <div class="title">
+        <div class="content">
+            <!-- 表單名稱和敘述 -->
+            <div class="title">
             <h1>{{ surveyData[0].title }}</h1>
             <div class="description">
                 <h2>{{ surveyData[0].description }}</h2>
             </div>
-        </div>
+            </div>
 
-        <!-- 第二區為固定欄位 -->
-        <div class="secondArea">
+            <!-- 第二區為固定欄位 -->
+            <div class="secondArea">
             <div class="row g-3 my-2" id="sortable1">
                 <div class="col-md-6 item-box">
                     <div class="input-group mb-3">
@@ -119,6 +129,7 @@ export default {
                             aria-label="Sizing example input"
                             aria-describedby="inputGroup-sizing-default"
                             id="startDate"
+                            autocomplete="off"
                         />
                     </div>
                 </div>
@@ -132,6 +143,7 @@ export default {
                             aria-label="Sizing example input"
                             aria-describedby="inputGroup-sizing-default"
                             id="endDate"
+                            autocomplete="off"
                         />
                     </div>
                 </div>
@@ -144,7 +156,8 @@ export default {
                             class="form-control"
                             aria-label="Sizing example input"
                             aria-describedby="inputGroup-sizing-default"
-                            id="endDate"
+                            id="e-mail"
+                            autocomplete="off"
                         />
                     </div>
                 </div>
@@ -158,29 +171,31 @@ export default {
                             aria-label="Sizing example input"
                             aria-describedby="inputGroup-sizing-default"
                             id="endDate"
+                            autocomplete="off"
                         />
                     </div>
                 </div>
 
             </div>
-        </div>
+            </div>
 
-        <!-- 自訂義選項開始 -->
-        <div class="question" id="sortable1">
+            <!-- 自訂義選項開始 -->
+            <div class="question">
 
             <div v-for="item in surveyData[0].question" :key="item.order">
 
                 <!-- text -->
-                <div v-if="item.questionType == 1 ">
-                    <div class="input-group input-group-lg">
-                        <span class="input-group-text" id="inputGroup-sizing-lg">{{ item.order }}.{{ item.questionTiTle }}</span>
-                        <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg">
+                <div v-if="item.questionType == 1">
+                    <div class="">
+                        <h1>{{ item.order }}. {{ item.questionTitle }}:</h1>
+                        <textarea name="" id="" autocomplete="off"></textarea>
+                        <!-- <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg"> -->
                     </div>
                 </div>
 
                 <!-- radio -->
                 <div v-if="item.questionType == 2 ">
-                    <h1>{{ item.order }}.{{ item.questionTiTle }}:</h1>
+                    <h1>{{ item.order }}.{{ item.questionTitle }}:</h1>
                     <div v-for="Options in item.questionOption" class="form-check">
                       <input class="form-check-input" type="radio" name="exampleRadios" :id="'Radios-'+item.order+'-'+Options.value" :value="item.order+'-'+Options.value">
                       <label class="form-check-label" :for="'Radios-'+item.order+'-'+Options.value">
@@ -191,7 +206,7 @@ export default {
 
                 <!-- checkbox -->
                 <div v-if="item.questionType == 3 ">
-                    <h1>{{ item.order }}.{{ item.questionTiTle }}:</h1>
+                    <h1>{{ item.order }}.{{ item.questionTitle }}:</h1>
 
                     <div v-for="Options in item.questionOption" class="form-check">
                         <input class="form-check-input" type="checkbox" :value="item.order+'-'+Options.value" :id="'checkbox-'+item.order+'-'+Options.value">
@@ -205,30 +220,49 @@ export default {
             </div>
 
 
-        </div>
+            </div>
 
-        <!-- 按鈕 -->
-        <div class="button">
+            <!-- 按鈕 -->
+            <div class="button">
             <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                <button class="btn btn-primary me-md-2" type="button">搜尋</button>
                 <button class="btn btn-primary" type="reset">清除</button>
+                <button class="btn btn-primary me-md-2" type="button" @click="updateCheckdata()">送出</button>
+                <!-- <input type="text" @input="$emit('update:childCheckData',$event.target.value)" :value="this.childCheckData"> -->
+            </div>
             </div>
         </div>
     </form>
 </template>
 
 <style scoped lang="scss">
+
 .background {
+    //min-height: 100dvh;
     width: 100dvw;
-    //height: 100dvh;
-    background-color: #96C9F4;
+    background-color: v-bind('color.mainColor');
     display: flex;
-    //justify-content: center;
     flex-direction: column;
     align-items: center;
+    width: calc(100dvw - 15rem);
+    transition: width 0.25s ease-out;
+
+    //justify-content: center;
+    //height: 100vh;
     //border: 1px solid black;
 
-    .title {
+    .content{
+        width: 80%;
+        // max-height: 90%; 
+        // padding: 2%;
+        border: 1px solid v-bind('color.borderColor');
+        background-color: v-bind('color.secondColor');
+        border-radius: 5px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 2%;
+        margin: 2%;
+        .title {
         //border: 1px solid black;
         width: 80%;
         height: 20%;
@@ -241,24 +275,39 @@ export default {
         .description {
             // border: 1px solid black;
             width: 100%;
-            height: auto;
         }
-    }
+        }
 
-    .secondArea {
+        .secondArea {
         // border: 1px solid black;
         width: 80%;
-        height: 20%;
-    }
+        }
 
-    .question{
-        border: 1px solid black;
+        .question{
+        //border: 1px solid black;
         width: 80%;
-        height: 200%;
-    }
+        }
 
-    .button{
+        .button{
         width: 80%;
+        }
+    }   
+}
+
+textarea{
+    height: 100px;
+    width: 200px;
+}
+#wrapper.toggled  {
+    .background{
+        width: 100dvw;
+
+    }
+}
+
+@media (max-width: 768px) {
+    .background {
+        width: 100%;
     }
 }
 </style>

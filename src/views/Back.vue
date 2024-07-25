@@ -1,12 +1,12 @@
 <script>
 import Header from "../components/Header.vue";
-import Siderbar from "../components/Siderbar.vue";
+import Sidebar from "../components/Sidebar.vue";
 import BackShow from "../components/BackShow.vue";
 
 export default {
     components: {
         Header,
-        Siderbar,
+        Sidebar,
         BackShow,
         
     },
@@ -15,7 +15,7 @@ export default {
 
 <template>
     <div class="d-flex" id="wrapper">
-        <Siderbar />
+        <Sidebar />
         <div id="page-content-wrapper">
             <Header />
             <BackShow />

@@ -1,11 +1,11 @@
 <script>
 import Header from "../components/Header.vue";
-import Siderbar from "../components/Siderbar.vue";
+import Sidebar from "../components/Sidebar.vue";
 import HomeShow from "../components/HomeShow.vue";
 
 export default {
     components: {
-        Siderbar,
+        Sidebar,
         Header,
         HomeShow,
         
@@ -15,7 +15,7 @@ export default {
 
 <template>
     <div class="d-flex" id="wrapper">
-        <Siderbar />
+        <Sidebar />
         <div id="page-content-wrapper">
             <Header />
             <HomeShow />

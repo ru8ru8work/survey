@@ -1,5 +1,11 @@
 <script>
+import backgroundcolor from '../stores/backgroundcolor'
+
 export default {
+    setup(){
+        const color = backgroundcolor();
+        return  { color } ;
+    },
     components: {},
     mounted() {
         const el = document.querySelector("#wrapper");
@@ -14,8 +20,7 @@ export default {
 
 <template>
     <!--nav-->
-
-    <nav class="navbar navbar-expand-lg navbar-light bg-transparent py-4 px-4">
+    <nav class="navbar navbar-expand-lg  py-4 px-4">
         <div class="d-flex align-items-center">
             <i
                 class="fas fa-align-left primary-text fs-4 me-3"
@@ -72,4 +77,21 @@ export default {
     <!--nav-->
 </template>
 
-<style lang="scss"></style>
+<style lang="scss">
+    .navbar{
+        
+        width: calc(100dvw - 15rem);
+        background-color: v-bind('color.mainColor');
+        transition: width 0.25s ease-out;
+
+    }
+    #wrapper.toggled .navbar {
+        width: 100dvw;
+    }
+
+    @media (max-width: 768px) {
+    .navbar {
+        width: 100%;
+    }
+}
+</style>
