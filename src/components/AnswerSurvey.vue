@@ -82,22 +82,87 @@ export default {
                                 }
                             ],
                         },
-                        
+                        {
+                            questionType:3, //checkbox
+                            questionTitle:"我是男生還是女生",
+                            order:5,
+                            questionOption:[
+                                {
+                                    value:1,
+                                    show:"男生",
+                                },
+                                {
+                                    value:2,
+                                    show:"女生",
+                                }
+                            ],
+                        },
                     ]
                 },
             ],
+            formData:{
+                name: this.childFormData.name || "",
+                phone: this.childFormData.phone || "",
+                email: this.childFormData.email || "",
+                age: this.childFormData.age || "",
+                text: this.childFormData.text || "",
+                radio: this.childFormData.radio||{},
+                checkbox: {}
+            },
         };
     },
     mounted(){
         // 排序自訂義
         this.surveyData[0].question.sort((a, b) => a.order - b.order);
+
+        this.surveyData[0].question.forEach(item => {
+            if (item.questionType == 3) {
+                // console.log(this.childFormData);
+
+                //不知道要怎麼初始化childFormData比較好用簡單寫法
+                if ( this.childFormData.checkbox) {
+                  this.formData.checkbox[item.order] = this.childFormData.checkbox[item.order] || [];
+                } else {
+                  this.formData.checkbox[item.order] = [];
+                }
+            }
+        });
     },
-    props:[
-        'childCheckData',
-    ],
+    props:{
+        childCheckData:{
+            type: Boolean,
+            required: true
+        },
+        childFormData: {
+            type: Object,
+            required: true
+        },
+        
+    },
     methods:{
         updateCheckdata(){
             this.$emit('update:childCheckData',true);
+        },
+        submitForm() {
+            this.$emit('form-submit', this.formData);
+        },
+        reset(){
+            this.formData.name = "";
+            this.formData.phone = "";
+            this.formData.email = "";
+            this.formData.age = "";
+            this.formData.text =  "";
+            this.formData.radio = {};
+            this.formData.checkbox = {};
+            
+            //重新幫裡面宣告空陣列
+            this.surveyData[0].question.forEach(item => {
+                if (item.questionType == 3) {
+                    // console.log(this.childFormData);
+                    this.formData.checkbox[item.order] = [];
+                }
+            });
+
 
         }
     }
@@ -106,7 +171,8 @@ export default {
 </script>
 
 <template>
-    <form class="background">
+    <!-- <h1>這是child:{{ childFormData }}</h1> -->
+    <form class="background" @submit.prevent="submitForm">
         <div class="content">
             <!-- 表單名稱和敘述 -->
             <div class="title">
@@ -130,6 +196,7 @@ export default {
                             aria-describedby="inputGroup-sizing-default"
                             id="startDate"
                             autocomplete="off"
+                            v-model="formData.name"
                         />
                     </div>
                 </div>
@@ -144,6 +211,7 @@ export default {
                             aria-describedby="inputGroup-sizing-default"
                             id="endDate"
                             autocomplete="off"
+                            v-model="formData.phone"
                         />
                     </div>
                 </div>
@@ -158,6 +226,7 @@ export default {
                             aria-describedby="inputGroup-sizing-default"
                             id="e-mail"
                             autocomplete="off"
+                            v-model="formData.email"
                         />
                     </div>
                 </div>
@@ -172,6 +241,7 @@ export default {
                             aria-describedby="inputGroup-sizing-default"
                             id="endDate"
                             autocomplete="off"
+                            v-model="formData.age"
                         />
                     </div>
                 </div>
@@ -182,22 +252,24 @@ export default {
             <!-- 自訂義選項開始 -->
             <div class="question">
 
-            <div v-for="item in surveyData[0].question" :key="item.order">
+            <div v-for="item in surveyData[0].question" :key="item.order" class="question-item">
 
                 <!-- text -->
-                <div v-if="item.questionType == 1">
+                <div v-if="item.questionType == 1" class="showCheckQuestion">
                     <div class="">
-                        <h1>{{ item.order }}. {{ item.questionTitle }}:</h1>
-                        <textarea name="" id="" autocomplete="off"></textarea>
+                        <!-- <h1>{{ item.order }}. {{ item.questionTitle }}:</h1> -->
+                        <span class="question-title">{{ item.order }}. {{ item.questionTitle }}:</span>
+                        <textarea name="" id="" autocomplete="off" v-model="formData.text"></textarea>
                         <!-- <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg"> -->
                     </div>
                 </div>
 
                 <!-- radio -->
-                <div v-if="item.questionType == 2 ">
-                    <h1>{{ item.order }}.{{ item.questionTitle }}:</h1>
+                <div v-if="item.questionType == 2 " class="showCheckQuestion">
+                    <!-- <h1>{{ item.order }}.{{ item.questionTitle }}:</h1> -->
+                    <span class="question-title">{{ item.order }}. {{ item.questionTitle }}:</span>
                     <div v-for="Options in item.questionOption" class="form-check">
-                      <input class="form-check-input" type="radio" name="exampleRadios" :id="'Radios-'+item.order+'-'+Options.value" :value="item.order+'-'+Options.value">
+                        <input class="form-check-input" type="radio" :name="'radio-' + item.order" :id="'Radios-'+item.order+'-'+Options.value" :value="Options.value" v-model="formData.radio[item.order]" >
                       <label class="form-check-label" :for="'Radios-'+item.order+'-'+Options.value">
                         {{Options.show}}
                       </label>
@@ -205,11 +277,11 @@ export default {
                 </div>
 
                 <!-- checkbox -->
-                <div v-if="item.questionType == 3 ">
-                    <h1>{{ item.order }}.{{ item.questionTitle }}:</h1>
-
+                <div v-if="item.questionType == 3 " class="showCheckQuestion">
+                    <!-- <h1>{{ item.order }}.{{ item.questionTitle }}:</h1> -->
+                    <span class="question-title">{{ item.order }}. {{ item.questionTitle }}:</span>
                     <div v-for="Options in item.questionOption" class="form-check">
-                        <input class="form-check-input" type="checkbox" :value="item.order+'-'+Options.value" :id="'checkbox-'+item.order+'-'+Options.value">
+                        <input class="form-check-input" type="checkbox" :value="Options.value" :id="'checkbox-'+item.order+'-'+Options.value" :name="'checkbox-' + item.order" v-model="formData.checkbox[item.order]"  >
                         <label class="form-check-label" :for="'checkbox-'+item.order+'-'+Options.value">
                           {{Options.show}}
                         </label>
@@ -225,8 +297,8 @@ export default {
             <!-- 按鈕 -->
             <div class="button">
             <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                <button class="btn btn-primary" type="reset">清除</button>
-                <button class="btn btn-primary me-md-2" type="button" @click="updateCheckdata()">送出</button>
+                <button class="btn btn-primary" type="reset" @click="reset()">清除</button>
+                <button class="btn btn-primary me-md-2" type="submit" >送出</button>
                 <!-- <input type="text" @input="$emit('update:childCheckData',$event.target.value)" :value="this.childCheckData"> -->
             </div>
             </div>
@@ -272,6 +344,15 @@ export default {
         flex-direction: column;
         align-items: center;
 
+
+
+        // font-family: "Noto Serif TC", serif;
+        font-family: "Noto Sans TC", sans-serif;
+        // font-optical-sizing: auto;
+        // font-weight: <weight>;
+        // font-style: normal;
+        
+
         .description {
             // border: 1px solid black;
             width: 100%;
@@ -284,8 +365,23 @@ export default {
         }
 
         .question{
-        //border: 1px solid black;
-        width: 80%;
+            //border: 1px solid black;
+            width: 80%;
+            padding: 1rem 0; // 上下內邊距
+            .question-item {
+                margin-bottom: 2rem; // 每個問題的底部間距
+                display: flex;
+                flex-direction: column; // 讓問題和答案在垂直方向排列
+                align-items: flex-start; // 使問題和答案左對齊
+                span {
+                    display: block; // 問題和答案顯示為塊元素，分行顯示
+                }
+                .question-title {
+                    margin-bottom: 0.5rem; // 問題標題和答案之間的間距
+                }
+
+            }
+
         }
 
         .button{

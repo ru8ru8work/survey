@@ -79,7 +79,7 @@ export default {
 
 <style lang="scss">
     .navbar{
-        
+        height: 10dvh;
         width: calc(100dvw - 15rem);
         background-color: v-bind('color.mainColor');
         transition: width 0.25s ease-out;

@@ -92,8 +92,64 @@ export default {
                     result: "前往"
                 },
                 {
-                    id : "99",
+                    id : "11",
                     name : "11name",
+                    status : "結束",
+                    startTime: "2024-01-15",
+                    endTime: "2024-06-19",
+                    result: "前往"
+                },
+                {
+                    id : "12",
+                    name : "12name",
+                    status : "結束",
+                    startTime: "2024-01-15",
+                    endTime: "2024-06-19",
+                    result: "前往"
+                },
+                {
+                    id : "13",
+                    name : "13name",
+                    status : "結束",
+                    startTime: "2024-01-15",
+                    endTime: "2024-06-19",
+                    result: "前往"
+                },
+                {
+                    id : "14",
+                    name : "14name",
+                    status : "結束",
+                    startTime: "2024-01-15",
+                    endTime: "2024-06-19",
+                    result: "前往"
+                },
+                {
+                    id : "15",
+                    name : "15name",
+                    status : "結束",
+                    startTime: "2024-01-15",
+                    endTime: "2024-06-19",
+                    result: "前往"
+                },
+                {
+                    id : "97",
+                    name : "97name",
+                    status : "結束",
+                    startTime: "2024-01-15",
+                    endTime: "2024-06-19",
+                    result: "前往"
+                },
+                {
+                    id : "98",
+                    name : "98name",
+                    status : "結束",
+                    startTime: "2024-01-15",
+                    endTime: "2024-06-19",
+                    result: "前往"
+                },
+                {
+                    id : "99",
+                    name : "99name",
                     status : "結束",
                     startTime: "2024-01-15",
                     endTime: "2024-06-19",
@@ -254,13 +310,12 @@ export default {
 <style scoped lang="scss">
 .containers {
     width: 100%;
-    height: 100dvh;
+    height: 90dvh;
     display: flex;
     // justify-content: center;
     flex-direction: column;
     align-items: center;
     background-color: v-bind('color.mainColor');
-
 
     .search {
         width: 80%;
@@ -298,15 +353,22 @@ export default {
 
     .dataShow {
         width: 80%;
-        height: 55%;
+        //height: 55%;
+        //height: auto;
         margin-top: 2%;
         border: 1px solid v-bind('color.borderColor');
         background-color: v-bind('color.secondColor');
         border-radius: 5px;
 
+        max-height: 50dvh; // 根據需要設置最大高度
+        // overflow-y: hidden; // 使容器顯示滾輪
+    
+
         table {
             width: 100%;
+            // height: 100%;
             background-color: black;
+            margin: 0px;
             thead{
                 background-color: black;
             }
