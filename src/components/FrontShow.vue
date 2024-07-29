@@ -158,7 +158,7 @@ export default {
                 
                 
             ],
-            currentPage: 1,  // 目前頁碼
+            currentPage:1,  // 目前頁碼
             itemsPerPage: 5,  // 每頁顯示幾筆資料
             searchKeyword: "",  // 搜尋的關鍵字
 
@@ -181,6 +181,11 @@ export default {
             startDate.max = endDate.value;
         })
 
+        const savePage = sessionStorage.getItem("currentPage");
+        if (savePage){
+            this.currentPage = parseInt(savePage)
+        }
+
     },
     computed: {
         filteredData() {
@@ -201,6 +206,11 @@ export default {
     },methods: {
         onPageChange(page) {
             this.currentPage = page;
+        },
+        goAnswer(){
+            this.$router.push("/Front/Answer");
+            sessionStorage.setItem("currentPage", this.currentPage);
+
         }
     },
     watch: {
@@ -260,8 +270,8 @@ export default {
 
             <div class="searchButton">
                 <div class="gap-2 d-md-flex justify-content-md-end" id="searchBtn">
-                    <button class="btn  me-md-2" type="button">搜尋</button>
                     <button class="btn " type="reset">清除</button>
+                    <button class="btn  me-md-2" type="sumbit">搜尋</button>
                 </div>
             </div>
         </form>
@@ -286,7 +296,7 @@ export default {
                         <td>{{ item.status }}</td>
                         <td>{{ item.startTime }}</td>
                         <td>{{ item.endTime }}</td>
-                        <td><router-link to="/Front/Answer">{{ item.result }}</router-link></td>
+                        <td @click="goAnswer" id="goAnswer">前往</td>
                     </tr>
                 </tbody>
             </table>
@@ -371,6 +381,9 @@ export default {
             margin: 0px;
             thead{
                 background-color: black;
+            }
+            #goAnswer{
+                color: blue;
             }
             
         }

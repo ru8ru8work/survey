@@ -24,6 +24,11 @@ const router = createRouter({
       name: 'Back',
       component: () => import('../views/Back.vue')
     },
+    {
+      path: '/Back/Create',
+      name: 'BackCreate',
+      component: () => import('../views/BackCreate.vue')
+    },
   ]
 })
 

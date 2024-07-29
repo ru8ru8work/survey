@@ -159,7 +159,7 @@ export default {
                 
             ],
             currentPage: 1,  // 目前頁碼
-            itemsPerPage: 5,  // 每頁顯示幾筆資料
+            itemsPerPage: 10,  // 每頁顯示幾筆資料
             searchKeyword: "",  // 搜尋的關鍵字
 
         };
@@ -180,7 +180,11 @@ export default {
         endDate.addEventListener("change", function(){
             startDate.max = endDate.value;
         })
-
+        
+        const savePage = sessionStorage.getItem("currentPage");
+        if (savePage){
+            this.currentPage = parseInt(savePage)
+        }
     },
     computed: {
         filteredData() {
@@ -201,6 +205,13 @@ export default {
     },methods: {
         onPageChange(page) {
             this.currentPage = page;
+        },
+        goAnswer(){
+            this.$router.push("/Front/Answer");
+            sessionStorage.setItem("currentPage", this.currentPage);
+        },
+        goCreate(){
+            this.$router.push("/Back/Create");
         }
     },
     watch: {
@@ -260,17 +271,22 @@ export default {
 
             <div class="searchButton">
                 <div class="gap-2 d-md-flex justify-content-md-end" id="searchBtn">
-                    <button class="btn  me-md-2" type="button">搜尋</button>
                     <button class="btn " type="reset">清除</button>
+                    <button class="btn  me-md-2" type="sumbit">搜尋</button>
                 </div>
             </div>
         </form>
+
+        <div class="addButtonArea">
+            <button class="addButton" @click="goCreate()"><i class="fa-solid fa-plus"></i></button>
+        </div>
 
         <!-- 資料結果顯示 -->
         <div class="dataShow table-responsive">
             <table class="table table-hover " >
                 <thead class="table-light">
                     <tr>
+                        <th scope="col"><i class="fa-solid fa-trash-can"></i></th>
                         <th scope="col">編號</th>
                         <th scope="col">名稱</th>
                         <th scope="col">狀態</th>
@@ -281,12 +297,13 @@ export default {
                 </thead>
                 <tbody>
                     <tr v-for="item in paginatedData" :key="item.id">
+                        <td><input type="checkbox"></td>
                         <th scope="row">{{ item.id }}</th>
                         <td >{{ item.name }}</td>
                         <td>{{ item.status }}</td>
                         <td>{{ item.startTime }}</td>
                         <td>{{ item.endTime }}</td>
-                        <td><router-link to="/Front/Answer">{{ item.result }}</router-link></td>
+                        <td @click="goAnswer" id="goAnswer">前往</td>
                     </tr>
                 </tbody>
             </table>
@@ -316,6 +333,7 @@ export default {
     flex-direction: column;
     align-items: center;
     background-color: v-bind('color.mainColor');
+    position: relative;
 
     .search {
         width: 80%;
@@ -351,6 +369,41 @@ export default {
         box-shadow: 0px 0px 12px rgba(0,0,0,.12);
     }
 
+    .addButtonArea{
+        // width: 100px;
+        // height: 100px;
+        // border-radius: 50%;
+        // padding: 8px 3px 3px 8px;
+        // background-color: v-bind('color.secondColor');
+        position: fixed;
+        top: 80%;
+        left: 94%;
+        .addButton {
+            width: 60px;
+            height: 60px;
+            bottom: 40px;
+            right: 40px;
+            background-color: #004dff;
+            color: #FFF;
+            border-radius: 50px;
+            text-align: center;
+            font-size: 30px;
+            box-shadow: 2px 2px 3px #999;
+            z-index: 100;
+            border: #004dff;
+            transition: 0.5s;
+        }
+
+        button:hover {
+            transform: scale(1.1);
+        }
+
+        button:active {
+            background-color: #020cd1;
+        }
+    }
+
+
     .dataShow {
         width: 80%;
         //height: 55%;
@@ -372,7 +425,9 @@ export default {
             thead{
                 background-color: black;
             }
-            
+            #goAnswer{
+                color: blue;
+            }
         }
     }
 

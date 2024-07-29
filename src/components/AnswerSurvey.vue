@@ -127,6 +127,10 @@ export default {
                 }
             }
         });
+
+        console.log(sessionStorage.getItem("currentPage"));
+
+
     },
     props:{
         childCheckData:{
@@ -162,8 +166,9 @@ export default {
                     this.formData.checkbox[item.order] = [];
                 }
             });
-
-
+        },
+        backPage(){ //取消紐
+            this.$router.push("/Front");
         }
     }
 
@@ -297,6 +302,7 @@ export default {
             <!-- 按鈕 -->
             <div class="button">
             <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                <button class="btn btn-primary" type="reset" @click="backPage">取消</button>
                 <button class="btn btn-primary" type="reset" @click="reset()">清除</button>
                 <button class="btn btn-primary me-md-2" type="submit" >送出</button>
                 <!-- <input type="text" @input="$emit('update:childCheckData',$event.target.value)" :value="this.childCheckData"> -->
