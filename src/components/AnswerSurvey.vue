@@ -383,6 +383,10 @@ export default {
             border-radius: 10px;
             padding: 2%;
             margin-bottom: 3%;
+            .input-group-text{
+                background-color: v-bind('color.sidebarColor');
+                color: white;
+            }
         }
 
         .question{
