@@ -157,6 +157,7 @@ export default {
                 },
                 
                 
+                
             ],
             currentPage:1,  // 目前頁碼
             itemsPerPage: 5,  // 每頁顯示幾筆資料
@@ -186,6 +187,17 @@ export default {
             this.currentPage = parseInt(savePage)
         }
 
+        // var addDataCount = this.fakeData.length %  this.itemsPerPage;
+        // while ( addDataCount != 0){
+        //     // this.fakeData[this.fakeData.leng th] = "";
+
+
+        //     console.log( addDataCount );
+        //     addDataCount--;
+        // }
+        
+        
+
     },
     computed: {
         filteredData() {
@@ -200,10 +212,21 @@ export default {
             //顯示的資料計算
             const start = (this.currentPage - 1) * this.itemsPerPage;
             const end = start + this.itemsPerPage;
-            return this.filteredData.slice(start, end);
+            const currentPageData = this.filteredData.slice(start, end);
+
+            var itemsToAdd = this.itemsPerPage - currentPageData.length;
+
+            // 插入空白數據
+            while (itemsToAdd != 0) {
+              currentPageData.push({ id: '', name: '', status: '', startTime: '', endTime: '' });
+              itemsToAdd--;
+            }
+
+            return currentPageData;
         },
 
-    },methods: {
+    },
+    methods: {
         onPageChange(page) {
             this.currentPage = page;
         },
@@ -419,6 +442,9 @@ export default {
 <style lang="scss">
 // 以下是頁碼
 .page{
+
+    margin-top: 2%;
+
     .pagination-container {
         display: flex;
         column-gap: 10px;

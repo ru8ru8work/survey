@@ -159,7 +159,7 @@ export default {
             <div class="secondArea">
                 <button type="button" class="btn btn-primary me-md-2" @click="addArea()">測試新增區塊</button>
                 <div class="questionCreate">
-                    
+
                 </div>
             </div>
 
@@ -288,6 +288,7 @@ textarea{
     width: 80%;
     height: auto;
     padding: 2%;
+    
     .questionCreate{
         width: 100%;
         height: 20dvh;
