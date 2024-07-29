@@ -199,7 +199,17 @@ export default {
             //顯示的資料計算
             const start = (this.currentPage - 1) * this.itemsPerPage;
             const end = start + this.itemsPerPage;
-            return this.filteredData.slice(start, end);
+            const currentPageData = this.filteredData.slice(start, end);
+
+            var itemsToAdd = this.itemsPerPage - currentPageData.length;
+
+            // 插入空白數據
+            while (itemsToAdd != 0) {
+              currentPageData.push({ id: '', name: '', status: '', startTime: '', endTime: '' });
+              itemsToAdd--;
+            }
+
+            return currentPageData;
         },
 
     },methods: {
@@ -370,11 +380,7 @@ export default {
     }
 
     .addButtonArea{
-        // width: 100px;
-        // height: 100px;
-        // border-radius: 50%;
-        // padding: 8px 3px 3px 8px;
-        // background-color: v-bind('color.secondColor');
+
         position: fixed;
         top: 80%;
         left: 94%;
@@ -461,6 +467,7 @@ export default {
 <style lang="scss">
 // 以下是頁碼
 .backPage{
+    margin-top: 2%;
     .pagination-container {
         display: flex;
         column-gap: 10px;

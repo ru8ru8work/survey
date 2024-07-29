@@ -332,7 +332,6 @@ export default {
         width: 80%;
         // max-height: 90%; 
         // padding: 2%;
-
         // border: 1px solid v-bind('color.borderColor');
         // background-color: v-bind('color.secondColor');
         // border-radius: 5px;
