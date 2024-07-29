@@ -128,9 +128,6 @@ export default {
             }
         });
 
-        console.log(sessionStorage.getItem("currentPage"));
-
-
     },
     props:{
         childCheckData:{
@@ -181,10 +178,13 @@ export default {
         <div class="content">
             <!-- 表單名稱和敘述 -->
             <div class="title">
-            <h1>{{ surveyData[0].title }}</h1>
-            <div class="description">
-                <h2>{{ surveyData[0].description }}</h2>
-            </div>
+                <div class="titleWord">
+                    <h1>{{ surveyData[0].title }}</h1>
+                </div>
+                <div class="description">
+                    <span>{{ surveyData[0].description }}</span>
+                    <!-- <h2></h2> -->
+                </div>
             </div>
 
             <!-- 第二區為固定欄位 -->
@@ -332,50 +332,72 @@ export default {
         width: 80%;
         // max-height: 90%; 
         // padding: 2%;
-        border: 1px solid v-bind('color.borderColor');
-        background-color: v-bind('color.secondColor');
-        border-radius: 5px;
+
+        // border: 1px solid v-bind('color.borderColor');
+        // background-color: v-bind('color.secondColor');
+        // border-radius: 5px;
         display: flex;
         flex-direction: column;
         align-items: center;
         padding: 2%;
-        margin: 2%;
+        // margin: 2%;
+
         .title {
-        //border: 1px solid black;
-        width: 80%;
-        height: 20%;
-        margin: 3%;
-        text-align: center;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
+            //border: 1px solid black;
+            width: 80%;
+            height: 20%;
+            margin: 3%;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-family: "Noto Sans TC", sans-serif;
 
-
-
-        // font-family: "Noto Serif TC", serif;
-        font-family: "Noto Sans TC", sans-serif;
-        // font-optical-sizing: auto;
-        // font-weight: <weight>;
-        // font-style: normal;
+            border: 1px solid v-bind('color.borderColor');
+            background-color: v-bind('color.secondColor');
+            border-radius: 10px;
+            padding: 2%;
+            .titleWord{
+                h1{
+                    background-color: v-bind('color.sidebarColor');
+                    color: white;
+                    border-radius: 5px;
+                    width: 100%;
+                    letter-spacing:4px;
+                }
+                
+            }
         
 
-        .description {
-            // border: 1px solid black;
-            width: 100%;
-        }
+            .description {
+                // border: 1px solid black;
+                width: 100%;
+                font-size: 21px;
+            }
         }
 
         .secondArea {
-        // border: 1px solid black;
-        width: 80%;
+            // border: 1px solid black;
+            width: 80%;
+            border: 1px solid v-bind('color.borderColor');
+            background-color: v-bind('color.secondColor');
+            border-radius: 10px;
+            padding: 2%;
+            margin-bottom: 3%;
         }
 
         .question{
             //border: 1px solid black;
             width: 80%;
-            padding: 1rem 0; // 上下內邊距
+            // padding: 1rem 0; // 上下內邊距
             .question-item {
-                margin-bottom: 2rem; // 每個問題的底部間距
+
+                border: 1px solid v-bind('color.borderColor');
+                background-color: v-bind('color.secondColor');
+                border-radius: 10px;
+                padding: 2%;
+
+                margin-bottom: 3.75%; // 每個問題的底部間距
                 display: flex;
                 flex-direction: column; // 讓問題和答案在垂直方向排列
                 align-items: flex-start; // 使問題和答案左對齊

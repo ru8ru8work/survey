@@ -187,16 +187,6 @@ export default {
             this.currentPage = parseInt(savePage)
         }
 
-        // var addDataCount = this.fakeData.length %  this.itemsPerPage;
-        // while ( addDataCount != 0){
-        //     // this.fakeData[this.fakeData.leng th] = "";
-
-
-        //     console.log( addDataCount );
-        //     addDataCount--;
-        // }
-        
-        
 
     },
     computed: {

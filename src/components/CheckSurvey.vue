@@ -187,9 +187,11 @@ export default {
         <div class="content">
             <!-- 表單名稱和敘述 -->
             <div class="title">
-                <h1>{{ surveyData[0].title }}</h1>
+                <div class="titleWord">
+                    <h1>{{ surveyData[0].title }}</h1>
+                </div>
                 <div class="description">
-                    <h2>{{ surveyData[0].description }}</h2>
+                    <span>{{ surveyData[0].description }}</span>
                 </div>
             </div>
 
@@ -291,24 +293,15 @@ export default {
     transition: width 0.25s ease-out;
     overflow-y: hidden;
 
-    //justify-content: center;
-    //height: 100vh;
-    //border: 1px solid black;
 
     .content{
         width: 80%;
-        // max-height: 90%; 
-        // padding: 2%;
-        border: 1px solid v-bind('color.borderColor');
-        background-color: v-bind('color.secondColor');
-        border-radius: 5px;
         display: flex;
         flex-direction: column;
         align-items: center;
         padding: 2%;
-        margin: 2%;
+
         .title {
-            //border: 1px solid black;
             width: 80%;
             height: 20%;
             margin: 3%;
@@ -316,39 +309,62 @@ export default {
             display: flex;
             flex-direction: column;
             align-items: center;
+            font-family: "Noto Sans TC", sans-serif;
 
-        .description {
-            // border: 1px solid black;
-            width: 100%;
-        }
+            border: 1px solid v-bind('color.borderColor');
+            background-color: v-bind('color.secondColor');
+            border-radius: 10px;
+            padding: 2%;
+            .titleWord{
+                h1{
+                    background-color: v-bind('color.sidebarColor');
+                    color: white;
+                    border-radius: 5px;
+                    width: 100%;
+                    letter-spacing:4px;
+                }
+                
+            }
+
+            .description {
+                // border: 1px solid black;
+                width: 100%;
+                font-size: 21px;
+            }
         }
 
         .secondArea {
-        // border: 1px solid black;
+            // border: 1px solid black;
             width: 80%;
+            border: 1px solid v-bind('color.borderColor');
+            background-color: v-bind('color.secondColor');
+            border-radius: 10px;
+            padding: 2%;
+            margin-bottom: 3%;
+
             .input-group-text{
                 border: 0px;
                 background-color: v-bind('color.secondColor');
                 padding: 0.375rem 0.75rem;
             }
+            
         }
 
-        // .question{
-        //     //border: 1px solid black;
-        //     width: 80%;
-        //     .showCheckAnswer{
-        //         margin-left: 15px;
-        //     }
-        // }
+
 
 
         .question {
             width: 80%;
-            // margin: 0 auto; // 居中
-            padding: 1rem 0; // 上下內邊距
+            // padding: 1rem 0; // 上下內邊距
 
             .question-item {
-                margin-bottom: 2rem; // 每個問題的底部間距
+
+                border: 1px solid v-bind('color.borderColor');
+                background-color: v-bind('color.secondColor');
+                border-radius: 10px;
+                padding: 2%;
+
+                margin-bottom: 3.75%; // 每個問題的底部間距
                 display: flex;
                 flex-direction: column; // 讓問題和答案在垂直方向排列
                 align-items: flex-start; // 使問題和答案左對齊
@@ -360,6 +376,9 @@ export default {
                 }
                 .showCheckAnswer {
                     margin-left: 1rem; // 移除答案的左邊距
+                    // word-wrap: break-word; // 使長字串在單詞邊界處換行
+                    word-break: break-all; // 使長字串在任何地方換行
+                    white-space: normal; // 允許正常的換行
                 }
             }
         }

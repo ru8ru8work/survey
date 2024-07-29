@@ -22,7 +22,7 @@ export default {
         <div
             class="sidebar-heading text-center py-4 primary-text fs-4 fw-bold text-uppercase border-bottom"
         >
-            <i class="fa-solid fa-house">選單</i>
+            <i class="fa-solid fa-house ">選單</i>
         </div>
 
         <div class="list-group list-group-flush my-3">
@@ -31,28 +31,28 @@ export default {
                 to="/"
                 class="list-group-item bg-transparent"
                 router-link-exact-active
-                ><i class="fa-solid fa-star me-2"></i>主頁</router-link
+                ><i class="fa-solid fa-star "></i>主頁</router-link
             >
 
             <router-link
                 to="/profile"
                 class="list-group-item bg-transparent  fw-bold test"
                 router-link-exact-active
-                ><i class="fa-solid fa-user"></i>個人資料</router-link
+                ><i class="fa-solid fa-user "></i>個人資料</router-link
             >
 
             <router-link
                 to="/Front"
                 class="list-group-item bg-transparent fw-bold"
                 router-link-exact-active
-                ><i class="fa-solid fa-poo"></i>前台</router-link
+                ><i class="fa-solid fa-poo "></i>前台</router-link
             >
 
             <router-link
                 to="/Back"
                 class="list-group-item bg-transparent fw-bold"
                 router-link-exact-active
-                ><i class="fa-solid fa-poo"></i>後台</router-link
+                ><i class="fa-solid fa-poo "></i>後台</router-link
             >
         </div>
     </div>
@@ -66,6 +66,7 @@ export default {
     min-height: 100vh;
     margin-left: -15rem;
     transition: margin 0.25s ease-out;
+    letter-spacing: 6px;
 }
 
 #sidebar-wrapper .sidebar-heading {
@@ -93,6 +94,7 @@ export default {
     border: none;
     padding: 20px 30px;
     color: v-bind('color.secondColor');
+    // letter-spacing: 6px;
 }
 
 .list-group-item.router-link-exact-active {
