@@ -342,6 +342,7 @@ export default {
     // justify-content: center;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     background-color: v-bind('color.mainColor');
     position: relative;
 

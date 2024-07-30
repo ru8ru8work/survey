@@ -322,6 +322,7 @@ export default {
                     border-radius: 5px;
                     width: 100%;
                     letter-spacing:4px;
+                    padding: 10px;
                 }
                 
             }

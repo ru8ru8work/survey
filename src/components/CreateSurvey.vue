@@ -52,6 +52,7 @@ export default {
         })
         
         // 測試Radio新增選項用
+        var radioValue = 1;
         const addRadio = document.querySelector("#addRadio");
         addRadio.addEventListener("click", function(){
 
@@ -72,16 +73,23 @@ export default {
 
             const optionRadioLabelInput = document.createElement("input");
             optionRadioLabelInput.setAttribute("type","text");
+            // optionRadioLabelInput.setAttribute("id","Radio" + radioValue);
             optionRadioLabelInput.setAttribute("class","form-control radioInput");
             optionRadioLabelInput.setAttribute("placeholder","請填寫選項");
             optionRadioLabelInput.setAttribute("aria-label","Sizing example input");
             optionRadioLabelInput.setAttribute("aria-describedby","inputGroup-sizing-default");
 
+            // X符號 
+            const xmark = document.createElement("i");
+            xmark.setAttribute("class","fa-solid fa-xmark");
 
             optionRadioLabel.appendChild(optionRadioLabelInput);
             optionRadioDiv.appendChild(optionRadioInput);
             optionRadioDiv.appendChild(optionRadioLabel);
+            optionRadioDiv.appendChild(xmark);
             addRadioArea.appendChild(optionRadioDiv);
+
+            radioValue++;
         })
 
         // 測試Checkbox新增選項用
@@ -117,7 +125,6 @@ export default {
             optionCheckboxDiv.appendChild(optionCheckboxLabel);
             addCheckboxArea.appendChild(optionCheckboxDiv);
         })
-
 
     },
     props:{
@@ -176,24 +183,24 @@ export default {
             typeSelect.setAttribute("class","form-select");
             typeSelect.setAttribute("aria-label",".form-select-lg example")
 
-            const optionNone = document.createElement("option");
-            optionNone.setAttribute("value", "");
-            optionNone.textContent = "";
+            // const optionNone = document.createElement("option");
+            // optionNone.setAttribute("value", "");
+            // optionNone.textContent = "";
 
             const optionText = document.createElement("option");
             optionText.setAttribute("value", "text");
-            optionText.textContent = "Text";
+            optionText.textContent = "簡答";
 
             const optionRadio = document.createElement("option");
             optionRadio.setAttribute("value", "radio");
-            optionRadio.textContent = "Radio";
+            optionRadio.textContent = "選擇題";
 
             const optionCheckbox = document.createElement("option");
             optionCheckbox.setAttribute("value", "checkbox");
-            optionCheckbox.textContent = "Checkbox";
+            optionCheckbox.textContent = "核取方塊";
 
             typeSelectDiv.appendChild(typeSelect);
-            typeSelect.appendChild(optionNone);
+            // typeSelect.appendChild(optionNone);
             typeSelect.appendChild(optionText);
             typeSelect.appendChild(optionRadio);
             typeSelect.appendChild(optionCheckbox);
@@ -208,7 +215,7 @@ export default {
             // Text區塊
             const optionTextArea = document.createElement("div");
             optionTextArea.setAttribute("class", "optionTextArea");
-            optionTextArea.style.display = "none"; // 預設隱藏
+            optionTextArea.style.display = "true"; // 預設隱藏
 
             const textArea = document.createElement("div");
             textArea.setAttribute("class", "form-floating");
@@ -232,26 +239,32 @@ export default {
             const addRadioArea = document.createElement("div");
             addRadioArea.setAttribute("class", "addRadioArea");
 
-            const addRadioDiv = document.createElement("div");
-            addRadioDiv.setAttribute("class", "form-check");
-            const radioInput = document.createElement("input");
-            radioInput.setAttribute("class", "form-check-input");
-            radioInput.setAttribute("type", "radio");
-            radioInput.setAttribute("name", "radioGroup" + this.idCount);
-            radioInput.setAttribute("disabled", "true");
-            const radioLabel = document.createElement("label");
-            radioLabel.setAttribute("class", "form-check-label");
-            const radioTextInput = document.createElement("input");
-            radioTextInput.setAttribute("type", "text");
-            radioTextInput.setAttribute("class", "form-control radioInput");
-            radioTextInput.setAttribute("placeholder", "請填寫選項");
-            radioTextInput.setAttribute("aria-label", "Sizing example input");
-            radioTextInput.setAttribute("aria-describedby", "inputGroup-sizing-default");
+            // const addRadioDiv = document.createElement("div");
+            // addRadioDiv.setAttribute("class", "form-check");
+            // const radioInput = document.createElement("input");
+            // radioInput.setAttribute("class", "form-check-input");
+            // radioInput.setAttribute("type", "radio");
+            // radioInput.setAttribute("name", "radioGroup" + this.idCount);
+            // radioInput.setAttribute("disabled", "true");
+            // const radioLabel = document.createElement("label");
+            // radioLabel.setAttribute("class", "form-check-label");
+            // const radioTextInput = document.createElement("input");
+            // radioTextInput.setAttribute("type", "text");
+            // radioTextInput.setAttribute("class", "form-control radioInput");
+            // radioTextInput.setAttribute("placeholder", "請填寫選項");
+            // radioTextInput.setAttribute("aria-label", "Sizing example input");
+            // radioTextInput.setAttribute("aria-describedby", "inputGroup-sizing-default");
 
-            radioLabel.appendChild(radioTextInput);
-            addRadioDiv.appendChild(radioInput);
-            addRadioDiv.appendChild(radioLabel);
-            addRadioArea.appendChild(addRadioDiv);
+            // // X方塊
+            // const xmark = document.createElement("i");
+            // xmark.setAttribute("class","fa-solid fa-xmark");
+            // xmark.setAttribute("id","xmarkDel");
+
+            // radioLabel.appendChild(radioTextInput);
+            // addRadioDiv.appendChild(radioInput);
+            // addRadioDiv.appendChild(radioLabel);
+            // addRadioDiv.appendChild(xmark);
+            // addRadioArea.appendChild(addRadioDiv);
 
             const addRadioDiv2 = document.createElement("div");
             addRadioDiv2.setAttribute("class", "form-check");
@@ -349,6 +362,28 @@ export default {
             optionArea.appendChild(optionRadioDiv);
             optionArea.appendChild(optionCheckboxDiv);
 
+            // 垃圾桶和必填
+            const delDiv = document.createElement("div");
+            delDiv.setAttribute("class","delDiv");
+            const trashcan = document.createElement("i");
+            trashcan.setAttribute("class","fa-solid fa-trash-can");
+            trashcan.setAttribute("id","delQuestion" + this.idCount);
+            const formSwitch = document.createElement("div");
+            formSwitch.setAttribute("class", "form-check form-switch");
+            const label = document.createElement("label");
+            label.setAttribute("class", "form-check-label");
+            label.setAttribute("for", "flexSwitchCheckDefault");
+            label.innerText = "必填";
+            const input = document.createElement("input");
+            input.setAttribute("class", "form-check-input");
+            input.setAttribute("type", "checkbox");
+            input.setAttribute("id", "flexSwitchCheckDefault");
+            formSwitch.appendChild(label);
+            formSwitch.appendChild(input);
+            delDiv.appendChild(trashcan);
+            delDiv.appendChild(formSwitch);
+
+            optionArea.appendChild(delDiv);
 
             // 將題目輸入框、select元素和選項區域添加到問題區域
             question.appendChild(questionInputDiv);
@@ -363,8 +398,9 @@ export default {
                 optionCheckboxDiv.style.display = (type == 'checkbox') ? 'block' : 'none';
             });
 
-
+            // 動態產生Radio
             const addRadioInputElement = question.querySelector("#addRadio" + this.idCount);
+            var addRadioXMark = 1;
                 addRadioInputElement.addEventListener("click", function() {
                     const addRadioArea = question.querySelector(".addRadioArea");
                     const optionRadioDiv = document.createElement("div");
@@ -386,15 +422,32 @@ export default {
                     optionRadioLabelInput.setAttribute("placeholder", "請填寫選項");
                     optionRadioLabelInput.setAttribute("aria-label", "Sizing example input");
                     optionRadioLabelInput.setAttribute("aria-describedby", "inputGroup-sizing-default");
-                
+
+                    const xmark = document.createElement("i");
+                    xmark.setAttribute("class","fa-solid fa-xmark");
+                    xmark.setAttribute("id","xmarkDel" + addRadioXMark);
+
                     optionRadioLabel.appendChild(optionRadioLabelInput);
                     optionRadioDiv.appendChild(optionRadioInput);
                     optionRadioDiv.appendChild(optionRadioLabel);
+                    optionRadioDiv.appendChild(xmark);
                     addRadioArea.appendChild(optionRadioDiv);
+
+                    
+                    // Xmark移除的寫法
+                    const delRadioXMark = question.querySelector("#xmarkDel" + addRadioXMark);
+                    delRadioXMark.addEventListener("click",function(){
+                        optionRadioDiv.remove();
+                    }.bind(this))
+
+                    optionRadioLabelInput.focus();
+
+                    addRadioXMark++;
                 }.bind(this));
             
+            // 動態產生checkbox
             const addCheckboxInputElement = question.querySelector("#addCheckbox" + this.idCount);
-                addCheckboxInputElement.addEventListener("click", function() {
+            addCheckboxInputElement.addEventListener("click", function() {
                     const addCheckboxArea = question.querySelector(".addCheckboxArea");
                     const optionCheckboxDiv = document.createElement("div");
                     optionCheckboxDiv.setAttribute("class", "form-check");
@@ -421,6 +474,19 @@ export default {
                     optionCheckboxDiv.appendChild(optionCheckboxLabel);
                     addCheckboxArea.appendChild(optionCheckboxDiv);
                 }.bind(this));
+
+
+
+            const delQuestion = question.querySelector("#delQuestion" + this.idCount);
+            delQuestion.addEventListener("click",function(){
+            
+                question.remove();
+            }.bind(this));
+
+            ;
+
+
+
             
             questionItem.appendChild(question);
             
@@ -445,7 +511,8 @@ export default {
         
 
 
-        }
+        },
+
     }
 
 };
@@ -457,7 +524,7 @@ export default {
             <!-- 表單名稱和敘述 -->
             <div class="title">
                 <div class="titleWord">
-                    <h1><input type="text" placeholder="請填入表單名稱" class="titleUnderLine"></h1>
+                    <h1><input type="text" placeholder="請填入表單名稱" class="titleUnderLine" ></h1>
                 </div>
                 
                 <div class="description">
@@ -511,8 +578,8 @@ export default {
                                     <input class="form-check-input" type="radio" name="" id="" disabled>
                                     <label class="form-check-label" for="">
                                         <input type="text" class="form-control radioInput" placeholder="請填寫選項" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
-                                        <!-- <input type="text" class="form-control radioInput" id="addRadio" placeholder="增加選項" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default"> -->
                                     </label>
+                                    <i class="fa-solid fa-xmark"></i>
                                 </div>
                             </div>
                             
@@ -548,6 +615,15 @@ export default {
                             </div>
 
                         </div>
+
+                        <div class="delDiv">
+                            <i class="fa-solid fa-trash-can" id="delQuestion"></i>
+                            <div class="form-check form-switch ">
+                                <label class="form-check-label" for="flexSwitchCheckDefault">必填</label>
+                                <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
+                            </div>
+                        </div>
+
 
                     </div>
                     
@@ -590,17 +666,10 @@ export default {
     width: calc(100dvw - 15rem);
     transition: width 0.25s ease-out;
 
-    //justify-content: center;
-    //height: 100vh;
-    //border: 1px solid black;
 
     .content{
         width: 80%;
-        // max-height: 90%; 
-        // padding: 2%;
-        // border: 1px solid v-bind('color.borderColor');
-        // background-color: v-bind('color.secondColor');
-        // border-radius: 5px;
+
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -632,8 +701,12 @@ export default {
                 border-radius: 5px;
                 width: 100%;
                 letter-spacing:4px;
+                
             }
 
+            ::placeholder{
+                color: v-bind('color.secondColor')
+            }
 
             .description {
                 // border: 1px solid black;
@@ -648,31 +721,7 @@ export default {
 
         
 
-        // .question{
-        //     //border: 1px solid black;
-        //     width: 80%;
-        //     // padding: 1rem 0; // 上下內邊距
-        //     .question-item {
-
-        //         border: 1px solid v-bind('color.borderColor');
-        //         background-color: v-bind('color.secondColor');
-        //         border-radius: 10px;
-        //         padding: 2%;
-
-        //         margin-bottom: 3.75%; // 每個問題的底部間距
-        //         display: flex;
-        //         flex-direction: column; // 讓問題和答案在垂直方向排列
-        //         align-items: flex-start; // 使問題和答案左對齊
-        //         span {
-        //             display: block; // 問題和答案顯示為塊元素，分行顯示
-        //         }
-        //         .question-title {
-        //             margin-bottom: 0.5rem; // 問題標題和答案之間的間距
-        //         }
-
-        //     }
-
-        // }
+    
         .addButton{
             width: 80%;
             border: 1px solid v-bind('color.borderColor');
@@ -704,11 +753,18 @@ textarea{
         width: 100%;
     }
 }
+
+
 </style>
 
 <!-- 動態產生的區塊會吃不到scoped所以要創一個新的 -->
 <style lang="scss">
     .questionCreate{
+
+        // ::placeholder{
+        //     color: black;
+        // }
+
         //border: 1px solid black;
         width: 80%;
         // padding: 1rem 0; // 上下內邊距
@@ -755,12 +811,46 @@ textarea{
                         // border: 0px;
                         // border-bottom: 1px solid black;
                     }
+                    .fa-xmark{
+                        font-size: 25px;
+                        margin-left: 10px;
+                        cursor: pointer;
+                    }
                 }
                 
                 .optionCheckbox{
                     .checkboxinput{
 
                     }
+                }
+
+                .delDiv{
+                    border: 0px;
+                    border-top: 1px solid black;
+                    // border: 1px solid black;
+                    padding: 2%;
+                    margin: 2%;
+                    height: 30%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    font-size: 20px;
+                    margin-bottom: 0%;
+                    // background-color: black;
+                    .fa-trash-can{
+                        cursor: pointer;
+                        margin-right: 2%;
+                    }
+
+
+                    // .questionRequired{
+                    //     border: 0;
+                    //     border-left: 1px solid black;
+                    //     padding: 2%;
+                    //     margin-top: 2%;
+                    // }
+
+                    
                 }
 
             }

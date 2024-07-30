@@ -261,12 +261,12 @@ export default {
 
                 <!-- text -->
                 <div v-if="item.questionType == 1" class="showCheckQuestion">
-                    <div class="">
+                    <!-- <div class=""> -->
                         <!-- <h1>{{ item.order }}. {{ item.questionTitle }}:</h1> -->
                         <span class="question-title">{{ item.order }}. {{ item.questionTitle }}:</span>
                         <textarea name="" id="" autocomplete="off" v-model="formData.text"></textarea>
                         <!-- <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg"> -->
-                    </div>
+                    <!-- </div> -->
                 </div>
 
                 <!-- radio -->
@@ -363,6 +363,7 @@ export default {
                     border-radius: 5px;
                     width: 100%;
                     letter-spacing:4px;
+                    padding: 10px;
                 }
                 
             }
@@ -399,17 +400,26 @@ export default {
                 background-color: v-bind('color.secondColor');
                 border-radius: 10px;
                 padding: 2%;
-
                 margin-bottom: 3.75%; // 每個問題的底部間距
                 display: flex;
                 flex-direction: column; // 讓問題和答案在垂直方向排列
                 align-items: flex-start; // 使問題和答案左對齊
+                width: 100%;
                 span {
                     display: block; // 問題和答案顯示為塊元素，分行顯示
                 }
                 .question-title {
                     margin-bottom: 0.5rem; // 問題標題和答案之間的間距
                 }
+
+                .showCheckQuestion{
+                    width: 100%;
+                    textarea {
+                    width: 100%; // 確保 textarea 寬度為 100%
+                    height: 100px; 
+                    }
+                }
+                
 
             }
 
@@ -421,10 +431,7 @@ export default {
     }   
 }
 
-textarea{
-    height: 100px;
-    width: 200px;
-}
+
 #wrapper.toggled  {
     .background{
         width: 100dvw;
