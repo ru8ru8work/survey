@@ -181,7 +181,7 @@ export default {
 <template>
 
 
-<!-- <h1>這邊放資料:{{ formData }}</h1> -->
+<!-- <h1>這邊放資料:{{color.mainColor}}</h1> -->
 
 <form class="background">
         <div class="content">

@@ -351,10 +351,11 @@ export default {
         display: flex;
         flex-direction: column;
         align-items: center;
-        padding: 5%;
+        padding: 2%;
         border: 1px solid v-bind('color.borderColor');
         background-color: v-bind('color.secondColor');
         border-radius: 5px;
+
 
         .searchName {
             width: 80%;

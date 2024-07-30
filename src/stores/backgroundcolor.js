@@ -9,6 +9,7 @@ export default defineStore('color',{
             buttonTextColor:"#ffffff",
             mainColor: "#eef0fc",
             secondColor: "#ffffff",
+            // secondColor: "black",
             borderColor: "#e4e7ed",
             fontColor : "#000000"
         }
