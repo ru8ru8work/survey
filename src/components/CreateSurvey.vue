@@ -427,21 +427,21 @@ export default {
             this.idCount++;
         },
         addBold(){
-            alert("加粗囉");
-            alert("好粗好粗");
+            // alert("加粗囉");
+            // alert("好粗好粗");
 
 
-            const boldtest = document.querySelector(".boldtest");
-            const selectedText = document.querySelector("#selectedText");
+            // const boldtest = document.querySelector(".boldtest");
+            // const selectedText = document.querySelector("#selectedText");
 
-            boldtest.addEventListener('mouseup', () => {
-                const start = boldtest.selectionStart;
-                const end = boldtest.selectionEnd;
-                const selected = boldtest.value.substring(start, end);
-                console.log(123);
-                // console.log("這裡顯示選取:"+selected);
-                selectedText.textContent = selected;
-            });
+            // boldtest.addEventListener('mouseup', () => {
+            //     const start = boldtest.selectionStart;
+            //     const end = boldtest.selectionEnd;
+            //     const selected = boldtest.value.substring(start, end);
+            //     console.log(123);
+            //     // console.log("這裡顯示選取:"+selected);
+            //     selectedText.textContent = selected;
+            // });
         
 
 
