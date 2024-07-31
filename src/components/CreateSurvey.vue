@@ -168,7 +168,8 @@ export default {
             questionInput.setAttribute("placeholder", "請填寫題目");
             questionInput.setAttribute("aria-label", "Sizing example input");
             questionInput.setAttribute("aria-describedby", "inputGroup-sizing-default");
-
+            questionInput.setAttribute("required","");
+            
             questionInputDiv.appendChild(questionInputDiv2);
             questionInputDiv2.appendChild(questionInputSpan);
             questionInputDiv2.appendChild(questionInput);
@@ -600,7 +601,7 @@ export default {
                     <div class="col-md-9 item-box question-item-title">
                         <div class="input-group">
                             <span class="input-group-text" id="inputGroup-sizing-default">輸入題目:</span>
-                            <input type="text" class="form-control" placeholder="請填寫題目" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                            <input type="text" class="form-control" placeholder="請填寫題目" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" >
                         </div>
                     </div>
 
