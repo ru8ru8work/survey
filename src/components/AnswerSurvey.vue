@@ -18,6 +18,7 @@ export default {
                             questionType:1, //text
                             questionTitle:"text的題目",
                             order:2, //順位
+                            required:false,
                             questionOption:"",
 
                         },
@@ -25,6 +26,7 @@ export default {
                             questionType:2, //radio
                             questionTitle:"在室內會不會穿拖鞋",
                             order:4,
+                            required :true,
                             questionOption:[
                                 {
                                     value:1,
@@ -40,6 +42,7 @@ export default {
                             questionType:3, //checkbox
                             questionTitle:"checkbox的題目",
                             order:3,
+                            required:false,
                             questionOption:[
                                 {
                                     value:1,
@@ -63,6 +66,7 @@ export default {
                             questionType:2, //radio
                             questionTitle:"radio的題目",
                             order:1,
+                            required:false,
                             questionOption:[
                                 {
                                     value:1,
@@ -86,6 +90,7 @@ export default {
                             questionType:3, //checkbox
                             questionTitle:"我是男生還是女生",
                             order:5,
+                            required:true,
                             questionOption:[
                                 {
                                     value:1,
@@ -97,6 +102,13 @@ export default {
                                 }
                             ],
                         },
+                        {
+                            questionType:1, //text
+                            questionTitle:"測試必填",
+                            order:6,
+                            required:true,
+                            questionOption:""
+                        },
                     ]
                 },
             ],
@@ -105,7 +117,7 @@ export default {
                 phone: this.childFormData.phone || "",
                 email: this.childFormData.email || "",
                 age: this.childFormData.age || "",
-                text: this.childFormData.text || "",
+                text: this.childFormData.text || {},
                 radio: this.childFormData.radio||{},
                 checkbox: {}
             },
@@ -145,6 +157,93 @@ export default {
             this.$emit('update:childCheckData',true);
         },
         submitForm() {
+            // alert("123");
+            // console.log(this.formData.radio);
+
+            // console.log(this.surveyData[0]["question"]);
+
+
+            // //{
+            //     questionType:2, //radio
+            //     questionTitle:"在室內會不會穿拖鞋",
+            //     order:4,
+            //     required :true,
+            //     questionOption:[
+            
+            this.surveyData[0]["question"].forEach(item => {
+                if (item.required == true ){
+                    if ( item.questionType == 1){ //text
+                        if ( this.formData.text[item.order] == undefined || this.formData.text[item.order] == "" ){
+
+                            //<i class="fa-solid fa-circle-exclamation fa-xs" style="color: #e82c17;"></i>
+
+                            // console.log("這裡有必填text:" + item.order);
+                            const textareaAnswer = document.querySelector("#question" + item.order);
+
+                            const exclamationDiv = document.createElement("div")
+                            const exclamation = document.createElement("i");
+                            exclamation.setAttribute("class","fa-solid fa-circle-exclamation fa-lg");
+                            exclamation.setAttribute("style","color: #e82c17;");
+                            exclamation.textContent = "這是必填問題";
+
+                            exclamationDiv.appendChild(exclamation);
+                            textareaAnswer.appendChild(exclamationDiv);
+                 
+                        }
+                    }
+
+                    if(  item.questionType == 2 ){  //radio
+                        if ( this.formData.radio[item.order] == undefined || this.formData.radio[item.order] == "" ){
+                            console.log("這裡有必填radio:" + item.order);
+
+                            const textareaAnswer = document.querySelector("#question" + item.order);
+
+                            const exclamationDiv = document.createElement("div")
+                            exclamationDiv.setAttribute("class","");
+                            const exclamation = document.createElement("i");
+                            exclamation.setAttribute("class","fa-solid fa-circle-exclamation fa-lg");
+                            exclamation.setAttribute("style","color: #e82c17;");
+                            exclamation.textContent = "這是必填問題";
+
+                            exclamationDiv.appendChild(exclamation);
+                            textareaAnswer.appendChild(exclamationDiv);
+
+
+                            // const radioAnswer = document.querySelector("#Radios-" + item.order + "-1");
+                            // console.log(radioAnswer);
+                            // radioAnswer.focus();
+                        }
+                    }
+
+                    if(  item.questionType == 3 ){ //checkbox
+                        if ( this.formData.checkbox[item.order] == undefined || this.formData.checkbox[item.order] == "" ){
+                            console.log("這裡有必填checkbox:" + item.order);
+
+                            const textareaAnswer = document.querySelector("#question" + item.order);
+
+                            const exclamationDiv = document.createElement("div")
+                            const exclamation = document.createElement("i");
+                            exclamation.setAttribute("class","fa-solid fa-circle-exclamation fa-lg");
+                            exclamation.setAttribute("style","color: #e82c17;");
+                            exclamation.textContent = "這是必填問題";
+
+                            exclamationDiv.appendChild(exclamation);
+                            textareaAnswer.appendChild(exclamationDiv);
+
+
+                            // const radioAnswer = document.querySelector("#Radios-" + item.order + "-1");
+                            // console.log(radioAnswer);
+                            // radioAnswer.focus();
+                        }
+                    }
+
+                }
+                // console.log(item);
+            });
+
+
+            // console.log(this.formData);
+
             this.$emit('form-submit', this.formData);
         },
         reset(){
@@ -152,7 +251,7 @@ export default {
             this.formData.phone = "";
             this.formData.email = "";
             this.formData.age = "";
-            this.formData.text =  "";
+            this.formData.text =  {};
             this.formData.radio = {};
             this.formData.checkbox = {};
             
@@ -205,7 +304,7 @@ export default {
                             />
                         </div>
                     </div>
-                
+
                     <div class="col-md-6 item-box">
                         <div class="input-group mb-3">
                             <span class="input-group-text" id="inputGroup-sizing-default">手機:</span>
@@ -220,7 +319,7 @@ export default {
                             />
                         </div>
                     </div>
-                
+
                     <div class="col-md-6 item-box">
                         <div class="input-group mb-3">
                             <span class="input-group-text" id="inputGroup-sizing-default">E-mail:</span>
@@ -235,7 +334,7 @@ export default {
                             />
                         </div>
                     </div>
-                
+
                     <div class="col-md-6 item-box">
                         <div class="input-group mb-3">
                             <span class="input-group-text" id="inputGroup-sizing-default">年齡:</span>
@@ -250,21 +349,25 @@ export default {
                             />
                         </div>
                     </div>
-                
+
                 </div>
             </div>
 
             <!-- 自訂義選項開始 -->
             <div class="question">
 
-            <div v-for="item in surveyData[0].question" :key="item.order" class="question-item">
+            <div v-for="item in surveyData[0].question" :key="item.order" class="question-item" :id="'question' + item.order">
 
                 <!-- text -->
                 <div v-if="item.questionType == 1" class="showCheckQuestion">
                     <!-- <div class=""> -->
                         <!-- <h1>{{ item.order }}. {{ item.questionTitle }}:</h1> -->
-                        <span class="question-title">{{ item.order }}. {{ item.questionTitle }}:</span>
-                        <textarea name="" id="" autocomplete="off" v-model="formData.text"></textarea>
+                        <span 
+                        class="question-title">{{ item.order }}. {{ item.questionTitle }}:
+                        <span  v-if="item.required == true" style="color: red;">*</span>
+                        </span>
+                        <!-- <textarea v-if="item.required == true" :name="'textarea-' + item.order" :id="'textarea-' + item.order" autocomplete="off" v-model="formData.text[item.order]" required></textarea> -->
+                        <textarea :name="'textarea-' + item.order" :id="'textarea-' + item.order" autocomplete="off" v-model="formData.text[item.order]"></textarea>
                         <!-- <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg"> -->
                     <!-- </div> -->
                 </div>
@@ -272,10 +375,14 @@ export default {
                 <!-- radio -->
                 <div v-if="item.questionType == 2 " class="showCheckQuestion">
                     <!-- <h1>{{ item.order }}.{{ item.questionTitle }}:</h1> -->
-                    <span class="question-title">{{ item.order }}. {{ item.questionTitle }}:</span>
+                    <span 
+                        class="question-title">{{ item.order }}. {{ item.questionTitle }}:
+                        <span  v-if="item.required == true" style="color: red;">*</span>
+                    </span>
                     <div v-for="Options in item.questionOption" class="form-check">
+                        <!-- <input v-if="item.required == true"  class="form-check-input" type="radio" :name="'radio-' + item.order" :id="'Radios-'+item.order+'-'+Options.value" :value="Options.value" v-model="formData.radio[item.order]" required > -->
                         <input class="form-check-input" type="radio" :name="'radio-' + item.order" :id="'Radios-'+item.order+'-'+Options.value" :value="Options.value" v-model="formData.radio[item.order]" >
-                      <label class="form-check-label" :for="'Radios-'+item.order+'-'+Options.value">
+                        <label class="form-check-label" :for="'Radios-'+item.order+'-'+Options.value">
                         {{Options.show}}
                       </label>
                     </div>
@@ -284,9 +391,12 @@ export default {
                 <!-- checkbox -->
                 <div v-if="item.questionType == 3 " class="showCheckQuestion">
                     <!-- <h1>{{ item.order }}.{{ item.questionTitle }}:</h1> -->
-                    <span class="question-title">{{ item.order }}. {{ item.questionTitle }}:</span>
-                    <div v-for="Options in item.questionOption" class="form-check">
-                        <input class="form-check-input" type="checkbox" :value="Options.value" :id="'checkbox-'+item.order+'-'+Options.value" :name="'checkbox-' + item.order" v-model="formData.checkbox[item.order]"  >
+                    <span 
+                        class="question-title">{{ item.order }}. {{ item.questionTitle }}:
+                        <span  v-if="item.required == true" style="color: red;">*</span>
+                    </span>
+                    <div v-for="Options in item.questionOption" class="form-check" required>
+                        <input class="form-check-input" type="checkbox" :value="Options.value" :id="'checkbox-'+item.order+'-'+Options.value" :name="'checkbox-' + item.order" v-model="formData.checkbox[item.order]" >
                         <label class="form-check-label" :for="'checkbox-'+item.order+'-'+Options.value">
                           {{Options.show}}
                         </label>
@@ -405,9 +515,9 @@ export default {
                 flex-direction: column; // 讓問題和答案在垂直方向排列
                 align-items: flex-start; // 使問題和答案左對齊
                 width: 100%;
-                span {
-                    display: block; // 問題和答案顯示為塊元素，分行顯示
-                }
+                // span {
+                    // display: block; // 問題和答案顯示為塊元素，分行顯示
+                // }
                 .question-title {
                     margin-bottom: 0.5rem; // 問題標題和答案之間的間距
                 }

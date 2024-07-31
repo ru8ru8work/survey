@@ -97,6 +97,13 @@ export default {
                                 }
                             ],
                         },
+                        {
+                            questionType:1, //text
+                            questionTitle:"測試必填",
+                            order:6,
+                            required:true,
+                            questionOption:""
+                        },
                     ]
                 },
             ],
@@ -239,7 +246,7 @@ export default {
                 <div v-if="item.questionType == 1" class="showCheckQuestion">
                     <div class="">
                         <span class="question-title">{{ item.order }}. {{ item.questionTitle }}:</span>
-                        <span class="showCheckAnswer">{{ formData.text }}</span>
+                        <span class="showCheckAnswer">{{ formData.text[item.order] }}</span>
                     </div>
                 </div>
 

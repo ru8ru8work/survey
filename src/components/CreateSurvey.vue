@@ -892,7 +892,6 @@ textarea{
                     // border: 1px solid black;
                     padding: 2%;
                     margin: 2%;
-                    height: 30%;
                     display: flex;
                     align-items: center;
                     justify-content: space-between;
