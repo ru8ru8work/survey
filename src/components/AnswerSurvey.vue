@@ -66,7 +66,7 @@ export default {
                             questionType:2, //radio
                             questionTitle:"radio的題目",
                             order:1,
-                            required:false,
+                            required:true,
                             questionOption:[
                                 {
                                     value:1,
@@ -129,8 +129,6 @@ export default {
 
         this.surveyData[0].question.forEach(item => {
             if (item.questionType == 3) {
-                // console.log(this.childFormData);
-
                 //不知道要怎麼初始化childFormData比較好用簡單寫法
                 if ( this.childFormData.checkbox) {
                   this.formData.checkbox[item.order] = this.childFormData.checkbox[item.order] || [];
@@ -157,94 +155,70 @@ export default {
             this.$emit('update:childCheckData',true);
         },
         submitForm() {
-            // alert("123");
-            // console.log(this.formData.radio);
 
-            // console.log(this.surveyData[0]["question"]);
-
-
-            // //{
-            //     questionType:2, //radio
-            //     questionTitle:"在室內會不會穿拖鞋",
-            //     order:4,
-            //     required :true,
-            //     questionOption:[
-            
+            let focusElement = null;
+            // 跑資料的陣列
             this.surveyData[0]["question"].forEach(item => {
+                // 如果必填
                 if (item.required == true ){
-                    if ( item.questionType == 1){ //text
-                        if ( this.formData.text[item.order] == undefined || this.formData.text[item.order] == "" ){
+                    const questionAnswer = document.querySelector("#question" + item.order);
+                    if (questionAnswer) {
 
-                            //<i class="fa-solid fa-circle-exclamation fa-xs" style="color: #e82c17;"></i>
-
-                            // console.log("這裡有必填text:" + item.order);
-                            const textareaAnswer = document.querySelector("#question" + item.order);
-
-                            const exclamationDiv = document.createElement("div")
-                            const exclamation = document.createElement("i");
-                            exclamation.setAttribute("class","fa-solid fa-circle-exclamation fa-lg");
-                            exclamation.setAttribute("style","color: #e82c17;");
-                            exclamation.textContent = "這是必填問題";
-
-                            exclamationDiv.appendChild(exclamation);
-                            textareaAnswer.appendChild(exclamationDiv);
-                 
+                        const existingExclamation = questionAnswer.querySelector(".questionRequired");
+                        // console.log(existingExclamation);
+                        if (existingExclamation) {
+                            existingExclamation.remove();
                         }
-                    }
-
-                    if(  item.questionType == 2 ){  //radio
-                        if ( this.formData.radio[item.order] == undefined || this.formData.radio[item.order] == "" ){
-                            console.log("這裡有必填radio:" + item.order);
-
-                            const textareaAnswer = document.querySelector("#question" + item.order);
-
-                            const exclamationDiv = document.createElement("div")
-                            exclamationDiv.setAttribute("class","");
-                            const exclamation = document.createElement("i");
-                            exclamation.setAttribute("class","fa-solid fa-circle-exclamation fa-lg");
-                            exclamation.setAttribute("style","color: #e82c17;");
-                            exclamation.textContent = "這是必填問題";
-
-                            exclamationDiv.appendChild(exclamation);
-                            textareaAnswer.appendChild(exclamationDiv);
 
 
-                            // const radioAnswer = document.querySelector("#Radios-" + item.order + "-1");
-                            // console.log(radioAnswer);
-                            // radioAnswer.focus();
+                        const exclamationDiv = document.createElement("div")
+                        exclamationDiv.setAttribute("class","questionRequired");
+                        const exclamation = document.createElement("i");
+                        exclamation.setAttribute("class","fa-solid fa-circle-exclamation fa-lg");
+                        exclamation.setAttribute("style","color: #e82c17;");
+                        exclamation.textContent = "這是必填問題";
+                        exclamationDiv.appendChild(exclamation);
+
+                        let isEmpty = false;
+                        if ( item.questionType == 1){ //text
+                            if ( this.formData.text[item.order] == undefined || this.formData.text[item.order] == "" ){
+                                questionAnswer.appendChild(exclamationDiv);
+                                isEmpty = true;
+                            }
                         }
-                    }
 
-                    if(  item.questionType == 3 ){ //checkbox
-                        if ( this.formData.checkbox[item.order] == undefined || this.formData.checkbox[item.order] == "" ){
-                            console.log("這裡有必填checkbox:" + item.order);
-
-                            const textareaAnswer = document.querySelector("#question" + item.order);
-
-                            const exclamationDiv = document.createElement("div")
-                            const exclamation = document.createElement("i");
-                            exclamation.setAttribute("class","fa-solid fa-circle-exclamation fa-lg");
-                            exclamation.setAttribute("style","color: #e82c17;");
-                            exclamation.textContent = "這是必填問題";
-
-                            exclamationDiv.appendChild(exclamation);
-                            textareaAnswer.appendChild(exclamationDiv);
-
-
-                            // const radioAnswer = document.querySelector("#Radios-" + item.order + "-1");
-                            // console.log(radioAnswer);
-                            // radioAnswer.focus();
+                        if(  item.questionType == 2 ){  //radio
+                            if ( this.formData.radio[item.order] == undefined || this.formData.radio[item.order] == "" ){
+                                questionAnswer.appendChild(exclamationDiv);
+                                isEmpty = true;
+                            }
                         }
+
+                        if(  item.questionType == 3 ){ //checkbox
+                            if ( this.formData.checkbox[item.order] == undefined || this.formData.checkbox[item.order] == "" ){
+                                questionAnswer.appendChild(exclamationDiv);
+                                isEmpty = true;
+                            }
+                        }
+
+                        if (isEmpty) {
+                            questionAnswer.appendChild(exclamationDiv);
+                            if (!focusElement) focusElement = questionAnswer;
+                        }
+
                     }
 
                 }
-                // console.log(item);
             });
 
+            if (focusElement) {
+                focusElement.focus();
+                focusElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }else{
+                this.$emit('form-submit', this.formData);
+            }
 
-            // console.log(this.formData);
-
-            this.$emit('form-submit', this.formData);
+            
         },
         reset(){
             this.formData.name = "";
@@ -262,9 +236,85 @@ export default {
                     this.formData.checkbox[item.order] = [];
                 }
             });
+
+            // 暫時作廢
+            // this.surveyData[0]["question"].forEach(item => {
+
+            //     const questionAnswer = document.querySelector("#question" + item.order);
+            //     const existingExclamation = questionAnswer.querySelector(".questionRequired");
+            //     // console.log(existingExclamation);
+            //     if (existingExclamation) {
+            //         existingExclamation.remove();
+            //     }
+
+            // });
+
         },
         backPage(){ //取消紐
             this.$router.push("/Front");
+        }
+    },
+    watch :{
+        formData: {
+            handler(newValue, oldValue) {
+                
+                let focusElement = null;
+                // 跑資料的陣列
+                this.surveyData[0]["question"].forEach(item => {
+                    // 如果必填
+                    if (item.required == true ){
+                        const questionAnswer = document.querySelector("#question" + item.order);
+                        if (questionAnswer) {
+
+                            const existingExclamation = questionAnswer.querySelector(".questionRequired");
+                            // console.log(existingExclamation);
+                            if (existingExclamation) {
+                                existingExclamation.remove();
+                            }
+
+
+                            const exclamationDiv = document.createElement("div")
+                            exclamationDiv.setAttribute("class","questionRequired");
+                            const exclamation = document.createElement("i");
+                            exclamation.setAttribute("class","fa-solid fa-circle-exclamation fa-lg");
+                            exclamation.setAttribute("style","color: #e82c17;");
+                            exclamation.textContent = "這是必填問題";
+                            exclamationDiv.appendChild(exclamation);
+
+                            let isEmpty = false;
+                            if ( item.questionType == 1){ //text
+                                if ( this.formData.text[item.order] == undefined || this.formData.text[item.order] == "" ){
+                                    questionAnswer.appendChild(exclamationDiv);
+                                    isEmpty = true;
+                                }
+                            }
+
+                            if(  item.questionType == 2 ){  //radio
+                                if ( this.formData.radio[item.order] == undefined || this.formData.radio[item.order] == "" ){
+                                    questionAnswer.appendChild(exclamationDiv);
+                                    isEmpty = true;
+                                }
+                            }
+
+                            if(  item.questionType == 3 ){ //checkbox
+                                if ( this.formData.checkbox[item.order] == undefined || this.formData.checkbox[item.order] == "" ){
+                                    questionAnswer.appendChild(exclamationDiv);
+                                    isEmpty = true;
+                                }
+                            }
+
+                            if (isEmpty) {
+                                questionAnswer.appendChild(exclamationDiv);
+                                if (!focusElement) focusElement = questionAnswer;
+                            }
+
+                        }
+
+                    }
+                });
+
+            },
+            deep: true // 深度監聽
         }
     }
 
@@ -301,6 +351,7 @@ export default {
                                 id="name"
                                 autocomplete="off"
                                 v-model="formData.name"
+                                required
                             />
                         </div>
                     </div>
@@ -316,6 +367,7 @@ export default {
                                 id="phone"
                                 autocomplete="off"
                                 v-model="formData.phone"
+                                required
                             />
                         </div>
                     </div>
@@ -331,6 +383,7 @@ export default {
                                 id="email"
                                 autocomplete="off"
                                 v-model="formData.email"
+                                required
                             />
                         </div>
                     </div>
@@ -346,6 +399,7 @@ export default {
                                 id="age"
                                 autocomplete="off"
                                 v-model="formData.age"
+                                required
                             />
                         </div>
                     </div>
@@ -356,7 +410,7 @@ export default {
             <!-- 自訂義選項開始 -->
             <div class="question">
 
-            <div v-for="item in surveyData[0].question" :key="item.order" class="question-item" :id="'question' + item.order">
+                <div v-for="item in surveyData[0].question" :key="item.order" class="question-item" :id="'question' + item.order" :tabindex="item.required ? '0' : null">
 
                 <!-- text -->
                 <div v-if="item.questionType == 1" class="showCheckQuestion">
@@ -529,8 +583,19 @@ export default {
                     height: 100px; 
                     }
                 }
-                
+                :focus{
+                    // background-color: black;
+                    border: 2px solid red;
+                }
 
+            }
+            .question-item:focus {
+                border: 2px solid red; /* 聚焦時邊框變紅色 */
+                outline: none; /* 取消預設的焦點輪廓 */
+            }
+            .questionRequired {
+                color: #e82c17; /* 错误提示颜色 */
+                margin-top: 0.5rem; /* 错误提示与问题之间的间距 */
             }
 
         }
