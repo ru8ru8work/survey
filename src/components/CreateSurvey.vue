@@ -304,28 +304,28 @@ export default {
             const addCheckboxArea = document.createElement("div");
             addCheckboxArea.setAttribute("class", "addCheckboxArea");
 
-            const addCheckboxDiv = document.createElement("div");
-            addCheckboxDiv.setAttribute("class", "form-check");
-            const checkboxInput = document.createElement("input");
-            checkboxInput.setAttribute("class", "form-check-input");
-            checkboxInput.setAttribute("type", "checkbox");
-            checkboxInput.setAttribute("value", "");
-            checkboxInput.setAttribute("id", "flexCheckDefault");
-            checkboxInput.setAttribute("disabled", "true");
-            const checkboxLabel = document.createElement("label");
-            checkboxLabel.setAttribute("class", "form-check-label");
+            // const addCheckboxDiv = document.createElement("div");
+            // addCheckboxDiv.setAttribute("class", "form-check");
+            // const checkboxInput = document.createElement("input");
+            // checkboxInput.setAttribute("class", "form-check-input");
+            // checkboxInput.setAttribute("type", "checkbox");
+            // checkboxInput.setAttribute("value", "");
+            // checkboxInput.setAttribute("id", "flexCheckDefault");
+            // checkboxInput.setAttribute("disabled", "true");
+            // const checkboxLabel = document.createElement("label");
+            // checkboxLabel.setAttribute("class", "form-check-label");
 
-            const checkboxTextInput = document.createElement("input");
-            checkboxTextInput.setAttribute("type", "text");
-            checkboxTextInput.setAttribute("class", "form-control checkboxinput");
-            checkboxTextInput.setAttribute("placeholder", "請填寫選項");
-            checkboxTextInput.setAttribute("aria-label", "Sizing example input");
-            checkboxTextInput.setAttribute("aria-describedby", "inputGroup-sizing-default");
+            // const checkboxTextInput = document.createElement("input");
+            // checkboxTextInput.setAttribute("type", "text");
+            // checkboxTextInput.setAttribute("class", "form-control checkboxinput");
+            // checkboxTextInput.setAttribute("placeholder", "請填寫選項");
+            // checkboxTextInput.setAttribute("aria-label", "Sizing example input");
+            // checkboxTextInput.setAttribute("aria-describedby", "inputGroup-sizing-default");
 
-            checkboxLabel.appendChild(checkboxTextInput);
-            addCheckboxDiv.appendChild(checkboxInput);
-            addCheckboxDiv.appendChild(checkboxLabel);
-            addCheckboxArea.appendChild(addCheckboxDiv);
+            // checkboxLabel.appendChild(checkboxTextInput);
+            // addCheckboxDiv.appendChild(checkboxInput);
+            // addCheckboxDiv.appendChild(checkboxLabel);
+            // addCheckboxArea.appendChild(addCheckboxDiv);
 
 
 
@@ -447,6 +447,7 @@ export default {
             
             // 動態產生checkbox
             const addCheckboxInputElement = question.querySelector("#addCheckbox" + this.idCount);
+            var addCheckboxXMark = 1;
             addCheckboxInputElement.addEventListener("click", function() {
                     const addCheckboxArea = question.querySelector(".addCheckboxArea");
                     const optionCheckboxDiv = document.createElement("div");
@@ -468,11 +469,26 @@ export default {
                     optionCheckboxLabelInput.setAttribute("placeholder", "請填寫選項");
                     optionCheckboxLabelInput.setAttribute("aria-label", "Sizing example input");
                     optionCheckboxLabelInput.setAttribute("aria-describedby", "inputGroup-sizing-default");
+
+                    const xmark = document.createElement("i");
+                    xmark.setAttribute("class","fa-solid fa-xmark");
+                    xmark.setAttribute("id","xmarkDel" + addCheckboxXMark);
                 
                     optionCheckboxLabel.appendChild(optionCheckboxLabelInput);
                     optionCheckboxDiv.appendChild(optionCheckboxInput);
                     optionCheckboxDiv.appendChild(optionCheckboxLabel);
+                    optionCheckboxDiv.appendChild(xmark);
                     addCheckboxArea.appendChild(optionCheckboxDiv);
+
+                    // Xmark移除的寫法
+                    const delRadioXMark = question.querySelector("#xmarkDel" + addCheckboxXMark);
+                    delRadioXMark.addEventListener("click",function(){
+                        optionCheckboxDiv.remove();
+                    }.bind(this))
+
+                    optionCheckboxLabelInput.focus();
+
+                    addCheckboxXMark++;
                 }.bind(this));
 
 
@@ -796,6 +812,7 @@ textarea{
             .optionArea{
                 width: 100%;
                 padding: 2%;
+                
                 // height: 20dvh;
                 // background-color: black;
                 // border: 1px solid black;
@@ -811,17 +828,19 @@ textarea{
                         // border: 0px;
                         // border-bottom: 1px solid black;
                     }
-                    .fa-xmark{
-                        font-size: 25px;
-                        margin-left: 10px;
-                        cursor: pointer;
-                    }
+                    
                 }
                 
                 .optionCheckbox{
                     .checkboxinput{
 
                     }
+                }
+
+                .fa-xmark{
+                    font-size: 25px;
+                    margin-left: 10px;
+                    cursor: pointer;
                 }
 
                 .delDiv{
