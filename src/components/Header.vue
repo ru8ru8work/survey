@@ -88,6 +88,10 @@ export default {
     #wrapper.toggled .navbar {
         width: 100dvw;
     }
+    .dropdown-menu{
+        min-width: 100%;
+        left: -20%  !important;
+    }
 
     @media (max-width: 768px) {
     .navbar {

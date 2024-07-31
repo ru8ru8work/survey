@@ -189,69 +189,69 @@ export default {
 
             <!-- 第二區為固定欄位 -->
             <div class="secondArea">
-            <div class="row g-3 my-2" id="sortable1">
-                <div class="col-md-6 item-box">
-                    <div class="input-group mb-3">
-                        <span class="input-group-text" id="inputGroup-sizing-default">姓名:</span
-                        >
-                        <input
-                            type="text"
-                            class="form-control"
-                            aria-label="Sizing example input"
-                            aria-describedby="inputGroup-sizing-default"
-                            id="startDate"
-                            autocomplete="off"
-                            v-model="formData.name"
-                        />
+                <div class="row g-3 my-2" id="sortable1">
+                    <div class="col-md-6 item-box">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="inputGroup-sizing-default">姓名:</span
+                            >
+                            <input
+                                type="text"
+                                class="form-control"
+                                aria-label="Sizing example input"
+                                aria-describedby="inputGroup-sizing-default"
+                                id="name"
+                                autocomplete="off"
+                                v-model="formData.name"
+                            />
+                        </div>
                     </div>
-                </div>
-
-                <div class="col-md-6 item-box">
-                    <div class="input-group mb-3">
-                        <span class="input-group-text" id="inputGroup-sizing-default">手機:</span>
-                        <input
-                            type="text"
-                            class="form-control"
-                            aria-label="Sizing example input"
-                            aria-describedby="inputGroup-sizing-default"
-                            id="endDate"
-                            autocomplete="off"
-                            v-model="formData.phone"
-                        />
+                
+                    <div class="col-md-6 item-box">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="inputGroup-sizing-default">手機:</span>
+                            <input
+                                type="text"
+                                class="form-control"
+                                aria-label="Sizing example input"
+                                aria-describedby="inputGroup-sizing-default"
+                                id="phone"
+                                autocomplete="off"
+                                v-model="formData.phone"
+                            />
+                        </div>
                     </div>
-                </div>
-
-                <div class="col-md-6 item-box">
-                    <div class="input-group mb-3">
-                        <span class="input-group-text" id="inputGroup-sizing-default">E-mail:</span>
-                        <input
-                            type="text"
-                            class="form-control"
-                            aria-label="Sizing example input"
-                            aria-describedby="inputGroup-sizing-default"
-                            id="e-mail"
-                            autocomplete="off"
-                            v-model="formData.email"
-                        />
+                
+                    <div class="col-md-6 item-box">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="inputGroup-sizing-default">E-mail:</span>
+                            <input
+                                type="text"
+                                class="form-control"
+                                aria-label="Sizing example input"
+                                aria-describedby="inputGroup-sizing-default"
+                                id="email"
+                                autocomplete="off"
+                                v-model="formData.email"
+                            />
+                        </div>
                     </div>
-                </div>
-
-                <div class="col-md-6 item-box">
-                    <div class="input-group mb-3">
-                        <span class="input-group-text" id="inputGroup-sizing-default">年齡:</span>
-                        <input
-                            type="text"
-                            class="form-control"
-                            aria-label="Sizing example input"
-                            aria-describedby="inputGroup-sizing-default"
-                            id="endDate"
-                            autocomplete="off"
-                            v-model="formData.age"
-                        />
+                
+                    <div class="col-md-6 item-box">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="inputGroup-sizing-default">年齡:</span>
+                            <input
+                                type="text"
+                                class="form-control"
+                                aria-label="Sizing example input"
+                                aria-describedby="inputGroup-sizing-default"
+                                id="age"
+                                autocomplete="off"
+                                v-model="formData.age"
+                            />
+                        </div>
                     </div>
+                
                 </div>
-
-            </div>
             </div>
 
             <!-- 自訂義選項開始 -->

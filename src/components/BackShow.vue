@@ -447,14 +447,21 @@ export default {
     .search {
         // background-color: black;
         padding: 10px;
-
+        height: 40%;
         #searchBtn{
             display: flex;
             justify-content: flex-end;
             // background-color: black;
             // height: 50%;
-
         }
+    }
+
+    .addButtonArea{
+
+        position: fixed;
+        top: 90%;
+        left: 84%;
+        scale: 0.7;
     }
 }
 

@@ -411,8 +411,8 @@ export default {
     .search {
         // background-color: black;
         padding: 10px;
-
-        #searchBtn{
+        height: 40%;
+        #searchBtn{ 
             display: flex;
             justify-content: flex-end;
             // background-color: black;

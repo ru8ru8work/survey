@@ -549,6 +549,40 @@ export default {
                 </div>
             </div>
 
+            <div class="secondArea">
+                <div class="row g-3 my-2" id="sortable1">
+                    <div class="col-md-6 item-box">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="inputGroup-sizing-default">開始時間:</span
+                            >
+                            <input
+                                type="date"
+                                class="form-control"
+                                aria-label="Sizing example input"
+                                aria-describedby="inputGroup-sizing-default"
+                                id="startDate"
+                                autocomplete="off"
+                            />
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 item-box">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="inputGroup-sizing-default">結束時間:</span
+                            >
+                            <input
+                                type="date"
+                                class="form-control"
+                                aria-label="Sizing example input"
+                                aria-describedby="inputGroup-sizing-default"
+                                id="endDate"
+                                autocomplete="off"
+                            />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- <textarea name="" id="" class="boldtest"></textarea>
             <input type="text" name="" id="" class="boldtest">
             <h1> 選取的文字 : <span id="selectedText"></span></h1> -->
@@ -651,7 +685,7 @@ export default {
             </div>
 
             <div class="addButton">
-                <button type="button" class="btn btn-primary me-md-2" @click="addBold()">加粗體</button>
+                <!-- <button type="button" class="btn btn-primary me-md-2" @click="addBold()">加粗體</button> -->
                 <button type="button" class="btn btn-primary me-md-2" @click="addArea()">新增問題</button>
             </div>
             
@@ -735,7 +769,16 @@ export default {
             }
         }
 
-        
+        .secondArea{
+            width: 80%;
+            // height: 20%;
+            // border: 1px solid black;
+            border: 1px solid v-bind('color.borderColor');
+            background-color: v-bind('color.secondColor');
+            border-radius: 10px;
+            padding: 2%;
+            margin-bottom: 3.75%;
+        }
 
     
         .addButton{
