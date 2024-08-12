@@ -16,7 +16,7 @@ export default {
                 endDate:"",
                 question:[
                 {
-
+                    questionOption:[]
                 }
 
                 ],
@@ -154,21 +154,21 @@ export default {
                     questionTitle: "" ,
                     order:"",
                     required:"",
-                    questionOption:{}
+                    questionOption:[]
                 }
 
             );
 
 
         },
-        addOption(){
-            //這邊還沒改
-            const questionOption = this.question.questionOption;
-            console.log(questionOption);
-            questionOption.push(
-                {
-
-                }
+        addOption(item){
+            console.log(item);
+            
+            item.questionOption.push(
+            {
+            value: "",
+            show: ""
+            }
             );
         }
 
@@ -303,7 +303,7 @@ export default {
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" name="" id="" disabled>
                                 <label class="form-check-label" for="">
-                                    <input type="text" class="form-control radioInput" id="addRadio" placeholder="增加選項" @click="addOption()" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                                    <input type="text" class="form-control radioInput" id="addRadio" placeholder="增加選項" @click="addOption(item)" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
                                 </label>
                             </div>
 
