@@ -9,6 +9,20 @@ export default {
     data() {
         return {
             idCount:1,
+            createFormData :{
+                title:"",
+                description:"",
+                startDate:"",
+                endDate:"",
+                question:[
+                {
+
+                }
+
+                ],
+
+
+            }
         };
     },
     mounted(){
@@ -20,8 +34,8 @@ export default {
             animation: 150
         })
 
-        // 以下測試選取增加區塊用
-        const selectType = document.querySelector("#selectType");
+        // // 以下測試選取增加區塊用
+        const selectType = document.querySelector(".selectType");
         const optionTextArea = document.querySelector(".optionTextArea");
         const optionRadio = document.querySelector(".optionRadio");
         const optionCheckbox = document.querySelector(".optionCheckbox");
@@ -31,19 +45,19 @@ export default {
 
         selectType.addEventListener("change",  function(){
 
-            if (selectType.value == "text"){
+            if (selectType.value == "1"){
                 optionTextArea.style.display = "block";
                 optionRadio.style.display = "none";
                 optionCheckbox.style.display = "none";
             }
 
-            if (selectType.value == "radio"){
+            if (selectType.value == "2"){
                 optionTextArea.style.display = "none";
                 optionRadio.style.display = "block";
                 optionCheckbox.style.display = "none";
             }
 
-            if (selectType.value == "checkbox"){
+            if (selectType.value == "3"){
                 optionTextArea.style.display = "none";
                 optionRadio.style.display = "none";
                 optionCheckbox.style.display = "block";
@@ -51,484 +65,112 @@ export default {
             
         })
         
-        // 測試Radio新增選項用
-        var radioValue = 1;
-        const addRadio = document.querySelector("#addRadio");
-        addRadio.addEventListener("click", function(){
+        // // 測試Radio新增選項用
+        // var radioValue = 1;
+        // const addRadio = document.querySelector("#addRadio");
+        // addRadio.addEventListener("click", function(){
 
-            const addRadioArea = document.querySelector(".addRadioArea");
-            const optionRadioDiv = document.createElement("div");
-            optionRadioDiv.setAttribute("class","form-check");
+        //     const addRadioArea = document.querySelector(".addRadioArea");
+        //     const optionRadioDiv = document.createElement("div");
+        //     optionRadioDiv.setAttribute("class","form-check");
 
-            const optionRadioInput = document.createElement("input");
-            optionRadioInput.setAttribute("class","form-check-input");
-            optionRadioInput.setAttribute("type","radio");
-            optionRadioInput.setAttribute("name","");
-            optionRadioInput.setAttribute("id","");
-            optionRadioInput.setAttribute("disabled","true");
+        //     const optionRadioInput = document.createElement("input");
+        //     optionRadioInput.setAttribute("class","form-check-input");
+        //     optionRadioInput.setAttribute("type","radio");
+        //     optionRadioInput.setAttribute("name","");
+        //     optionRadioInput.setAttribute("id","");
+        //     optionRadioInput.setAttribute("disabled","true");
 
-            const optionRadioLabel = document.createElement("label");
-            optionRadioLabel.setAttribute("class","form-check-label");
-            optionRadioLabel.setAttribute("for","");
+        //     const optionRadioLabel = document.createElement("label");
+        //     optionRadioLabel.setAttribute("class","form-check-label");
+        //     optionRadioLabel.setAttribute("for","");
 
-            const optionRadioLabelInput = document.createElement("input");
-            optionRadioLabelInput.setAttribute("type","text");
-            // optionRadioLabelInput.setAttribute("id","Radio" + radioValue);
-            optionRadioLabelInput.setAttribute("class","form-control radioInput");
-            optionRadioLabelInput.setAttribute("placeholder","請填寫選項");
-            optionRadioLabelInput.setAttribute("aria-label","Sizing example input");
-            optionRadioLabelInput.setAttribute("aria-describedby","inputGroup-sizing-default");
+        //     const optionRadioLabelInput = document.createElement("input");
+        //     optionRadioLabelInput.setAttribute("type","text");
+        //     // optionRadioLabelInput.setAttribute("id","Radio" + radioValue);
+        //     optionRadioLabelInput.setAttribute("class","form-control radioInput");
+        //     optionRadioLabelInput.setAttribute("placeholder","請填寫選項");
+        //     optionRadioLabelInput.setAttribute("aria-label","Sizing example input");
+        //     optionRadioLabelInput.setAttribute("aria-describedby","inputGroup-sizing-default");
 
-            // X符號 
-            const xmark = document.createElement("i");
-            xmark.setAttribute("class","fa-solid fa-xmark");
+        //     // X符號 
+        //     const xmark = document.createElement("i");
+        //     xmark.setAttribute("class","fa-solid fa-xmark");
 
-            optionRadioLabel.appendChild(optionRadioLabelInput);
-            optionRadioDiv.appendChild(optionRadioInput);
-            optionRadioDiv.appendChild(optionRadioLabel);
-            optionRadioDiv.appendChild(xmark);
-            addRadioArea.appendChild(optionRadioDiv);
+        //     optionRadioLabel.appendChild(optionRadioLabelInput);
+        //     optionRadioDiv.appendChild(optionRadioInput);
+        //     optionRadioDiv.appendChild(optionRadioLabel);
+        //     optionRadioDiv.appendChild(xmark);
+        //     addRadioArea.appendChild(optionRadioDiv);
 
-            radioValue++;
-        })
+        //     radioValue++;
+        // })
 
-        // 測試Checkbox新增選項用
-        const addCheckbox = document.querySelector("#addCheckbox");
-        addCheckbox.addEventListener("click", function(){
-
-
-            const addCheckboxArea = document.querySelector(".addCheckboxArea");
-            const optionCheckboxDiv = document.createElement("div");
-            optionCheckboxDiv.setAttribute("class","form-check");
-
-            const optionCheckboxInput = document.createElement("input");
-            optionCheckboxInput.setAttribute("class","form-check-input");
-            optionCheckboxInput.setAttribute("type","checkbox");
-            optionCheckboxInput.setAttribute("name","");
-            optionCheckboxInput.setAttribute("id","");
-            optionCheckboxInput.setAttribute("disabled","true");
-
-            const optionCheckboxLabel = document.createElement("label");
-            optionCheckboxLabel.setAttribute("class","form-check-label");
-            optionCheckboxLabel.setAttribute("for","");
-
-            const optionCheckboxLabelInput = document.createElement("input");
-            optionCheckboxLabelInput.setAttribute("type","text");
-            optionCheckboxLabelInput.setAttribute("class","form-control checkboxinput");
-            optionCheckboxLabelInput.setAttribute("placeholder","請填寫選項");
-            optionCheckboxLabelInput.setAttribute("aria-label","Sizing example input");
-            optionCheckboxLabelInput.setAttribute("aria-describedby","inputGroup-sizing-default");
+        // // 測試Checkbox新增選項用
+        // const addCheckbox = document.querySelector("#addCheckbox");
+        // addCheckbox.addEventListener("click", function(){
 
 
-            optionCheckboxLabel.appendChild(optionCheckboxLabelInput);
-            optionCheckboxDiv.appendChild(optionCheckboxInput);
-            optionCheckboxDiv.appendChild(optionCheckboxLabel);
-            addCheckboxArea.appendChild(optionCheckboxDiv);
-        })
+        //     const addCheckboxArea = document.querySelector(".addCheckboxArea");
+        //     const optionCheckboxDiv = document.createElement("div");
+        //     optionCheckboxDiv.setAttribute("class","form-check");
+
+        //     const optionCheckboxInput = document.createElement("input");
+        //     optionCheckboxInput.setAttribute("class","form-check-input");
+        //     optionCheckboxInput.setAttribute("type","checkbox");
+        //     optionCheckboxInput.setAttribute("name","");
+        //     optionCheckboxInput.setAttribute("id","");
+        //     optionCheckboxInput.setAttribute("disabled","true");
+
+        //     const optionCheckboxLabel = document.createElement("label");
+        //     optionCheckboxLabel.setAttribute("class","form-check-label");
+        //     optionCheckboxLabel.setAttribute("for","");
+
+        //     const optionCheckboxLabelInput = document.createElement("input");
+        //     optionCheckboxLabelInput.setAttribute("type","text");
+        //     optionCheckboxLabelInput.setAttribute("class","form-control checkboxinput");
+        //     optionCheckboxLabelInput.setAttribute("placeholder","請填寫選項");
+        //     optionCheckboxLabelInput.setAttribute("aria-label","Sizing example input");
+        //     optionCheckboxLabelInput.setAttribute("aria-describedby","inputGroup-sizing-default");
+
+
+        //     optionCheckboxLabel.appendChild(optionCheckboxLabelInput);
+        //     optionCheckboxDiv.appendChild(optionCheckboxInput);
+        //     optionCheckboxDiv.appendChild(optionCheckboxLabel);
+        //     addCheckboxArea.appendChild(optionCheckboxDiv);
+        // })
 
     },
     props:{
        
     },
     methods:{
-        addArea(){
-
-            const questionItem = document.querySelector(".questionCreate");
-
-            // 先創question-item的div
-            const question = document.createElement("div");
-            question.setAttribute("class","question-item")
-            question.setAttribute("id","question"+this.idCount)
-
-
-            // 拖曳icon
-            const dragicon = document.createElement("div");
-            dragicon.setAttribute("class","dragicon handle");
-            const gripLines = document.createElement("i");
-            gripLines.setAttribute("class","fa-solid fa-grip-lines");
-            dragicon.appendChild(gripLines);
-            question.appendChild(dragicon);
-
-            //題目 
-
-            const questionInputDiv = document.createElement("div");
-            questionInputDiv.setAttribute("class", "col-md-9 item-box question-item-title");
-            
-            const questionInputDiv2 = document.createElement("div");
-            questionInputDiv2.setAttribute("class", "input-group");
-
-            const questionInputSpan = document.createElement("span");
-            questionInputSpan.setAttribute("class", "input-group-text");
-            questionInputSpan.setAttribute("id", "inputGroup-sizing-default");
-            questionInputSpan.textContent = '輸入題目:';
-
-            const questionInput = document.createElement("input");
-            questionInput.setAttribute("type", "text");
-            questionInput.setAttribute("class", "form-control");
-            questionInput.setAttribute("placeholder", "請填寫題目");
-            questionInput.setAttribute("aria-label", "Sizing example input");
-            questionInput.setAttribute("aria-describedby", "inputGroup-sizing-default");
-            questionInput.setAttribute("required","");
-            
-            questionInputDiv.appendChild(questionInputDiv2);
-            questionInputDiv2.appendChild(questionInputSpan);
-            questionInputDiv2.appendChild(questionInput);
-            
-
-            // 創建選擇類型的select元素
-
-            const typeSelectDiv = document.createElement("div");
-            typeSelectDiv.setAttribute("class","col-md-3 item-box question-item-title")
-
-            const typeSelect = document.createElement("select");
-            typeSelect.setAttribute("class","form-select");
-            typeSelect.setAttribute("aria-label",".form-select-lg example")
-
-            // const optionNone = document.createElement("option");
-            // optionNone.setAttribute("value", "");
-            // optionNone.textContent = "";
-
-            const optionText = document.createElement("option");
-            optionText.setAttribute("value", "text");
-            optionText.textContent = "簡答";
-
-            const optionRadio = document.createElement("option");
-            optionRadio.setAttribute("value", "radio");
-            optionRadio.textContent = "選擇題";
-
-            const optionCheckbox = document.createElement("option");
-            optionCheckbox.setAttribute("value", "checkbox");
-            optionCheckbox.textContent = "核取方塊";
-
-            typeSelectDiv.appendChild(typeSelect);
-            // typeSelect.appendChild(optionNone);
-            typeSelect.appendChild(optionText);
-            typeSelect.appendChild(optionRadio);
-            typeSelect.appendChild(optionCheckbox);
-
-            // 將題目輸入框和select元素添加到問題區域
-    
-            
-            // 創建選項區域
-            const optionArea = document.createElement("div");
-            optionArea.setAttribute("class", "optionArea");
-
-            // Text區塊
-            const optionTextArea = document.createElement("div");
-            optionTextArea.setAttribute("class", "optionTextArea");
-            optionTextArea.style.display = "true"; // 預設隱藏
-
-            const textArea = document.createElement("div");
-            textArea.setAttribute("class", "form-floating");
-            const textarea = document.createElement("textarea");
-            textarea.setAttribute("class", "form-control");
-            textarea.setAttribute("placeholder", "");
-            textarea.setAttribute("id", "floatingTextarea");
-            textarea.setAttribute("readonly", "readonly");
-            const labelText = document.createElement("label");
-            labelText.setAttribute("for", "floatingTextarea");
-
-            textArea.appendChild(textarea);
-            textArea.appendChild(labelText);
-            optionTextArea.appendChild(textArea);
-
-            // radio區塊
-            const optionRadioDiv = document.createElement("div");
-            optionRadioDiv.setAttribute("class", "optionRadio");
-            optionRadioDiv.style.display = "none"; // 預設隱藏
-
-            const addRadioArea = document.createElement("div");
-            addRadioArea.setAttribute("class", "addRadioArea");
-
-            // const addRadioDiv = document.createElement("div");
-            // addRadioDiv.setAttribute("class", "form-check");
-            // const radioInput = document.createElement("input");
-            // radioInput.setAttribute("class", "form-check-input");
-            // radioInput.setAttribute("type", "radio");
-            // radioInput.setAttribute("name", "radioGroup" + this.idCount);
-            // radioInput.setAttribute("disabled", "true");
-            // const radioLabel = document.createElement("label");
-            // radioLabel.setAttribute("class", "form-check-label");
-            // const radioTextInput = document.createElement("input");
-            // radioTextInput.setAttribute("type", "text");
-            // radioTextInput.setAttribute("class", "form-control radioInput");
-            // radioTextInput.setAttribute("placeholder", "請填寫選項");
-            // radioTextInput.setAttribute("aria-label", "Sizing example input");
-            // radioTextInput.setAttribute("aria-describedby", "inputGroup-sizing-default");
-
-            // // X方塊
-            // const xmark = document.createElement("i");
-            // xmark.setAttribute("class","fa-solid fa-xmark");
-            // xmark.setAttribute("id","xmarkDel");
-
-            // radioLabel.appendChild(radioTextInput);
-            // addRadioDiv.appendChild(radioInput);
-            // addRadioDiv.appendChild(radioLabel);
-            // addRadioDiv.appendChild(xmark);
-            // addRadioArea.appendChild(addRadioDiv);
-
-            const addRadioDiv2 = document.createElement("div");
-            addRadioDiv2.setAttribute("class", "form-check");
-
-            const radioLabel2 = document.createElement("label");
-            radioLabel2.setAttribute("class", "form-check-label");
-
-            const addRadioInput2 = document.createElement("input");
-            addRadioInput2.setAttribute("class","form-check-input");
-            addRadioInput2.setAttribute("type","radio");
-            addRadioInput2.setAttribute("disabled","true");
-            addRadioInput2.setAttribute("name","");
-            addRadioInput2.setAttribute("id","");
-
-            const addRadioInput = document.createElement("input");
-            addRadioInput.setAttribute("type", "text");
-            addRadioInput.setAttribute("class", "form-control radioInput");
-            addRadioInput.setAttribute("id", "addRadio" + this.idCount); 
-            addRadioInput.setAttribute("placeholder", "增加選項");
-            addRadioInput.setAttribute("aria-label", "Sizing example input");
-            addRadioInput.setAttribute("aria-describedby", "inputGroup-sizing-default");
-
-            radioLabel2.appendChild(addRadioInput);
-            addRadioDiv2.appendChild(addRadioInput2);
-            addRadioDiv2.appendChild(radioLabel2);
-
-
-            optionRadioDiv.appendChild(addRadioArea);
-            optionRadioDiv.appendChild(addRadioDiv2);
-
-
-            // checkbox區塊
-            const optionCheckboxDiv = document.createElement("div");
-            optionCheckboxDiv.setAttribute("class", "optionCheckbox");
-            optionCheckboxDiv.style.display = "none"; // 預設隱藏
-
-            const addCheckboxArea = document.createElement("div");
-            addCheckboxArea.setAttribute("class", "addCheckboxArea");
-
-            // const addCheckboxDiv = document.createElement("div");
-            // addCheckboxDiv.setAttribute("class", "form-check");
-            // const checkboxInput = document.createElement("input");
-            // checkboxInput.setAttribute("class", "form-check-input");
-            // checkboxInput.setAttribute("type", "checkbox");
-            // checkboxInput.setAttribute("value", "");
-            // checkboxInput.setAttribute("id", "flexCheckDefault");
-            // checkboxInput.setAttribute("disabled", "true");
-            // const checkboxLabel = document.createElement("label");
-            // checkboxLabel.setAttribute("class", "form-check-label");
-
-            // const checkboxTextInput = document.createElement("input");
-            // checkboxTextInput.setAttribute("type", "text");
-            // checkboxTextInput.setAttribute("class", "form-control checkboxinput");
-            // checkboxTextInput.setAttribute("placeholder", "請填寫選項");
-            // checkboxTextInput.setAttribute("aria-label", "Sizing example input");
-            // checkboxTextInput.setAttribute("aria-describedby", "inputGroup-sizing-default");
-
-            // checkboxLabel.appendChild(checkboxTextInput);
-            // addCheckboxDiv.appendChild(checkboxInput);
-            // addCheckboxDiv.appendChild(checkboxLabel);
-            // addCheckboxArea.appendChild(addCheckboxDiv);
-
-
-
-            const addCheckboxDiv2 = document.createElement("div");
-            addCheckboxDiv2.setAttribute("class", "form-check");
-            const checkboxInput2 = document.createElement("input");
-            checkboxInput2.setAttribute("class", "form-check-input");
-            checkboxInput2.setAttribute("type", "checkbox");
-            checkboxInput2.setAttribute("value", "");
-            checkboxInput2.setAttribute("id", "flexCheckDefault");
-            checkboxInput2.setAttribute("disabled", "true");
-            const checkboxLabel2 = document.createElement("label");
-            checkboxLabel2.setAttribute("class", "form-check-label");
-
-            const addCheckboxInput = document.createElement("input");
-            addCheckboxInput.setAttribute("type", "text");
-            addCheckboxInput.setAttribute("class", "form-control checkboxinput");
-            addCheckboxInput.setAttribute("id", "addCheckbox" + this.idCount);
-            addCheckboxInput.setAttribute("placeholder", "增加選項");
-            addCheckboxInput.setAttribute("aria-label", "Sizing example input");
-            addCheckboxInput.setAttribute("aria-describedby", "inputGroup-sizing-default");
-
-
-            checkboxLabel2.appendChild(addCheckboxInput);
-            addCheckboxDiv2.appendChild(checkboxInput2);
-            addCheckboxDiv2.appendChild(checkboxLabel2);
-
-            optionCheckboxDiv.appendChild(addCheckboxArea);
-            optionCheckboxDiv.appendChild(addCheckboxDiv2);
-
-
-            // 將選項區域加到問題區域
-            optionArea.appendChild(optionTextArea);
-            optionArea.appendChild(optionRadioDiv);
-            optionArea.appendChild(optionCheckboxDiv);
-
-            // 垃圾桶和必填
-            const delDiv = document.createElement("div");
-            delDiv.setAttribute("class","delDiv");
-            const trashcan = document.createElement("i");
-            trashcan.setAttribute("class","fa-solid fa-trash-can");
-            trashcan.setAttribute("id","delQuestion" + this.idCount);
-            const formSwitch = document.createElement("div");
-            formSwitch.setAttribute("class", "form-check form-switch");
-            const label = document.createElement("label");
-            label.setAttribute("class", "form-check-label");
-            label.setAttribute("for", "flexSwitchCheckDefault");
-            label.innerText = "必填";
-            const input = document.createElement("input");
-            input.setAttribute("class", "form-check-input");
-            input.setAttribute("type", "checkbox");
-            input.setAttribute("id", "flexSwitchCheckDefault");
-            formSwitch.appendChild(label);
-            formSwitch.appendChild(input);
-            delDiv.appendChild(trashcan);
-            delDiv.appendChild(formSwitch);
-
-            optionArea.appendChild(delDiv);
-
-            // 將題目輸入框、select元素和選項區域添加到問題區域
-            question.appendChild(questionInputDiv);
-            question.appendChild(typeSelectDiv);
-            question.appendChild(optionArea);
-
-            // 顯示跟隱藏欄位
-            typeSelect.addEventListener('change', function() {
-                const type = typeSelect.value;
-                optionTextArea.style.display = (type == 'text') ? 'block' : 'none';
-                optionRadioDiv.style.display = (type == 'radio') ? 'block' : 'none';
-                optionCheckboxDiv.style.display = (type == 'checkbox') ? 'block' : 'none';
-            });
-
-            // 動態產生Radio
-            const addRadioInputElement = question.querySelector("#addRadio" + this.idCount);
-            var addRadioXMark = 1;
-                addRadioInputElement.addEventListener("click", function() {
-                    const addRadioArea = question.querySelector(".addRadioArea");
-                    const optionRadioDiv = document.createElement("div");
-                    optionRadioDiv.setAttribute("class", "form-check");
-                
-                    const optionRadioInput = document.createElement("input");
-                    optionRadioInput.setAttribute("class", "form-check-input");
-                    optionRadioInput.setAttribute("type", "radio");
-                    optionRadioInput.setAttribute("name", "radioGroup" + this.idCount);
-                    optionRadioInput.setAttribute("disabled", "true");
-                
-                    const optionRadioLabel = document.createElement("label");
-                    optionRadioLabel.setAttribute("class", "form-check-label");
-                    optionRadioLabel.setAttribute("for","");
-
-                    const optionRadioLabelInput = document.createElement("input");
-                    optionRadioLabelInput.setAttribute("type", "text");
-                    optionRadioLabelInput.setAttribute("class", "form-control radioInput");
-                    optionRadioLabelInput.setAttribute("placeholder", "請填寫選項");
-                    optionRadioLabelInput.setAttribute("aria-label", "Sizing example input");
-                    optionRadioLabelInput.setAttribute("aria-describedby", "inputGroup-sizing-default");
-
-                    const xmark = document.createElement("i");
-                    xmark.setAttribute("class","fa-solid fa-xmark");
-                    xmark.setAttribute("id","xmarkDel" + addRadioXMark);
-
-                    optionRadioLabel.appendChild(optionRadioLabelInput);
-                    optionRadioDiv.appendChild(optionRadioInput);
-                    optionRadioDiv.appendChild(optionRadioLabel);
-                    optionRadioDiv.appendChild(xmark);
-                    addRadioArea.appendChild(optionRadioDiv);
-
-                    
-                    // Xmark移除的寫法
-                    const delRadioXMark = question.querySelector("#xmarkDel" + addRadioXMark);
-                    delRadioXMark.addEventListener("click",function(){
-                        optionRadioDiv.remove();
-                    }.bind(this))
-
-                    optionRadioLabelInput.focus();
-
-                    addRadioXMark++;
-                }.bind(this));
-            
-            // 動態產生checkbox
-            const addCheckboxInputElement = question.querySelector("#addCheckbox" + this.idCount);
-            var addCheckboxXMark = 1;
-            addCheckboxInputElement.addEventListener("click", function() {
-                    const addCheckboxArea = question.querySelector(".addCheckboxArea");
-                    const optionCheckboxDiv = document.createElement("div");
-                    optionCheckboxDiv.setAttribute("class", "form-check");
-                        
-                    const optionCheckboxInput = document.createElement("input");
-                    optionCheckboxInput.setAttribute("class", "form-check-input");
-                    optionCheckboxInput.setAttribute("type", "checkbox");
-                    optionCheckboxInput.setAttribute("name", "");
-                    optionCheckboxInput.setAttribute("id", "");
-                    optionCheckboxInput.setAttribute("disabled", "true");
-                
-                    const optionCheckboxLabel = document.createElement("label");
-                    optionCheckboxLabel.setAttribute("class", "form-check-label");
-                
-                    const optionCheckboxLabelInput = document.createElement("input");
-                    optionCheckboxLabelInput.setAttribute("type", "text");
-                    optionCheckboxLabelInput.setAttribute("class", "form-control checkboxinput");
-                    optionCheckboxLabelInput.setAttribute("placeholder", "請填寫選項");
-                    optionCheckboxLabelInput.setAttribute("aria-label", "Sizing example input");
-                    optionCheckboxLabelInput.setAttribute("aria-describedby", "inputGroup-sizing-default");
-
-                    const xmark = document.createElement("i");
-                    xmark.setAttribute("class","fa-solid fa-xmark");
-                    xmark.setAttribute("id","xmarkDel" + addCheckboxXMark);
-                
-                    optionCheckboxLabel.appendChild(optionCheckboxLabelInput);
-                    optionCheckboxDiv.appendChild(optionCheckboxInput);
-                    optionCheckboxDiv.appendChild(optionCheckboxLabel);
-                    optionCheckboxDiv.appendChild(xmark);
-                    addCheckboxArea.appendChild(optionCheckboxDiv);
-
-                    // Xmark移除的寫法
-                    const delRadioXMark = question.querySelector("#xmarkDel" + addCheckboxXMark);
-                    delRadioXMark.addEventListener("click",function(){
-                        optionCheckboxDiv.remove();
-                    }.bind(this))
-
-                    optionCheckboxLabelInput.focus();
-
-                    addCheckboxXMark++;
-                }.bind(this));
-
-
-
-            const delQuestion = question.querySelector("#delQuestion" + this.idCount);
-            delQuestion.addEventListener("click",function(){
-            
-                question.remove();
-            }.bind(this));
-
-            ;
-
-
-
-            
-            questionItem.appendChild(question);
-            
-            this.idCount++;
-        },
-        addBold(){
-            // alert("加粗囉");
-            // alert("好粗好粗");
-
-
-            // const boldtest = document.querySelector(".boldtest");
-            // const selectedText = document.querySelector("#selectedText");
-
-            // boldtest.addEventListener('mouseup', () => {
-            //     const start = boldtest.selectionStart;
-            //     const end = boldtest.selectionEnd;
-            //     const selected = boldtest.value.substring(start, end);
-            //     console.log(123);
-            //     // console.log("這裡顯示選取:"+selected);
-            //     selectedText.textContent = selected;
-            // });
-        
+        addArea(){ //新增問題
+            const question = this.createFormData.question;
+
+            question.push(
+                { 
+                    questionType: "" ,
+                    questionTitle: "" ,
+                    order:"",
+                    required:"",
+                    questionOption:{}
+                }
+
+            );
 
 
         },
+        addOption(){
+            //這邊還沒改
+            const questionOption = this.question.questionOption;
+            console.log(questionOption);
+            questionOption.push(
+                {
+
+                }
+            );
+        }
 
     }
 
@@ -536,16 +178,19 @@ export default {
 </script>
 
 <template>
+
+    <h1>{{ this.createFormData }}</h1>
+
     <form class="background" >
         <div class="content">
             <!-- 表單名稱和敘述 -->
             <div class="title">
                 <div class="titleWord">
-                    <h1><input type="text" placeholder="請填入表單名稱" class="titleUnderLine" ></h1>
+                    <h1><input type="text" placeholder="請填入表單名稱" class="titleUnderLine"  v-model="createFormData.title"></h1>
                 </div>
                 
                 <div class="description">
-                    <span><textarea name="" id="" autocomplete="off" placeholder="請填入表單敘述" ></textarea></span>
+                    <span><textarea name="" id="" autocomplete="off" placeholder="請填入表單敘述" v-model="createFormData.description"></textarea></span>
                     <!-- <h2><input type="text" placeholder="請填入表單敘述" class="titleUnderLine"></h2> -->
                 </div>
             </div>
@@ -563,6 +208,7 @@ export default {
                                 aria-describedby="inputGroup-sizing-default"
                                 id="startDate"
                                 autocomplete="off"
+                                v-model="createFormData.startDate"
                             />
                         </div>
                     </div>
@@ -578,6 +224,7 @@ export default {
                                 aria-describedby="inputGroup-sizing-default"
                                 id="endDate"
                                 autocomplete="off"
+                                v-model="createFormData.endDate"
                             />
                         </div>
                     </div>
@@ -588,8 +235,26 @@ export default {
             <input type="text" name="" id="" class="boldtest">
             <h1> 選取的文字 : <span id="selectedText"></span></h1> -->
 
+            {{ createFormData.question }}
             <!-- 自定義問題 -->
-            <div class="questionCreate" id="questionCreate">
+            <!-- <div class="questionCreate" id="questionCreate" > -->
+
+                <!-- // questionType:2, //radio
+                    // questionTitle:"在室內會不會穿拖鞋",
+                    // order:4,
+                    // required :true,
+                    // questionOption:[
+                    //     {
+                    //         value:1,
+                    //         show:"會",
+                    //     },
+                    //     {
+                    //         value:2,
+                    //         show:"不會",
+                    //     }
+                    // ], -->
+
+            <div class="questionCreate" id="questionCreate" v-for="item in createFormData.question" :key="item.order">
                 
                 <!-- 用來規劃版面 -->
                 
@@ -601,34 +266,34 @@ export default {
                     <div class="col-md-9 item-box question-item-title">
                         <div class="input-group">
                             <span class="input-group-text" id="inputGroup-sizing-default">輸入題目:</span>
-                            <input type="text" class="form-control" placeholder="請填寫題目" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" >
+                            <input type="text" class="form-control" placeholder="請填寫題目" v-model="item.questionTitle" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" >
                         </div>
                     </div>
 
                     <div class="col-md-3 item-box question-item-title">
-                        <select class="form-select" aria-label=".form-select-lg example" id="selectType">
-                            <option value="text">text</option>
-                            <option value="radio">radio</option>
-                            <option value="checkbox">checkbox</option>
+                        <select class="form-select selectType" aria-label=".form-select-lg example" v-model="item.questionType">
+                            <option value="1">text</option>
+                            <option value="2">radio</option>
+                            <option value="3">checkbox</option>
                         </select>
                     </div>
 
                     <!-- 建立回答選項 -->
-                    <div class="optionArea">
+                    <div class="optionArea" >
 
                         <div class="optionTextArea">
                             <div class="form-floating">
-                                <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea" readonly></textarea>
+                                <textarea class="form-control" placeholder="" id="floatingTextarea" readonly></textarea>
                                 <label for="floatingTextarea"></label>
                             </div>
                         </div>
                         
-                        <div class="optionRadio">
-                            <div class="addRadioArea">
+                        <div class="optionRadio"  >
+                            <div class="addRadioArea" v-for="questionOption in item.questionOption" >
                                 <div class="form-check">
                                     <input class="form-check-input" type="radio" name="" id="" disabled>
                                     <label class="form-check-label" for="">
-                                        <input type="text" class="form-control radioInput" placeholder="請填寫選項" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                                        <input type="text" class="form-control radioInput" v-model="questionOption.show"  placeholder="請填寫選項" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
                                     </label>
                                     <i class="fa-solid fa-xmark"></i>
                                 </div>
@@ -638,8 +303,7 @@ export default {
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" name="" id="" disabled>
                                 <label class="form-check-label" for="">
-                                    <!-- <input type="text" class="form-control radioInput" placeholder="請填寫選項" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default"> -->
-                                    <input type="text" class="form-control radioInput" id="addRadio" placeholder="增加選項" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                                    <input type="text" class="form-control radioInput" id="addRadio" placeholder="增加選項" @click="addOption()" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
                                 </label>
                             </div>
 
@@ -649,19 +313,20 @@ export default {
 
                         <div class="optionCheckbox">
 
-                            <div class="addCheckboxArea">
+                            <div class="addCheckboxArea" v-for="questionOption in item.questionOption">
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" disabled>
                                     <label class="form-check-label" for="flexCheckDefault">
-                                        <input type="text" class="form-control checkboxinput" placeholder="請填寫選項" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                                        <input type="text" class="form-control checkboxinput" placeholder="請填寫選項" v-model="questionOption.show" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
                                     </label>
+                                    <i class="fa-solid fa-xmark"></i>
                                 </div>
                             </div>
 
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" disabled>
                                 <label class="form-check-label" for="flexCheckDefault">
-                                    <input type="text" class="form-control checkboxinput" id="addCheckbox" placeholder="請填寫選項" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                                    <input type="text" class="form-control checkboxinput" id="addCheckbox" placeholder="增加選項" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
                                 </label>
                             </div>
 
@@ -671,7 +336,7 @@ export default {
                             <i class="fa-solid fa-trash-can" id="delQuestion"></i>
                             <div class="form-check form-switch ">
                                 <label class="form-check-label" for="flexSwitchCheckDefault">必填</label>
-                                <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
+                                <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" v-model="item.required">
                             </div>
                         </div>
 
