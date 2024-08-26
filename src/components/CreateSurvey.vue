@@ -18,24 +18,26 @@ export default defineComponent({
         }
     },
     mounted() {
-        // 在 created 钩子中将 surveyData 赋值给 createFormData
         this.createFormData = this.surveyData;
     },
     data() {
         return {
             idCount: 1,
             createFormData: {
-                title: "",
+                name: "",
                 description: "",
                 startDate: "",
                 endDate: "",
-                question: [
+                published:"",
+                quesList: [
                     {
-                        questionType: "1",
-                        questionTitle: "",
+                        id: 1,
+                        qu:"",
+                        type: "1",
                         order: 1,
-                        required: false,
-                        questionOption: [],
+                        necessary: false,
+                        option: [],
+                        options:"",
                     },
                 ],
             },
@@ -44,7 +46,7 @@ export default defineComponent({
     methods: {
         handleSelectTypeChange(event, item) {
             const selectValue = event.target.value;
-            item.questionType = selectValue;
+            item.type = selectValue;
 
             this.$nextTick(() => {
                 const optionTextArea = event.target
@@ -62,37 +64,38 @@ export default defineComponent({
                 optionCheckbox.style.display = selectValue == "3" ? "block" : "none";
 
                 if (selectValue == "2" || selectValue == "3") {
-                    if (item.questionOption.length === 0) {
+                    if (item.option.length === 0) {
                         this.addOption(item);
                     }
                 }
             });
         },
         addArea() {
-            const question = this.createFormData.question;
+            const question = this.createFormData.quesList;
             question.push({
-                questionType: "1",
-                questionTitle: "",
+                id:"",
+                type: "1",
+                qu: "",
                 order: question.length + 1,
-                required: false,
-                questionOption: [],
+                necessary: false,
+                option: [],
             });
         },
         addOption(item) {
-            item.questionOption.push({
-                value: item.questionOption.length + 1,
+            item.option.push({
+                value: item.option.length + 1,
                 show: "",
             });
         },
         removeOption(item, index) {
-            item.questionOption.splice(index, 1);
+            item.option.splice(index, 1);
         },
         removeQuestion(index) {
-            this.createFormData.question.splice(index, 1);
+            this.createFormData.quesList.splice(index, 1);
             this.updateOrder();
         },
         updateOrder() {
-            this.createFormData.question.forEach((item, index) => {
+            this.createFormData.quesList.forEach((item, index) => {
                 item.order = index + 1;
             });
         },
@@ -109,7 +112,7 @@ export default defineComponent({
 </script>
 
 <template>
-    <!-- <h1>{{ createFormData }}</h1> -->
+    <h1>{{ createFormData }}</h1>
     <form class="background">
         <div class="content">
             <!-- 表單名稱和敘述 -->
@@ -117,7 +120,7 @@ export default defineComponent({
                 <div class="titleWord">
                     <h1>
                         <input type="text" placeholder="請填入表單名稱" class="titleUnderLine"
-                            v-model="createFormData.title" />
+                            v-model="createFormData.name" />
                     </h1>
                 </div>
 
@@ -153,7 +156,7 @@ export default defineComponent({
 
             <!-- {{ createFormData.question }} -->
 
-            <draggable v-model="createFormData.question" class="questionCreate" id="questionCreate" item-key="order"
+            <draggable v-model="createFormData.quesList" class="questionCreate" id="questionCreate" item-key="order"
                 handle=".handle" @end="onDragEnd">
                 <template #item="{ element }">
                     <div class="question-item">
@@ -165,14 +168,14 @@ export default defineComponent({
                             <div class="input-group">
                                 <span class="input-group-text" id="inputGroup-sizing-default">輸入題目:</span>
                                 <input type="text" class="form-control" placeholder="請填寫題目"
-                                    v-model="element.questionTitle" aria-label="Sizing example input"
+                                    v-model="element.qu" aria-label="Sizing example input"
                                     aria-describedby="inputGroup-sizing-default" />
                             </div>
                         </div>
 
                         <div class="col-md-3 item-box question-item-title">
                             <select class="form-select selectType" aria-label=".form-select-lg example"
-                                v-model="element.questionType" @change="handleSelectTypeChange($event, element)">
+                                v-model="element.type" @change="handleSelectTypeChange($event, element)">
                                 <option value="1">text</option>
                                 <option value="2">radio</option>
                                 <option value="3">checkbox</option>
@@ -181,7 +184,7 @@ export default defineComponent({
 
                         <!-- 建立回答選項 -->
                         <div class="optionArea">
-                            <div class="optionTextArea" v-show="element.questionType == '1' || !element.questionType">
+                            <div class="optionTextArea" v-show="element.type == '1' || !element.type">
                                 <div class="form-floating">
                                     <textarea class="form-control" placeholder="" id="floatingTextarea"
                                         readonly></textarea>
@@ -189,8 +192,8 @@ export default defineComponent({
                                 </div>
                             </div>
 
-                            <div class="optionRadio" v-show="element.questionType == '2'">
-                                <div class="addRadioArea" v-for="(questionOption, index) in element.questionOption"
+                            <div class="optionRadio" v-show="element.type == '2'">
+                                <div class="addRadioArea" v-for="(questionOption, index) in element.option"
                                     :key="index">
                                     <div class="form-check">
                                         <input class="form-check-input" type="radio" name="" id="" disabled />
@@ -215,8 +218,8 @@ export default defineComponent({
                                 </div>
                             </div>
 
-                            <div class="optionCheckbox" v-show="element.questionType == '3'">
-                                <div class="addCheckboxArea" v-for="(questionOption, index) in element.questionOption"
+                            <div class="optionCheckbox" v-show="element.type == '3'">
+                                <div class="addCheckboxArea" v-for="(questionOption, index) in element.option"
                                     :key="index">
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"
@@ -249,7 +252,7 @@ export default defineComponent({
                                 <div class="form-check form-switch">
                                     <label class="form-check-label" for="flexSwitchCheckDefault">必填</label>
                                     <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault"
-                                        v-model="element.required" />
+                                        v-model="element.necessary" />
                                 </div>
                             </div>
                         </div>

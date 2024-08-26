@@ -10,17 +10,20 @@ export default {
         return {
             color: backgroundcolor(), // 直接在 data 中初始化 color
             surveyData: {
-                title: "",
+                name: "",
                 description: "",
                 startDate: "",
                 endDate: "",
-                question: [
+                published:"",
+                quesList: [
                     {
-                        questionType: "1",
-                        questionTitle: "",
+                        id:"",
+                        qu:"",
+                        type: "1",
                         order: 1,
-                        required: false,
-                        questionOption: [],
+                        necessary: false,
+                        option: [],
+                        options:""
                     },
                 ],
             },
