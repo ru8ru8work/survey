@@ -87,11 +87,8 @@ export default {
         },
         async search() {
 
-            // this.surveyData.quesList.forEach((question) => {
-            //     question.options = question.option
-            //         .map((option) => option.show)
-            //         .join(";");
-            // });
+            this.fakeData = [];
+
             try {
 
                 // 發送 POST 請求
