@@ -15,30 +15,30 @@ export default {
     },
     data() {
         return {
-            survey: {
-                name: "id123123123123123123123試",
-                description: "BB12311111111111",
-                startDate: "2024-08-26",
-                endDate: "2024-08-27",
-                published: true,
-                quesList: [
-                    {
-                        id: 1,
-                        qu: "question",
-                        type: "text",
-                        necessary: true,
-                        option: [
-                            {
-                                value: "",
-                            },
-                            {
-                                value: "",
-                            }
-                        ],
-                        options: "aaa",
-                    },
-                ],
-            },
+            // survey: {
+            //     name: "id123123123123123123123試",
+            //     description: "BB12311111111111",
+            //     startDate: "2024-08-27",
+            //     endDate: "2024-08-28",
+            //     published: true,
+            //     quesList: [
+            //         {
+            //             id: 1,
+            //             qu: "question",
+            //             type: "text",
+            //             necessary: true,
+            //             option: [
+            //                 {
+            //                     value: "",
+            //                 },
+            //                 {
+            //                     value: "",
+            //                 }
+            //             ],
+            //             options: "aaa",
+            //         },
+            //     ],
+            // },
         };
     },
     methods: {
@@ -46,12 +46,9 @@ export default {
             this.$emit("back", this.surveyData); // 傳遞 surveyData 到父層
         },
         async createSurvey() {
-            // alert("123123");
-            console.log(this.surveyData);
-
             this.surveyData.quesList.forEach((question) => {
                 question.options = question.option
-                    .map((option) => option.value)
+                    .map((option) => option.show)
                     .join(";");
             });
             try {
@@ -63,9 +60,11 @@ export default {
                 // 請求成功後的操作
                 console.log(this.surveyData);
                 console.log("Survey created:", response.data);
+                this.$router.push('/Back');
             } catch (error) {
                 // 請求失敗後的操作
                 console.log(this.surveyData);
+                console.log(this.survey);
                 console.error("There was an error!", error);
             }
         },
@@ -74,8 +73,6 @@ export default {
 </script>
 
 <template>
-    {{ surveyData }}
-
     <form class="background">
         <div class="content">
             <!-- 表單名稱和敘述 -->
@@ -196,7 +193,7 @@ export default {
                                 <input
                                     class="form-check-input"
                                     type="checkbox"
-                                    :checked="question.required"
+                                    :checked=question.necessary
                                     disabled
                                 />
                             </div>

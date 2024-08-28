@@ -14,15 +14,20 @@ export default {
                 description: "",
                 startDate: "",
                 endDate: "",
-                published:"",
+                published:true,
                 quesList: [
                     {
-                        id:"",
+                        id:1,
                         qu:"",
                         type: "1",
                         order: 1,
                         necessary: false,
-                        option: [],
+                        option: [
+                            {
+                            value:"",
+                            show:""
+                            }
+                        ],
                         options:""
                     },
                 ],

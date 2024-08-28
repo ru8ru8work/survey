@@ -1,5 +1,6 @@
 <script>
 import backgroundcolor from '../stores/backgroundcolor';
+import axios from "axios";
 
 export default {
     setup(){
@@ -121,9 +122,18 @@ export default {
                 radio: this.childFormData.radio||{},
                 checkbox: {}
             },
+            searchId:""
         };
     },
+    created(){
+        this.searchId = sessionStorage.getItem('searchId') || 'No ID found';
+
+
+
+
+    },
     mounted(){
+
         // 排序自訂義
         this.surveyData[0].question.sort((a, b) => a.order - b.order);
 

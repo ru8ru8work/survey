@@ -11,6 +11,7 @@ export default {
     data(){
         return {
             colorTest:"",
+            searchId:""
         }
     },
     setup(){
@@ -23,6 +24,9 @@ export default {
         FrontShow,
         
     },
+    methods:{
+
+    },
     computed: {
         // ...mapState(backgroundcolor,["maincolor"]),
 
@@ -31,7 +35,6 @@ export default {
 </script>
 
 <template>
-    
     <div>
         <!-- <button @click="color.changecolor(colorTest)">click</button>
         <input type="color" v-model=this.colorTest>

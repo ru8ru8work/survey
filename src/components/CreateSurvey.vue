@@ -73,7 +73,7 @@ export default defineComponent({
         addArea() {
             const question = this.createFormData.quesList;
             question.push({
-                id:"",
+                id:question.length + 1,
                 type: "1",
                 qu: "",
                 order: question.length + 1,
@@ -112,7 +112,6 @@ export default defineComponent({
 </script>
 
 <template>
-    <h1>{{ createFormData }}</h1>
     <form class="background">
         <div class="content">
             <!-- 表單名稱和敘述 -->
