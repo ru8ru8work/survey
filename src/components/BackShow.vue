@@ -93,9 +93,10 @@ export default {
         onPageChange(page) {
             this.currentPage = page;
         },
-        goAnswer() {
-            this.$router.push("/Front/Answer");
+        goUpdate(id) {
+            this.$router.push("/Back/Create");
             sessionStorage.setItem("currentPage", this.currentPage);
+            sessionStorage.setItem("searchId", id);
         },
         goCreate() {
             this.$router.push("/Back/Create");
@@ -218,7 +219,7 @@ export default {
                         <td>{{ item.status }}</td>
                         <td>{{ item.startTime }}</td>
                         <td>{{ item.endTime }}</td>
-                        <td @click="goAnswer" id="goAnswer">前往</td>
+                        <td @click="goUpdate(item.id)" id="goAnswer">前往</td>
                     </tr>
                 </tbody>
             </table>

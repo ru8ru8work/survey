@@ -2,6 +2,7 @@
 import { defineComponent } from "vue";
 import backgroundcolor from "../stores/backgroundcolor";
 import draggable from "vuedraggable";
+import axios from "axios";
 
 export default defineComponent({
     components: {
@@ -18,7 +19,7 @@ export default defineComponent({
         }
     },
     mounted() {
-        this.createFormData = this.surveyData;
+        // this.createFormData = this.surveyData;
     },
     data() {
         return {
@@ -41,7 +42,85 @@ export default defineComponent({
                     },
                 ],
             },
+            searchId: {
+                id: "",
+            },
         };
+    },
+    async created() {
+        this.searchId.id = sessionStorage.getItem("searchId") || "No ID found";
+
+        console.log("這裡有searchId" + this.searchId.id);
+        
+
+        try {
+            // console.log("這裡有進來" + this.searchId);
+
+            // 發送 POST 請求
+            const response = await axios.post(
+                "http://localhost:8080/quiz/search",
+                this.searchId
+            );
+            // 請求成功後的操作
+
+
+            this.createFormData.name = response.data.quizResList[0].name;
+            this.createFormData.description =response.data.quizResList[0].description;
+
+            this.createFormData.startDate =response.data.quizResList[0].startDate;
+            this.createFormData.endDate =response.data.quizResList[0].endDate;
+            this.createFormData.published =response.data.quizResList[0].published;
+
+
+            const quesListArr = response.data.quizResList[0].quesList;
+            
+            for (let i = 0; i < quesListArr.length; i++) {
+                if (!this.createFormData.quesList[i]) {
+                    
+                    this.createFormData.quesList[i] = {
+                        id: "",
+                        qu:"",
+                        type: "1",
+                        order: "",
+                        necessary: "",
+                        option: [],
+                        options:"",
+                    };
+                }
+
+                this.createFormData.quesList[i].id = quesListArr[i].id;
+                this.createFormData.quesList[i].qu = quesListArr[i].qu;
+                this.createFormData.quesList[i].order = quesListArr[i].id;
+                this.createFormData.quesList[i].necessary =quesListArr[i].necessary;
+                this.createFormData.quesList[i].type =quesListArr[i].type;
+
+                
+
+                if ( quesListArr[i].options != ""){
+                    const optionArr = quesListArr[i].options.split(";");
+                    for (let j = 0; j < optionArr.length; j++) {
+                        this.createFormData.quesList[i].option[j] = {
+
+                            value : "",
+                            show : ""
+                        }
+                        
+                        this.createFormData.quesList[i].option[j].value = j+1;
+                        this.createFormData.quesList[i].option[j].show = optionArr[j];
+                    }
+                    
+
+                }
+                
+           
+            //     console.log(quesListArr[i]);
+
+               
+            }
+
+        } catch (error) {
+            console.error("There was an error!", error);
+        }
     },
     methods: {
         handleSelectTypeChange(event, item) {
@@ -103,7 +182,7 @@ export default defineComponent({
             this.updateOrder();
         },
         submitSurvey() {
-            // 在這裡可以添加表單驗證邏輯
+            sessionStorage.setItem('updateSession', this.searchId.id);
             this.$emit('submit-survey', this.createFormData);
         }
     },
@@ -112,6 +191,7 @@ export default defineComponent({
 </script>
 
 <template>
+    {{ createFormData }}
     <form class="background">
         <div class="content">
             <!-- 表單名稱和敘述 -->

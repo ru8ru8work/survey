@@ -15,30 +15,7 @@ export default {
     },
     data() {
         return {
-            // survey: {
-            //     name: "id123123123123123123123試",
-            //     description: "BB12311111111111",
-            //     startDate: "2024-08-27",
-            //     endDate: "2024-08-28",
-            //     published: true,
-            //     quesList: [
-            //         {
-            //             id: 1,
-            //             qu: "question",
-            //             type: "text",
-            //             necessary: true,
-            //             option: [
-            //                 {
-            //                     value: "",
-            //                 },
-            //                 {
-            //                     value: "",
-            //                 }
-            //             ],
-            //             options: "aaa",
-            //         },
-            //     ],
-            // },
+
         };
     },
     methods: {
@@ -46,27 +23,56 @@ export default {
             this.$emit("back", this.surveyData); // 傳遞 surveyData 到父層
         },
         async createSurvey() {
-            this.surveyData.quesList.forEach((question) => {
-                question.options = question.option
-                    .map((option) => option.show)
-                    .join(";");
-            });
-            try {
-                // 發送 POST 請求
-                const response = await axios.post(
-                    "http://localhost:8080/quiz/create",
-                    this.surveyData
-                );
-                // 請求成功後的操作
-                console.log(this.surveyData);
-                console.log("Survey created:", response.data);
-                this.$router.push('/Back');
-            } catch (error) {
-                // 請求失敗後的操作
-                console.log(this.surveyData);
-                console.log(this.survey);
-                console.error("There was an error!", error);
+
+            const updateSession = sessionStorage.getItem('updateSession');
+
+            if (updateSession != "") {
+                // this.surveyData.quesList.forEach((question) => {
+                //     question.options = question.option
+                //         .map((option) => option.show)
+                //         .join(";");
+                // });
+                // try {
+                //     // 發送 POST 請求
+                //     const response = await axios.post(
+                //         "http://localhost:8080/quiz/create",
+                //         this.surveyData
+                //     );
+                //     // 請求成功後的操作
+                //     console.log(this.surveyData);
+                //     console.log("Survey created:", response.data);
+                //     this.$router.push('/Back');
+                // } catch (error) {
+                //     // 請求失敗後的操作
+                //     console.log(this.surveyData);
+                //     console.log(this.survey);
+                //     console.error("There was an error!", error);
+                // }
+            } else {
+                this.surveyData.quesList.forEach((question) => {
+                    question.options = question.option
+                        .map((option) => option.show)
+                        .join(";");
+                });
+                try {
+                    // 發送 POST 請求
+                    const response = await axios.post(
+                        "http://localhost:8080/quiz/create",
+                        this.surveyData
+                    );
+                    // 請求成功後的操作
+                    console.log(this.surveyData);
+                    console.log("Survey created:", response.data);
+                    this.$router.push('/Back');
+                } catch (error) {
+                    // 請求失敗後的操作
+                    console.log(this.surveyData);
+                    console.log(this.survey);
+                    console.error("There was an error!", error);
+                }
             }
+
+
         },
     },
 };
@@ -81,7 +87,7 @@ export default {
                     <h1>
                         <span class="titleUnderLine">{{
                             surveyData.name
-                        }}</span>
+                            }}</span>
                     </h1>
                 </div>
                 <div class="description">
@@ -98,7 +104,7 @@ export default {
                             <span class="input-group-text">開始時間:</span>
                             <span class="form-control">{{
                                 surveyData.startDate
-                            }}</span>
+                                }}</span>
                         </div>
                     </div>
                     <div class="col-md-6 item-box">
@@ -106,18 +112,15 @@ export default {
                             <span class="input-group-text">結束時間:</span>
                             <span class="form-control">{{
                                 surveyData.endDate
-                            }}</span>
+                                }}</span>
                         </div>
                     </div>
                 </div>
             </div>
 
             <div class="questionCreate" id="questionCreate">
-                <div
-                    v-for="(question, questionIndex) in surveyData.quesList"
-                    :key="questionIndex"
-                    class="question-item"
-                >
+                <div v-for="(question, questionIndex) in surveyData.quesList" :key="questionIndex"
+                    class="question-item">
                     <div class="col-md-9 item-box question-item-title">
                         <div class="input-group">
                             <span class="input-group-text">題目:</span>
@@ -130,58 +133,33 @@ export default {
                                 question.type === "1"
                                     ? "text"
                                     : question.type === "2"
-                                    ? "radio"
-                                    : "checkbox"
+                                        ? "radio"
+                                        : "checkbox"
                             }}
                         </span>
                     </div>
                     <!-- 顯示選項 -->
                     <div class="optionArea">
-                        <div
-                            class="optionTextArea"
-                            v-if="question.type === '1'"
-                        >
+                        <div class="optionTextArea" v-if="question.type === '1'">
                             <div class="form-floating">
                                 <p class="form-control">文字回答區域</p>
                             </div>
                         </div>
-                        <div
-                            class="optionRadio"
-                            v-if="question.type === '2'"
-                        >
-                            <div
-                                v-for="(
+                        <div class="optionRadio" v-if="question.type === '2'">
+                            <div v-for="(
                                     option, optionIndex
-                                ) in question.option"
-                                :key="optionIndex"
-                                class="form-check"
-                            >
-                                <input
-                                    class="form-check-input"
-                                    type="radio"
-                                    disabled
-                                />
+                                ) in question.option" :key="optionIndex" class="form-check">
+                                <input class="form-check-input" type="radio" disabled />
                                 <label class="form-check-label">
                                     {{ option.show }}
                                 </label>
                             </div>
                         </div>
-                        <div
-                            class="optionCheckbox"
-                            v-if="question.type === '3'"
-                        >
-                            <div
-                                v-for="(
+                        <div class="optionCheckbox" v-if="question.type === '3'">
+                            <div v-for="(
                                     option, optionIndex
-                                ) in question.option"
-                                :key="optionIndex"
-                                class="form-check"
-                            >
-                                <input
-                                    class="form-check-input"
-                                    type="checkbox"
-                                    disabled
-                                />
+                                ) in question.option" :key="optionIndex" class="form-check">
+                                <input class="form-check-input" type="checkbox" disabled />
                                 <label class="form-check-label">
                                     {{ option.show }}
                                 </label>
@@ -190,12 +168,7 @@ export default {
                         <div class="delDiv">
                             <div class="form-check form-switch">
                                 <label class="form-check-label">必填</label>
-                                <input
-                                    class="form-check-input"
-                                    type="checkbox"
-                                    :checked=question.necessary
-                                    disabled
-                                />
+                                <input class="form-check-input" type="checkbox" :checked=question.necessary disabled />
                             </div>
                         </div>
                     </div>
@@ -204,18 +177,10 @@ export default {
 
             <div class="button">
                 <div class="d-grid gap-2 d-md-flex justify-content-md-between">
-                    <button
-                        class="btn btn-primary me-md-2"
-                        type="button"
-                        @click="goBack"
-                    >
+                    <button class="btn btn-primary me-md-2" type="button" @click="goBack">
                         返回編輯
                     </button>
-                    <button
-                        class="btn btn-primary me-md-2"
-                        type="button"
-                        @click="createSurvey"
-                    >
+                    <button class="btn btn-primary me-md-2" type="button" @click="createSurvey">
                         送出表單
                     </button>
                 </div>
