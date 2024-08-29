@@ -8,6 +8,13 @@ export default defineComponent({
     components: {
         draggable,
     },
+    data(){
+        return {
+            searchId :{
+                id : "",
+            }
+        }
+    },
     setup() {
         const color = backgroundcolor();
         return { color };
@@ -17,6 +24,79 @@ export default defineComponent({
             type: Object,
             required: true
         }
+    },
+    async created() {
+        // this.searchId.id = sessionStorage.getItem("searchId") || "No ID found";
+        
+        // try {
+        //     // console.log("這裡有進來" + this.searchId);
+
+        //     // 發送 POST 請求
+        //     const response = await axios.post(
+        //         "http://localhost:8080/quiz/search",
+        //         this.searchId
+        //     );
+        //     // 請求成功後的操作
+
+        //     // console.log(response.data.quizResList);
+
+        //     this.surveyData[0].title = response.data.quizResList[0].name;
+        //     this.surveyData[0].description =
+        //         response.data.quizResList[0].description;
+
+        //     const quesListArr = response.data.quizResList[0].quesList;
+        //     for (let i = 0; i < quesListArr.length; i++) {
+        //         if (!this.surveyData[0].question[i]) {
+        //             this.surveyData[0].question[i] = {
+        //                 questionType: "",
+        //                 questionTitle: "",
+        //                 order: "",
+        //                 required: "",
+        //                 questionOption: "",
+        //             };
+        //         }
+
+        //         this.surveyData[0].question[i].order = quesListArr[i].id;
+        //         this.surveyData[0].question[i].required = quesListArr[i].necessary;
+        //         this.surveyData[0].question[i].questionTitle = quesListArr[i].qu;
+        //         this.surveyData[0].question[i].questionType = quesListArr[i].type;
+
+        //         if (quesListArr[i].options != "") {
+        //             // console.log(" 這裡是 " + i + quesListArr[i].options);
+        //             const optionArr = quesListArr[i].options.split(";");
+        //             if (!Array.isArray(this.surveyData[0].question[i].questionOption)) {
+        //                 this.surveyData[0].question[i].questionOption = [];
+        //             }
+        //             for (let j = 0; j < optionArr.length; j++) {
+        //                 // console.log("Item at index", j, ":", optionArr[j]);
+
+        //                 if (!this.surveyData[0].question[i].questionOption[j]) {
+        //                     this.surveyData[0].question[i].questionOption[j] =
+        //                     {
+        //                         value: "",
+        //                         show: ""
+        //                     }
+        //                 };
+
+        //                 this.surveyData[0].question[i].questionOption[j].value = j + 1;
+        //                 this.surveyData[0].question[i].questionOption[j].show = optionArr[j];
+
+                        
+        //                 if (quesListArr[i].type == 3) {
+        //                     if (!Array.isArray(this.formData.checkbox[quesListArr[i].id])) {
+        //                         this.formData.checkbox[quesListArr[i].id] = [];
+        //                     }
+        //                 }
+        //             }
+
+
+        //         }
+
+        //     }
+
+        // } catch (error) {
+        //     console.error("There was an error!", error);
+        // }
     },
     mounted() {
         // this.createFormData = this.surveyData;

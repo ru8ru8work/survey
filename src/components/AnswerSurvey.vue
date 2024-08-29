@@ -15,18 +15,15 @@ export default {
                     title: "",
                     description: "",
                     question: [
-                        {
-                            questionType: "", //text
-                            questionTitle: "",
-                            order: "", //順位
-                            required: "",
-                            questionOption: [
-                                {
-                                    value : "",
-                                    show : ""
-                                }
-                            ],
-                        },
+                        // {
+                        //     questionType: "", //text
+                        //     questionTitle: "",
+                        //     order: "", //順位
+                        //     required: "",
+                        //     questionOption: [
+                        //       {}
+                        //     ],
+                        // },
                         // {
                         //     questionType: 1, //text
                         //     questionTitle: "text的題目",
@@ -131,7 +128,7 @@ export default {
                 age: this.childFormData.age || "",
                 text: this.childFormData.text || {},
                 radio: this.childFormData.radio || {},
-                checkbox: {},
+                checkbox:this.childFormData.checkbox || {}
             },
             searchId: {
                 id: "",
@@ -140,7 +137,7 @@ export default {
     },
     async created() {
         this.searchId.id = sessionStorage.getItem("searchId") || "No ID found";
-
+        
         try {
             // console.log("這裡有進來" + this.searchId);
 
@@ -151,35 +148,11 @@ export default {
             );
             // 請求成功後的操作
 
-            console.log(response.data.quizResList);
-
-            // question: [
-            //  {
-            //      questionType: 1, //text
-            //      questionTitle: "text的題目",
-            //      order: 2, //順位
-            //      required: false,
-            //      questionOption: "",
-            //  },
-            //  {
-            //      questionType: 2, //radio
-            //      questionTitle: "在室內會不會穿拖鞋",
-            //      order: 4,
-            //      required: true,
-            //      questionOption: [
-            //          {
-            //              value: 1,
-            //              show: "會",
-            //          },
-            //          {
-            //              value: 2,
-            //              show: "不會",
-            //          },
-            //      ],
-            //  },
+            // console.log(response.data.quizResList);
 
             this.surveyData[0].title = response.data.quizResList[0].name;
-            this.surveyData[0].description =response.data.quizResList[0].description;
+            this.surveyData[0].description =
+                response.data.quizResList[0].description;
 
             const quesListArr = response.data.quizResList[0].quesList;
             for (let i = 0; i < quesListArr.length; i++) {
@@ -193,44 +166,45 @@ export default {
                     };
                 }
 
-                // this.surveyData[0].question[i].id = questionArr[i].id;
-
                 this.surveyData[0].question[i].order = quesListArr[i].id;
-                this.surveyData[0].question[i].required =quesListArr[i].necessary;
-                this.surveyData[0].question[i].questionTitle =quesListArr[i].qu;
-                this.surveyData[0].question[i].questionType =quesListArr[i].type;
-
-                console.log(" 這裡是 " + i + quesListArr[i].options);
-                
+                this.surveyData[0].question[i].required = quesListArr[i].necessary;
+                this.surveyData[0].question[i].questionTitle = quesListArr[i].qu;
+                this.surveyData[0].question[i].questionType = quesListArr[i].type;
 
                 // const questionArr = response.data.quizResList[0].quesList;
                 //這個等等處理
                 // this.surveyData[0].question[i].questionOption =questionArr[i].options;
-                if ( quesListArr[i].options != ""){
+                if (quesListArr[i].options != "") {
+                    // console.log(" 這裡是 " + i + quesListArr[i].options);
                     const optionArr = quesListArr[i].options.split(";");
+                    if (!Array.isArray(this.surveyData[0].question[i].questionOption)) {
+                        this.surveyData[0].question[i].questionOption = [];
+                    }
+                    for (let j = 0; j < optionArr.length; j++) {
+                        // console.log("Item at index", j, ":", optionArr[j]);
+
+                        if (!this.surveyData[0].question[i].questionOption[j]) {
+                            this.surveyData[0].question[i].questionOption[j] =
+                            {
+                                value: "",
+                                show: ""
+                            }
+                        };
+
+                        this.surveyData[0].question[i].questionOption[j].value = j + 1;
+                        this.surveyData[0].question[i].questionOption[j].show = optionArr[j];
+
+                        
+                        if (quesListArr[i].type == 3) {
+                            if (!Array.isArray(this.formData.checkbox[quesListArr[i].id])) {
+                                this.formData.checkbox[quesListArr[i].id] = [];
+                            }
+                        }
+                    }
+
+
                 }
-                
-                // optionArr.foreach((item, index) => {
-                //     console.log("Item at index", index, ":", item);
-                // });
 
-                console.log(quesListArr[i]);
-
-                // id: 1;
-                // necessary: true;
-                // options: "1RRRRRR;2RRRRRRRRR";
-                // qu: "第一題R";
-                // quizId: 14;
-                // type: "2";
-
-                // question: [
-                //  {
-                //      questionType: 1, //text
-                //      questionTitle: "text的題目",
-                //      order: 2, //順位
-                //      required: false,
-                //      questionOption: "",
-                //  },
             }
 
             // for (let i = 0; i < response.data.quizResList.length; i++) {
@@ -257,13 +231,15 @@ export default {
 
         this.surveyData[0].question.forEach((item) => {
             if (item.questionType == 3) {
-                //不知道要怎麼初始化childFormData比較好用簡單寫法
+                // 不知道要怎麼初始化childFormData比較好用簡單寫法
                 if (this.childFormData.checkbox) {
-                    this.formData.checkbox[item.order] =
-                        this.childFormData.checkbox[item.order] || [];
+                    this.formData.checkbox[item.order] = this.childFormData.checkbox[item.order] || [];
                 } else {
                     this.formData.checkbox[item.order] = [];
                 }
+                // this.$set(this.formData.checkbox, item.order, []);
+
+
             }
         });
     },
@@ -339,7 +315,7 @@ export default {
                             //checkbox
                             if (
                                 this.formData.checkbox[item.order] ==
-                                    undefined ||
+                                undefined ||
                                 this.formData.checkbox[item.order] == ""
                             ) {
                                 questionAnswer.appendChild(exclamationDiv);
@@ -361,7 +337,7 @@ export default {
                     behavior: "smooth",
                     block: "center",
                 });
-            } else {
+            } else {                
                 this.$emit("form-submit", this.formData);
             }
         },
@@ -443,7 +419,7 @@ export default {
                                 //text
                                 if (
                                     this.formData.text[item.order] ==
-                                        undefined ||
+                                    undefined ||
                                     this.formData.text[item.order] == ""
                                 ) {
                                     questionAnswer.appendChild(exclamationDiv);
@@ -455,7 +431,7 @@ export default {
                                 //radio
                                 if (
                                     this.formData.radio[item.order] ==
-                                        undefined ||
+                                    undefined ||
                                     this.formData.radio[item.order] == ""
                                 ) {
                                     questionAnswer.appendChild(exclamationDiv);
@@ -467,7 +443,7 @@ export default {
                                 //checkbox
                                 if (
                                     this.formData.checkbox[item.order] ==
-                                        undefined ||
+                                    undefined ||
                                     this.formData.checkbox[item.order] == ""
                                 ) {
                                     questionAnswer.appendChild(exclamationDiv);
@@ -491,8 +467,7 @@ export default {
 </script>
 
 <template>
-    {{ this.surveyData[0].question }}
-    <!-- <h1>這是child:{{ childFormData }}</h1> -->
+
     <form class="background" @submit.prevent="submitForm">
         <div class="content">
             <!-- 表單名稱和敘述 -->
@@ -511,81 +486,37 @@ export default {
                 <div class="row g-3 my-2" id="sortable1">
                     <div class="col-md-6 item-box">
                         <div class="input-group mb-3">
-                            <span
-                                class="input-group-text"
-                                id="inputGroup-sizing-default"
-                                >姓名:</span
-                            >
-                            <input
-                                type="text"
-                                class="form-control"
-                                aria-label="Sizing example input"
-                                aria-describedby="inputGroup-sizing-default"
-                                id="name"
-                                autocomplete="off"
-                                v-model="formData.name"
-                                required
-                            />
+                            <span class="input-group-text" id="inputGroup-sizing-default">姓名:</span>
+                            <input type="text" class="form-control" aria-label="Sizing example input"
+                                aria-describedby="inputGroup-sizing-default" id="name" autocomplete="off"
+                                v-model="formData.name" required />
                         </div>
                     </div>
 
                     <div class="col-md-6 item-box">
                         <div class="input-group mb-3">
-                            <span
-                                class="input-group-text"
-                                id="inputGroup-sizing-default"
-                                >手機:</span
-                            >
-                            <input
-                                type="text"
-                                class="form-control"
-                                aria-label="Sizing example input"
-                                aria-describedby="inputGroup-sizing-default"
-                                id="phone"
-                                autocomplete="off"
-                                v-model="formData.phone"
-                                required
-                            />
+                            <span class="input-group-text" id="inputGroup-sizing-default">手機:</span>
+                            <input type="text" class="form-control" aria-label="Sizing example input"
+                                aria-describedby="inputGroup-sizing-default" id="phone" autocomplete="off"
+                                v-model="formData.phone" required />
                         </div>
                     </div>
 
                     <div class="col-md-6 item-box">
                         <div class="input-group mb-3">
-                            <span
-                                class="input-group-text"
-                                id="inputGroup-sizing-default"
-                                >E-mail:</span
-                            >
-                            <input
-                                type="text"
-                                class="form-control"
-                                aria-label="Sizing example input"
-                                aria-describedby="inputGroup-sizing-default"
-                                id="email"
-                                autocomplete="off"
-                                v-model="formData.email"
-                                required
-                            />
+                            <span class="input-group-text" id="inputGroup-sizing-default">E-mail:</span>
+                            <input type="text" class="form-control" aria-label="Sizing example input"
+                                aria-describedby="inputGroup-sizing-default" id="email" autocomplete="off"
+                                v-model="formData.email" required />
                         </div>
                     </div>
 
                     <div class="col-md-6 item-box">
                         <div class="input-group mb-3">
-                            <span
-                                class="input-group-text"
-                                id="inputGroup-sizing-default"
-                                >年齡:</span
-                            >
-                            <input
-                                type="text"
-                                class="form-control"
-                                aria-label="Sizing example input"
-                                aria-describedby="inputGroup-sizing-default"
-                                id="age"
-                                autocomplete="off"
-                                v-model="formData.age"
-                                required
-                            />
+                            <span class="input-group-text" id="inputGroup-sizing-default">年齡:</span>
+                            <input type="text" class="form-control" aria-label="Sizing example input"
+                                aria-describedby="inputGroup-sizing-default" id="age" autocomplete="off"
+                                v-model="formData.age" required />
                         </div>
                     </div>
                 </div>
@@ -593,120 +524,56 @@ export default {
 
             <!-- 自訂義選項開始 -->
             <div class="question">
-                <div
-                    v-for="item in surveyData[0].question"
-                    :key="item.order"
-                    class="question-item"
-                    :id="'question' + item.order"
-                    :tabindex="item.required ? '0' : null"
-                >
+                <div v-for="item in surveyData[0].question" :key="item.order" class="question-item"
+                    :id="'question' + item.order" :tabindex="item.required ? '0' : null">
                     <!-- text -->
-                    <div
-                        v-if="item.questionType == 1"
-                        class="showCheckQuestion"
-                    >
+                    <div v-if="item.questionType == 1" class="showCheckQuestion">
                         <!-- <div class=""> -->
                         <!-- <h1>{{ item.order }}. {{ item.questionTitle }}:</h1> -->
-                        <span class="question-title"
-                            >{{ item.order }}. {{ item.questionTitle }}:
-                            <span
-                                v-if="item.required == true"
-                                style="color: red"
-                                >*</span
-                            >
+                        <span class="question-title">{{ item.order }}. {{ item.questionTitle }}:
+                            <span v-if="item.required == true" style="color: red">*</span>
                         </span>
                         <!-- <textarea v-if="item.required == true" :name="'textarea-' + item.order" :id="'textarea-' + item.order" autocomplete="off" v-model="formData.text[item.order]" required></textarea> -->
-                        <textarea
-                            :name="'textarea-' + item.order"
-                            :id="'textarea-' + item.order"
-                            autocomplete="off"
-                            v-model="formData.text[item.order]"
-                        ></textarea>
+                        <textarea :name="'textarea-' + item.order" :id="'textarea-' + item.order" autocomplete="off"
+                            v-model="formData.text[item.order]"></textarea>
                         <!-- <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg"> -->
                         <!-- </div> -->
                     </div>
 
                     <!-- radio -->
-                    <div
-                        v-if="item.questionType == 2"
-                        class="showCheckQuestion"
-                    >
+                    <div v-if="item.questionType == 2" class="showCheckQuestion">
                         <!-- <h1>{{ item.order }}.{{ item.questionTitle }}:</h1> -->
-                        <span class="question-title"
-                            >{{ item.order }}. {{ item.questionTitle }}:
-                            <span
-                                v-if="item.required == true"
-                                style="color: red"
-                                >*</span
-                            >
+                        <span class="question-title">{{ item.order }}. {{ item.questionTitle }}:
+                            <span v-if="item.required == true" style="color: red">*</span>
                         </span>
-                        <div
-                            v-for="Options in item.questionOption"
-                            class="form-check"
-                        >
+                        <div v-for="Options in item.questionOption" class="form-check">
                             <!-- <input v-if="item.required == true"  class="form-check-input" type="radio" :name="'radio-' + item.order" :id="'Radios-'+item.order+'-'+Options.value" :value="Options.value" v-model="formData.radio[item.order]" required > -->
-                            <input
-                                class="form-check-input"
-                                type="radio"
-                                :name="'radio-' + item.order"
-                                :id="
-                                    'Radios-' + item.order + '-' + Options.value
-                                "
-                                :value="Options.value"
-                                v-model="formData.radio[item.order]"
-                            />
-                            <label
-                                class="form-check-label"
-                                :for="
-                                    'Radios-' + item.order + '-' + Options.value
-                                "
-                            >
+                            <input class="form-check-input" type="radio" :name="'radio-' + item.order" :id="'Radios-' + item.order + '-' + Options.value
+                                " :value="Options.value" v-model="formData.radio[item.order]" />
+                            <label class="form-check-label" :for="'Radios-' + item.order + '-' + Options.value
+                                ">
                                 {{ Options.show }}
                             </label>
                         </div>
                     </div>
 
                     <!-- checkbox -->
-                    <div
-                        v-if="item.questionType == 3"
-                        class="showCheckQuestion"
-                    >
+                    <div v-if="item.questionType == 3" class="showCheckQuestion">
                         <!-- <h1>{{ item.order }}.{{ item.questionTitle }}:</h1> -->
-                        <span class="question-title"
-                            >{{ item.order }}. {{ item.questionTitle }}:
-                            <span
-                                v-if="item.required == true"
-                                style="color: red"
-                                >*</span
-                            >
+                        <span class="question-title">{{ item.order }}. {{ item.questionTitle }}:
+                            <span v-if="item.required == true" style="color: red">*</span>
                         </span>
-                        <div
-                            v-for="Options in item.questionOption"
-                            class="form-check"
-                            required
-                        >
-                            <input
-                                class="form-check-input"
-                                type="checkbox"
-                                :value="Options.value"
-                                :id="
-                                    'checkbox-' +
-                                    item.order +
-                                    '-' +
-                                    Options.value
-                                "
-                                :name="'checkbox-' + item.order"
-                                v-model="formData.checkbox[item.order]"
-                            />
-                            <label
-                                class="form-check-label"
-                                :for="
-                                    'checkbox-' +
-                                    item.order +
-                                    '-' +
-                                    Options.value
-                                "
-                            >
+                        <div v-for="Options in item.questionOption" class="form-check" required>
+                            <input class="form-check-input" type="checkbox" :value="Options.value" :id="'checkbox-' +
+                                item.order +
+                                '-' +
+                                Options.value
+                                " :name="'checkbox-' + item.order" v-model="formData.checkbox[item.order]" />
+                            <label class="form-check-label" :for="'checkbox-' +
+                                item.order +
+                                '-' +
+                                Options.value
+                                ">
                                 {{ Options.show }}
                             </label>
                         </div>
@@ -717,23 +584,13 @@ export default {
             <!-- 按鈕 -->
             <div class="button">
                 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                    <button
-                        class="btn btn-primary"
-                        type="reset"
-                        @click="backPage"
-                    >
+                    <button class="btn btn-primary" type="reset" @click="backPage">
                         取消
                     </button>
-                    <button
-                        class="btn btn-primary"
-                        type="reset"
-                        @click="reset()"
-                    >
+                    <button class="btn btn-primary" type="reset" @click="reset()">
                         清除
                     </button>
-                    <button class="btn btn-primary me-md-2" type="submit">
-                        送出
-                    </button>
+                    <button class="btn btn-primary me-md-2" type="submit">送出</button>
                     <!-- <input type="text" @input="$emit('update:childCheckData',$event.target.value)" :value="this.childCheckData"> -->
                 </div>
             </div>

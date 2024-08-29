@@ -13,7 +13,9 @@ export default {
     data(){
         return{
             checkData:false,
-            formData: {}
+            formData: {
+              
+            },
         }
     },
     components: {
@@ -32,7 +34,6 @@ export default {
 </script>
 
 <template>
-    <!-- <h1>父層:{{ formData }}</h1> -->
     <div class="d-flex" id="wrapper">
         <Sidebar />
         <div id="page-content-wrapper">
