@@ -99,6 +99,8 @@ export default {
             sessionStorage.setItem("searchId", id);
         },
         goCreate() {
+            sessionStorage.removeItem('updateSession');
+            sessionStorage.removeItem('searchId');
             this.$router.push("/Back/Create");
         },
         async search() {
@@ -215,11 +217,11 @@ export default {
                     <tr v-for="item in paginatedData" :key="item.id">
                         <td><input type="checkbox"></td>
                         <th scope="row">{{ item.id }}</th>
-                        <td>{{ item.name }}</td>
+                        <td @click="goUpdate(item.id)" id="goAnswer">{{ item.name }}</td>
                         <td>{{ item.status }}</td>
                         <td>{{ item.startTime }}</td>
-                        <td>{{ item.endTime }}</td>
-                        <td @click="goUpdate(item.id)" id="goAnswer">前往</td>
+                        <td></td>
+                        <td >test</td>
                     </tr>
                 </tbody>
             </table>

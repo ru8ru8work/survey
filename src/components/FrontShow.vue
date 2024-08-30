@@ -47,7 +47,7 @@ export default {
             this.currentPage = parseInt(savePage)
         }
 
-
+        
     },
     computed: {
         filteredData() {
@@ -193,11 +193,11 @@ export default {
                 <tbody>
                     <tr v-for="item in paginatedData" :key="item.id">
                         <th scope="row">{{ item.id }}</th>
-                        <td>{{ item.name }}</td>
+                        <td @click="goAnswer(item.id)" id="goAnswer">{{ item.name }} </td>
                         <td>{{ item.status }}</td>
                         <td>{{ item.startTime }}</td>
                         <td>{{ item.endTime }}</td>
-                        <td @click="goAnswer(item.id)" id="goAnswer">前往</td>
+                        <td >test</td>
                     </tr>
                 </tbody>
             </table>

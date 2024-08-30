@@ -274,7 +274,7 @@ export default {
 </script>
 
 <template>
-    {{ formData }}
+    <!-- {{ formData }} -->
     <!-- <h1>這邊放資料:{{color.mainColor}}</h1> -->
     <!-- {{ "這裡是searchId :" + this.searchId.id }} -->
     <form class="background">

@@ -8,12 +8,12 @@ export default defineComponent({
     components: {
         draggable,
     },
-    data(){
+    data() {
         return {
-            searchId :{
-                id : "",
-            }
-        }
+            searchId: {
+                id: "",
+            },
+        };
     },
     setup() {
         const color = backgroundcolor();
@@ -22,28 +22,23 @@ export default defineComponent({
     props: {
         surveyData: {
             type: Object,
-            required: true
-        }
+            required: true,
+        },
     },
     async created() {
         // this.searchId.id = sessionStorage.getItem("searchId") || "No ID found";
-        
         // try {
         //     // console.log("這裡有進來" + this.searchId);
-
         //     // 發送 POST 請求
         //     const response = await axios.post(
         //         "http://localhost:8080/quiz/search",
         //         this.searchId
         //     );
         //     // 請求成功後的操作
-
         //     // console.log(response.data.quizResList);
-
         //     this.surveyData[0].title = response.data.quizResList[0].name;
         //     this.surveyData[0].description =
         //         response.data.quizResList[0].description;
-
         //     const quesListArr = response.data.quizResList[0].quesList;
         //     for (let i = 0; i < quesListArr.length; i++) {
         //         if (!this.surveyData[0].question[i]) {
@@ -55,12 +50,10 @@ export default defineComponent({
         //                 questionOption: "",
         //             };
         //         }
-
         //         this.surveyData[0].question[i].order = quesListArr[i].id;
         //         this.surveyData[0].question[i].required = quesListArr[i].necessary;
         //         this.surveyData[0].question[i].questionTitle = quesListArr[i].qu;
         //         this.surveyData[0].question[i].questionType = quesListArr[i].type;
-
         //         if (quesListArr[i].options != "") {
         //             // console.log(" 這裡是 " + i + quesListArr[i].options);
         //             const optionArr = quesListArr[i].options.split(";");
@@ -69,7 +62,6 @@ export default defineComponent({
         //             }
         //             for (let j = 0; j < optionArr.length; j++) {
         //                 // console.log("Item at index", j, ":", optionArr[j]);
-
         //                 if (!this.surveyData[0].question[i].questionOption[j]) {
         //                     this.surveyData[0].question[i].questionOption[j] =
         //                     {
@@ -77,29 +69,48 @@ export default defineComponent({
         //                         show: ""
         //                     }
         //                 };
-
         //                 this.surveyData[0].question[i].questionOption[j].value = j + 1;
         //                 this.surveyData[0].question[i].questionOption[j].show = optionArr[j];
-
-                        
         //                 if (quesListArr[i].type == 3) {
         //                     if (!Array.isArray(this.formData.checkbox[quesListArr[i].id])) {
         //                         this.formData.checkbox[quesListArr[i].id] = [];
         //                     }
         //                 }
         //             }
-
-
         //         }
-
         //     }
-
         // } catch (error) {
         //     console.error("There was an error!", error);
         // }
     },
     mounted() {
         // this.createFormData = this.surveyData;
+
+        const startDate = document.querySelector("#startDate");
+        const endDate = document.querySelector("#endDate");
+
+        const updateEndDateMin = () => {
+            const startDateValue = startDate.value;
+            if (startDateValue) {
+                endDate.min = startDateValue;
+            } else {
+                endDate.min = "";
+            }
+        };
+
+        startDate.addEventListener("change", updateEndDateMin);
+        updateEndDateMin();
+
+        const updateStartDateMax = () => {
+            const endDateValue = endDate.value;
+            if (endDateValue) {
+                startDate.max = endDateValue;
+            } else {
+                startDate.max = "";
+            }
+        };
+
+        endDate.addEventListener("change", updateStartDateMax);
     },
     data() {
         return {
@@ -109,16 +120,16 @@ export default defineComponent({
                 description: "",
                 startDate: "",
                 endDate: "",
-                published:"",
+                published: "",
                 quesList: [
                     {
                         id: 1,
-                        qu:"",
+                        qu: "",
                         type: "1",
                         order: 1,
                         necessary: false,
                         option: [],
-                        options:"",
+                        options: "",
                     },
                 ],
             },
@@ -128,78 +139,74 @@ export default defineComponent({
         };
     },
     async created() {
-        this.searchId.id = sessionStorage.getItem("searchId") || "No ID found";
+        this.searchId.id = sessionStorage.getItem("searchId");
 
         console.log("這裡有searchId" + this.searchId.id);
-        
 
-        try {
-            // console.log("這裡有進來" + this.searchId);
+        if (this.searchId.id != null) {
+            try {
+                // console.log("這裡有進來" + this.searchId);
 
-            // 發送 POST 請求
-            const response = await axios.post(
-                "http://localhost:8080/quiz/search",
-                this.searchId
-            );
-            // 請求成功後的操作
+                // 發送 POST 請求
+                const response = await axios.post(
+                    "http://localhost:8080/quiz/search",
+                    this.searchId
+                );
+                // 請求成功後的操作
 
+                this.createFormData.name = response.data.quizResList[0].name;
+                this.createFormData.description =
+                    response.data.quizResList[0].description;
 
-            this.createFormData.name = response.data.quizResList[0].name;
-            this.createFormData.description =response.data.quizResList[0].description;
+                this.createFormData.startDate =
+                    response.data.quizResList[0].startDate;
+                this.createFormData.endDate =
+                    response.data.quizResList[0].endDate;
+                this.createFormData.published =
+                    response.data.quizResList[0].published;
 
-            this.createFormData.startDate =response.data.quizResList[0].startDate;
-            this.createFormData.endDate =response.data.quizResList[0].endDate;
-            this.createFormData.published =response.data.quizResList[0].published;
+                const quesListArr = response.data.quizResList[0].quesList;
 
-
-            const quesListArr = response.data.quizResList[0].quesList;
-            
-            for (let i = 0; i < quesListArr.length; i++) {
-                if (!this.createFormData.quesList[i]) {
-                    
-                    this.createFormData.quesList[i] = {
-                        id: "",
-                        qu:"",
-                        type: "1",
-                        order: "",
-                        necessary: "",
-                        option: [],
-                        options:"",
-                    };
-                }
-
-                this.createFormData.quesList[i].id = quesListArr[i].id;
-                this.createFormData.quesList[i].qu = quesListArr[i].qu;
-                this.createFormData.quesList[i].order = quesListArr[i].id;
-                this.createFormData.quesList[i].necessary =quesListArr[i].necessary;
-                this.createFormData.quesList[i].type =quesListArr[i].type;
-
-                
-
-                if ( quesListArr[i].options != ""){
-                    const optionArr = quesListArr[i].options.split(";");
-                    for (let j = 0; j < optionArr.length; j++) {
-                        this.createFormData.quesList[i].option[j] = {
-
-                            value : "",
-                            show : ""
-                        }
-                        
-                        this.createFormData.quesList[i].option[j].value = j+1;
-                        this.createFormData.quesList[i].option[j].show = optionArr[j];
+                for (let i = 0; i < quesListArr.length; i++) {
+                    if (!this.createFormData.quesList[i]) {
+                        this.createFormData.quesList[i] = {
+                            id: "",
+                            qu: "",
+                            type: "1",
+                            order: "",
+                            necessary: "",
+                            option: [],
+                            options: "",
+                        };
                     }
-                    
 
+                    this.createFormData.quesList[i].id = quesListArr[i].id;
+                    this.createFormData.quesList[i].qu = quesListArr[i].qu;
+                    this.createFormData.quesList[i].order = quesListArr[i].id;
+                    this.createFormData.quesList[i].necessary =
+                        quesListArr[i].necessary;
+                    this.createFormData.quesList[i].type = quesListArr[i].type;
+
+                    if (quesListArr[i].options != "") {
+                        const optionArr = quesListArr[i].options.split(";");
+                        for (let j = 0; j < optionArr.length; j++) {
+                            this.createFormData.quesList[i].option[j] = {
+                                value: "",
+                                show: "",
+                            };
+
+                            this.createFormData.quesList[i].option[j].value =
+                                j + 1;
+                            this.createFormData.quesList[i].option[j].show =
+                                optionArr[j];
+                        }
+                    }
+
+                    //     console.log(quesListArr[i]);
                 }
-                
-           
-            //     console.log(quesListArr[i]);
-
-               
+            } catch (error) {
+                console.error("There was an error!", error);
             }
-
-        } catch (error) {
-            console.error("There was an error!", error);
         }
     },
     methods: {
@@ -218,9 +225,12 @@ export default defineComponent({
                     .closest(".question-item")
                     .querySelector(".optionCheckbox");
 
-                optionTextArea.style.display = selectValue == "1" ? "block" : "none";
-                optionRadio.style.display = selectValue == "2" ? "block" : "none";
-                optionCheckbox.style.display = selectValue == "3" ? "block" : "none";
+                optionTextArea.style.display =
+                    selectValue == "1" ? "block" : "none";
+                optionRadio.style.display =
+                    selectValue == "2" ? "block" : "none";
+                optionCheckbox.style.display =
+                    selectValue == "3" ? "block" : "none";
 
                 if (selectValue == "2" || selectValue == "3") {
                     if (item.option.length === 0) {
@@ -232,7 +242,7 @@ export default defineComponent({
         addArea() {
             const question = this.createFormData.quesList;
             question.push({
-                id:question.length + 1,
+                id: question.length + 1,
                 type: "1",
                 qu: "",
                 order: question.length + 1,
@@ -262,31 +272,39 @@ export default defineComponent({
             this.updateOrder();
         },
         submitSurvey() {
-            sessionStorage.setItem('updateSession', this.searchId.id);
-            this.$emit('submit-survey', this.createFormData);
-        }
+            sessionStorage.setItem("updateSession", this.searchId.id);
+            this.$emit("submit-survey", this.createFormData);
+        },
     },
-
 });
 </script>
 
 <template>
-    {{ createFormData }}
+    <!-- {{ createFormData }} -->
     <form class="background">
         <div class="content">
             <!-- 表單名稱和敘述 -->
             <div class="title">
                 <div class="titleWord">
                     <h1>
-                        <input type="text" placeholder="請填入表單名稱" class="titleUnderLine"
-                            v-model="createFormData.name" />
+                        <input
+                            type="text"
+                            placeholder="請填入表單名稱"
+                            class="titleUnderLine"
+                            v-model="createFormData.name"
+                        />
                     </h1>
                 </div>
 
                 <div class="description">
                     <span>
-                        <textarea name="" id="" autocomplete="off" placeholder="請填入表單敘述"
-                            v-model="createFormData.description"></textarea>
+                        <textarea
+                            name=""
+                            id=""
+                            autocomplete="off"
+                            placeholder="請填入表單敘述"
+                            v-model="createFormData.description"
+                        ></textarea>
                     </span>
                 </div>
             </div>
@@ -295,19 +313,39 @@ export default defineComponent({
                 <div class="row g-3 my-2" id="sortable1">
                     <div class="col-md-6 item-box">
                         <div class="input-group mb-3">
-                            <span class="input-group-text" id="inputGroup-sizing-default">開始時間:</span>
-                            <input type="date" class="form-control" aria-label="Sizing example input"
-                                aria-describedby="inputGroup-sizing-default" id="startDate" autocomplete="off"
-                                v-model="createFormData.startDate" />
+                            <span
+                                class="input-group-text"
+                                id="inputGroup-sizing-default"
+                                >開始時間:</span
+                            >
+                            <input
+                                type="date"
+                                class="form-control"
+                                aria-label="Sizing example input"
+                                aria-describedby="inputGroup-sizing-default"
+                                id="startDate"
+                                autocomplete="off"
+                                v-model="createFormData.startDate"
+                            />
                         </div>
                     </div>
 
                     <div class="col-md-6 item-box">
                         <div class="input-group mb-3">
-                            <span class="input-group-text" id="inputGroup-sizing-default">結束時間:</span>
-                            <input type="date" class="form-control" aria-label="Sizing example input"
-                                aria-describedby="inputGroup-sizing-default" id="endDate" autocomplete="off"
-                                v-model="createFormData.endDate" />
+                            <span
+                                class="input-group-text"
+                                id="inputGroup-sizing-default"
+                                >結束時間:</span
+                            >
+                            <input
+                                type="date"
+                                class="form-control"
+                                aria-label="Sizing example input"
+                                aria-describedby="inputGroup-sizing-default"
+                                id="endDate"
+                                autocomplete="off"
+                                v-model="createFormData.endDate"
+                            />
                         </div>
                     </div>
                 </div>
@@ -315,8 +353,14 @@ export default defineComponent({
 
             <!-- {{ createFormData.question }} -->
 
-            <draggable v-model="createFormData.quesList" class="questionCreate" id="questionCreate" item-key="order"
-                handle=".handle" @end="onDragEnd">
+            <draggable
+                v-model="createFormData.quesList"
+                class="questionCreate"
+                id="questionCreate"
+                item-key="order"
+                handle=".handle"
+                @end="onDragEnd"
+            >
                 <template #item="{ element }">
                     <div class="question-item">
                         <div class="dragicon handle">
@@ -325,16 +369,31 @@ export default defineComponent({
 
                         <div class="col-md-9 item-box question-item-title">
                             <div class="input-group">
-                                <span class="input-group-text" id="inputGroup-sizing-default">輸入題目:</span>
-                                <input type="text" class="form-control" placeholder="請填寫題目"
-                                    v-model="element.qu" aria-label="Sizing example input"
-                                    aria-describedby="inputGroup-sizing-default" />
+                                <span
+                                    class="input-group-text"
+                                    id="inputGroup-sizing-default"
+                                    >輸入題目:</span
+                                >
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    placeholder="請填寫題目"
+                                    v-model="element.qu"
+                                    aria-label="Sizing example input"
+                                    aria-describedby="inputGroup-sizing-default"
+                                />
                             </div>
                         </div>
 
                         <div class="col-md-3 item-box question-item-title">
-                            <select class="form-select selectType" aria-label=".form-select-lg example"
-                                v-model="element.type" @change="handleSelectTypeChange($event, element)">
+                            <select
+                                class="form-select selectType"
+                                aria-label=".form-select-lg example"
+                                v-model="element.type"
+                                @change="
+                                    handleSelectTypeChange($event, element)
+                                "
+                            >
                                 <option value="1">text</option>
                                 <option value="2">radio</option>
                                 <option value="3">checkbox</option>
@@ -343,75 +402,171 @@ export default defineComponent({
 
                         <!-- 建立回答選項 -->
                         <div class="optionArea">
-                            <div class="optionTextArea" v-show="element.type == '1' || !element.type">
+                            <div
+                                class="optionTextArea"
+                                v-show="element.type == '1' || !element.type"
+                            >
                                 <div class="form-floating">
-                                    <textarea class="form-control" placeholder="" id="floatingTextarea"
-                                        readonly></textarea>
+                                    <textarea
+                                        class="form-control"
+                                        placeholder=""
+                                        id="floatingTextarea"
+                                        readonly
+                                    ></textarea>
                                     <label for="floatingTextarea"></label>
                                 </div>
                             </div>
 
-                            <div class="optionRadio" v-show="element.type == '2'">
-                                <div class="addRadioArea" v-for="(questionOption, index) in element.option"
-                                    :key="index">
+                            <div
+                                class="optionRadio"
+                                v-show="element.type == '2'"
+                            >
+                                <div
+                                    class="addRadioArea"
+                                    v-for="(
+                                        questionOption, index
+                                    ) in element.option"
+                                    :key="index"
+                                >
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="" id="" disabled />
+                                        <input
+                                            class="form-check-input"
+                                            type="radio"
+                                            name=""
+                                            id=""
+                                            disabled
+                                        />
                                         <label class="form-check-label" for="">
-                                            <input type="text" class="form-control radioInput"
-                                                v-model="questionOption.show" placeholder="請填寫選項"
+                                            <input
+                                                type="text"
+                                                class="form-control radioInput"
+                                                v-model="questionOption.show"
+                                                placeholder="請填寫選項"
                                                 aria-label="Sizing example input"
-                                                aria-describedby="inputGroup-sizing-default" />
+                                                aria-describedby="inputGroup-sizing-default"
+                                            />
                                         </label>
-                                        <i class="fa-solid fa-xmark" @click="removeOption(element, index)"></i>
+                                        <i
+                                            class="fa-solid fa-xmark"
+                                            @click="
+                                                removeOption(element, index)
+                                            "
+                                        ></i>
                                     </div>
                                 </div>
 
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="" id="" disabled />
+                                    <input
+                                        class="form-check-input"
+                                        type="radio"
+                                        name=""
+                                        id=""
+                                        disabled
+                                    />
                                     <label class="form-check-label" for="">
-                                        <input type="text" class="form-control checkboxinput" id="addCheckbox"
-                                            placeholder="增加選項" @click="addOption(element)"
+                                        <input
+                                            type="text"
+                                            class="form-control checkboxinput"
+                                            id="addCheckbox"
+                                            placeholder="增加選項"
+                                            @click="addOption(element)"
                                             aria-label="Sizing example input"
-                                            aria-describedby="inputGroup-sizing-default" />
+                                            aria-describedby="inputGroup-sizing-default"
+                                        />
                                     </label>
                                 </div>
                             </div>
 
-                            <div class="optionCheckbox" v-show="element.type == '3'">
-                                <div class="addCheckboxArea" v-for="(questionOption, index) in element.option"
-                                    :key="index">
+                            <div
+                                class="optionCheckbox"
+                                v-show="element.type == '3'"
+                            >
+                                <div
+                                    class="addCheckboxArea"
+                                    v-for="(
+                                        questionOption, index
+                                    ) in element.option"
+                                    :key="index"
+                                >
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"
-                                            disabled />
-                                        <label class="form-check-label" for="flexCheckDefault">
-                                            <input type="text" class="form-control checkboxinput" placeholder="請填寫選項"
-                                                v-model="questionOption.show" aria-label="Sizing example input"
-                                                aria-describedby="inputGroup-sizing-default" />
+                                        <input
+                                            class="form-check-input"
+                                            type="checkbox"
+                                            value=""
+                                            id="flexCheckDefault"
+                                            disabled
+                                        />
+                                        <label
+                                            class="form-check-label"
+                                            for="flexCheckDefault"
+                                        >
+                                            <input
+                                                type="text"
+                                                class="form-control checkboxinput"
+                                                placeholder="請填寫選項"
+                                                v-model="questionOption.show"
+                                                aria-label="Sizing example input"
+                                                aria-describedby="inputGroup-sizing-default"
+                                            />
                                         </label>
-                                        <i class="fa-solid fa-xmark" @click="removeOption(element, index)"></i>
+                                        <i
+                                            class="fa-solid fa-xmark"
+                                            @click="
+                                                removeOption(element, index)
+                                            "
+                                        ></i>
                                     </div>
                                 </div>
 
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"
-                                        disabled />
-                                    <label class="form-check-label" for="flexCheckDefault">
-                                        <input type="text" class="form-control checkboxinput" id="addCheckbox"
-                                            placeholder="增加選項" @click="addOption(element)"
+                                    <input
+                                        class="form-check-input"
+                                        type="checkbox"
+                                        value=""
+                                        id="flexCheckDefault"
+                                        disabled
+                                    />
+                                    <label
+                                        class="form-check-label"
+                                        for="flexCheckDefault"
+                                    >
+                                        <input
+                                            type="text"
+                                            class="form-control checkboxinput"
+                                            id="addCheckbox"
+                                            placeholder="增加選項"
+                                            @click="addOption(element)"
                                             aria-label="Sizing example input"
-                                            aria-describedby="inputGroup-sizing-default" />
+                                            aria-describedby="inputGroup-sizing-default"
+                                        />
                                     </label>
                                 </div>
                             </div>
 
                             <div class="delDiv">
-                                <i class="fa-solid fa-trash-can" id="delQuestion" @click="
-                                    removeQuestion(createFormData.question.indexOf(element))
-                                    "></i>
+                                <i
+                                    class="fa-solid fa-trash-can"
+                                    id="delQuestion"
+                                    @click="
+                                        removeQuestion(
+                                            createFormData.question.indexOf(
+                                                element
+                                            )
+                                        )
+                                    "
+                                ></i>
                                 <div class="form-check form-switch">
-                                    <label class="form-check-label" for="flexSwitchCheckDefault">必填</label>
-                                    <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault"
-                                        v-model="element.necessary" />
+                                    <label
+                                        class="form-check-label"
+                                        for="flexSwitchCheckDefault"
+                                        >必填</label
+                                    >
+                                    <input
+                                        class="form-check-input"
+                                        type="checkbox"
+                                        id="flexSwitchCheckDefault"
+                                        v-model="element.necessary"
+                                    />
                                 </div>
                             </div>
                         </div>
@@ -420,7 +575,11 @@ export default defineComponent({
             </draggable>
 
             <div class="addButton">
-                <button type="button" class="btn btn-primary me-md-2" @click="addArea()">
+                <button
+                    type="button"
+                    class="btn btn-primary me-md-2"
+                    @click="addArea()"
+                >
                     新增問題
                 </button>
             </div>
@@ -428,7 +587,13 @@ export default defineComponent({
             <!-- 按鈕 -->
             <div class="button">
                 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                    <button class="btn btn-primary me-md-2" type="button" @click="submitSurvey">送出</button>
+                    <button
+                        class="btn btn-primary me-md-2"
+                        type="button"
+                        @click="submitSurvey"
+                    >
+                        送出
+                    </button>
                 </div>
             </div>
         </div>
@@ -602,7 +767,8 @@ textarea {
             }
 
             .optionCheckbox {
-                .checkboxinput {}
+                .checkboxinput {
+                }
             }
 
             .fa-xmark {
@@ -628,13 +794,8 @@ textarea {
                     cursor: pointer;
                     margin-right: 2%;
                 }
-
-
             }
         }
-
-  
     }
 }
 </style>
-

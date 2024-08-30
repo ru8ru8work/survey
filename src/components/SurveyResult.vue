@@ -24,9 +24,9 @@ export default {
         },
         async createSurvey() {
 
-            const updateSession = sessionStorage.getItem('updateSession');
+            // const updateSession = sessionStorage.getItem('updateSession');
 
-            if (updateSession != "") {
+            // if (updateSession != null) {
                 // this.surveyData.quesList.forEach((question) => {
                 //     question.options = question.option
                 //         .map((option) => option.show)
@@ -48,7 +48,7 @@ export default {
                 //     console.log(this.survey);
                 //     console.error("There was an error!", error);
                 // }
-            } else {
+            // } else {
                 this.surveyData.quesList.forEach((question) => {
                     question.options = question.option
                         .map((option) => option.show)
@@ -70,7 +70,7 @@ export default {
                     console.log(this.survey);
                     console.error("There was an error!", error);
                 }
-            }
+            // }
 
 
         },
